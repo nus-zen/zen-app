@@ -16,14 +16,16 @@ function BtmTabsOverview() {
   return (
     <BottomTabs.Navigator
       screenOptions={() => ({
-        headerStyle: { backgroundColor: GlobalColors.primary200 },
+        headerStyle: {
+          backgroundColor: GlobalColors.primary200,
+        },
         headerTintColor: "white",
-        tabBarStyle: { backgroundColor: GlobalColors.primary200 },
-        tabBarActiveTintColor: GlobalColors.accent,
+        tabBarStyle: { backgroundColor: "white" },
+        tabBarActiveTintColor: GlobalColors.primary300,
       })}
     >
       <BottomTabs.Screen
-        name="Practice Home"
+        name="PracticeHome"
         component={PracticeHome}
         options={{
           title: "Home Screen",
@@ -34,7 +36,7 @@ function BtmTabsOverview() {
         }}
       />
       <BottomTabs.Screen
-        name="Rewards Screen"
+        name="RewardsScreen"
         component={RewardsScreen}
         options={{
           title: "Rewards",
@@ -45,7 +47,7 @@ function BtmTabsOverview() {
         }}
       />
       <BottomTabs.Screen
-        name="Profile Screen"
+        name="ProfileScreen"
         component={ProfileScreen}
         options={{
           title: "Profile Page",
@@ -65,13 +67,15 @@ export default function App() {
       <StatusBar style="auto" />
       <NavigationContainer
         screenOptions={{
-          headerStyle: { backgroundColor: GlobalColors.primary200 },
+          headerStyle: {
+            backgroundColor: GlobalColors.primary200,
+          },
           headerTintColor: "white",
         }}
       >
         <Stack.Navigator>
           <Stack.Screen
-            name="Bottom Tabs Overview"
+            name="BottomTabsOverview"
             component={BtmTabsOverview}
             options={{ headerShown: false }}
           />
