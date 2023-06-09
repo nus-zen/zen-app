@@ -8,6 +8,10 @@ import RewardsScreen from "./screens/rewards/RewardsScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { GlobalColors } from "./themes/GlobalColors";
 import { createStackNavigator } from "@react-navigation/stack";
+import MeditationsList from "./screens/practices/MeditationsList";
+import MeditationDetailScreen from "./screens/practices/MeditationDetailScreen";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import PracticeMediaScreen from "./screens/practices/PracticeMediaScreen";
 
 const BottomTabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -16,14 +20,17 @@ function BtmTabsOverview() {
   return (
     <BottomTabs.Navigator
       screenOptions={() => ({
-        headerStyle: { backgroundColor: GlobalColors.primary200 },
+        headerShown: false,
+        headerStyle: {
+          backgroundColor: GlobalColors.primary200,
+        },
         headerTintColor: "white",
-        tabBarStyle: { backgroundColor: GlobalColors.primary200 },
-        tabBarActiveTintColor: GlobalColors.accent,
+        tabBarStyle: { backgroundColor: "white" },
+        tabBarActiveTintColor: GlobalColors.primary300,
       })}
     >
       <BottomTabs.Screen
-        name="Practice Home"
+        name="PracticeHome"
         component={PracticeHome}
         options={{
           title: "Home Screen",
@@ -34,7 +41,7 @@ function BtmTabsOverview() {
         }}
       />
       <BottomTabs.Screen
-        name="Rewards Screen"
+        name="RewardsScreen"
         component={RewardsScreen}
         options={{
           title: "Rewards",
@@ -45,7 +52,7 @@ function BtmTabsOverview() {
         }}
       />
       <BottomTabs.Screen
-        name="Profile Screen"
+        name="ProfileScreen"
         component={ProfileScreen}
         options={{
           title: "Profile Page",
@@ -61,23 +68,39 @@ function BtmTabsOverview() {
 
 export default function App() {
   return (
-    <>
-      <StatusBar style="auto" />
-      <NavigationContainer
-        screenOptions={{
-          headerStyle: { backgroundColor: GlobalColors.primary200 },
-          headerTintColor: "white",
-        }}
-      >
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Bottom Tabs Overview"
-            component={BtmTabsOverview}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
+    <SafeAreaProvider>
+      <>
+        <StatusBar style="auto" />
+        <NavigationContainer
+          screenOptions={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: GlobalColors.primary200,
+            },
+            headerTintColor: "white",
+          }}
+        >
+          <Stack.Navigator>
+            <Stack.Screen
+              name="BottomTabsOverview"
+              component={BtmTabsOverview}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen name="MeditationList" component={MeditationsList} />
+
+            <Stack.Screen
+              name="MeditationDetailScreen"
+              component={MeditationDetailScreen}
+            />
+            <Stack.Screen
+              name="PracticeMediaScreen"
+              component={PracticeMediaScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </>
+    </SafeAreaProvider>
   );
 }
 
