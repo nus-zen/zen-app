@@ -1,9 +1,12 @@
 import { Image, View, Text, StyleSheet, Pressable } from "react-native";
 
-export default function PracticeCard({ uri, subtitle, title }) {
+export default function PracticeCard({ uri, subtitle, title, onPress }) {
   return (
     <View style={styles.container}>
-      <Pressable style={({ pressed }) => pressed && styles.pressedIndicator}>
+      <Pressable
+        style={({ pressed }) => pressed && styles.pressedIndicator}
+        onPress={onPress}
+      >
         <Image
           source={{
             uri: uri,
@@ -27,10 +30,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     maxWidth: 200,
-    elevation: 10,
+    elevation: 5,
     backgroundColor: "white",
-    shadowRadius: 8,
+    shadowRadius: 10,
     overflow: "hidden",
+    borderRadius: 10,
+    marginBottom: 10,
+    marginRight: 10,
   },
   pressedIndicator: {
     opacity: 0.75,

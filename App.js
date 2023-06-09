@@ -8,6 +8,8 @@ import RewardsScreen from "./screens/rewards/RewardsScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { GlobalColors } from "./themes/GlobalColors";
 import { createStackNavigator } from "@react-navigation/stack";
+import MeditationsList from "./screens/practices/MeditationsList";
+import MeditationDetailScreen from "./screens/practices/MeditationDetailScreen";
 
 const BottomTabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -78,6 +80,13 @@ export default function App() {
             name="BottomTabsOverview"
             component={BtmTabsOverview}
             options={{ headerShown: false }}
+          />
+
+          <Stack.Screen name="MeditationList" component={MeditationsList} />
+
+          <Stack.Screen
+            name="MeditationDetailScreen"
+            component={MeditationDetailScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
