@@ -71,5 +71,6 @@ const styles = StyleSheet.create({
   rootContainer: {
     paddingHorizontal: 16,
     paddingTop: 24,
+    marginTop: 20,
   },
 });

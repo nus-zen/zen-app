@@ -10,6 +10,7 @@ import { GlobalColors } from "./themes/GlobalColors";
 import { createStackNavigator } from "@react-navigation/stack";
 import MeditationsList from "./screens/practices/MeditationsList";
 import MeditationDetailScreen from "./screens/practices/MeditationDetailScreen";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const BottomTabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -18,6 +19,7 @@ function BtmTabsOverview() {
   return (
     <BottomTabs.Navigator
       screenOptions={() => ({
+        headerShown: false,
         headerStyle: {
           backgroundColor: GlobalColors.primary200,
         },
@@ -65,32 +67,35 @@ function BtmTabsOverview() {
 
 export default function App() {
   return (
-    <>
-      <StatusBar style="auto" />
-      <NavigationContainer
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: GlobalColors.primary200,
-          },
-          headerTintColor: "white",
-        }}
-      >
-        <Stack.Navigator>
-          <Stack.Screen
-            name="BottomTabsOverview"
-            component={BtmTabsOverview}
-            options={{ headerShown: false }}
-          />
+    <SafeAreaProvider>
+      <>
+        <StatusBar style="auto" />
+        <NavigationContainer
+          screenOptions={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: GlobalColors.primary200,
+            },
+            headerTintColor: "white",
+          }}
+        >
+          <Stack.Navigator>
+            <Stack.Screen
+              name="BottomTabsOverview"
+              component={BtmTabsOverview}
+              options={{ headerShown: false }}
+            />
 
-          <Stack.Screen name="MeditationList" component={MeditationsList} />
+            <Stack.Screen name="MeditationList" component={MeditationsList} />
 
-          <Stack.Screen
-            name="MeditationDetailScreen"
-            component={MeditationDetailScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
+            <Stack.Screen
+              name="MeditationDetailScreen"
+              component={MeditationDetailScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </>
+    </SafeAreaProvider>
   );
 }
 
