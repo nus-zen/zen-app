@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import MeditationCard from "../../components/MeditationCard";
 
-const MeditationsList = ({ navigation }) => {
+export default function MeditationsList({ navigation }) {
   const meditations = [
     {
       title: "Exam Success - Visualization",
@@ -99,7 +99,7 @@ const MeditationsList = ({ navigation }) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -119,5 +119,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-export default MeditationsList;

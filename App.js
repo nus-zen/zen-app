@@ -11,6 +11,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MeditationsList from "./screens/practices/MeditationsList";
 import MeditationDetailScreen from "./screens/practices/MeditationDetailScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import PracticeMediaScreen from "./screens/practices/PracticeMediaScreen";
 
 const BottomTabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -91,6 +92,10 @@ export default function App() {
             <Stack.Screen
               name="MeditationDetailScreen"
               component={MeditationDetailScreen}
+            />
+            <Stack.Screen
+              name="PracticeMediaScreen"
+              component={PracticeMediaScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>

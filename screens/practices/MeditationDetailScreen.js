@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Text, Image, Button, StyleSheet } from "react-native";
 
-const MeditationDetailScreen = ({ route }) => {
+export default function MeditationDetailScreen({ navigation, route }) {
   const { title, imageSource, description, duration, rationale } = route.params;
 
   const startMeditation = () => {
     // Start the meditation logic
+    navigation.navigate("PracticeMediaScreen");
   };
 
   return (
@@ -27,7 +28,7 @@ const MeditationDetailScreen = ({ route }) => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -60,5 +61,3 @@ const styles = StyleSheet.create({
     color: "#555555",
   },
 });
-
-export default MeditationDetailScreen;
