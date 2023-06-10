@@ -12,6 +12,7 @@ import MeditationsList from "./screens/practices/MeditationsList";
 import MeditationDetailScreen from "./screens/practices/MeditationDetailScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import PracticeMediaScreen from "./screens/practices/PracticeMediaScreen";
+import WelcomeScreen from "./screens/profile/WelcomeScreen";
 import BtmTabsOverview from "./screens/BtmTabsOverview";
 import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
 
@@ -32,13 +33,20 @@ const App = () => {
           }}
         >
           <Stack.Navigator>
+            <Stack.Screen 
+              name="WelcomeScreen" 
+              component={WelcomeScreen} 
+            />
             <Stack.Screen
               name="BottomTabsOverview"
               component={BtmTabsOverview}
               options={{ headerShown: false }}
             />
 
-            <Stack.Screen name="MeditationList" component={MeditationsList} />
+            <Stack.Screen 
+              name="MeditationList" 
+              component={MeditationsList} 
+            />
 
             <Stack.Screen
               name="MeditationDetailScreen"
