@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import * as Font from 'expo-font';
 
 const WelcomeScreen = ({ navigation }) => {
@@ -8,7 +8,7 @@ const WelcomeScreen = ({ navigation }) => {
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
-        InterBlack: require('./assets/fonts/inter-font/Inter-Black.ttf'),
+        InterBlack: require('../../assets/fonts/inter-font/Inter-Black.ttf'),
       });
 
       setFontLoaded(true);
@@ -23,23 +23,28 @@ const WelcomeScreen = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground
-      source={require('./assets/WelcomeScreenForestBackground.jpg')}
-      style={styles.backgroundImage}
-    >
-      {fontLoaded && (
-        <View style={styles.container}>
-          <Text style={styles.text}>Welcome on your journey to mindfulness.</Text>
-          <TouchableOpacity style={styles.button} onPress={handlePress}>
-            <Text style={styles.buttonText}>Get Started</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </ImageBackground>
+    <SafeAreaView style={styles.safeArea}>
+      <ImageBackground
+        source={require('../../assets/WelcomeScreenForestBackground.jpg')}
+        style={styles.backgroundImage}
+      >
+        {fontLoaded && (
+          <View style={styles.container}>
+            <Text style={styles.text}>Welcome on your journey to mindfulness.</Text>
+            <TouchableOpacity style={styles.button} onPress={handlePress}>
+              <Text style={styles.buttonText}>Get Started</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   backgroundImage: {
     flex: 1,
     resizeMode: 'stretch',
