@@ -15,7 +15,9 @@ export default function PracticeRatingScreen() {
   const navigation = useNavigation();
 
   const handleFinishRating = () => {
-    Alert.alert("Rating", `You have rated ${rating} stars!`);
+    Alert.alert("Rating", `You have rated ${rating} stars!`, [
+      { onPress: () => navigation.navigate("BottomTabsOverview") },
+    ]);
   };
 
   const handleBackButton = () => {
