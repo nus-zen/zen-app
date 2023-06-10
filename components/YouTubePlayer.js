@@ -5,8 +5,10 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { useRef, useState } from "react";
 import { Alert } from "react-native";
 import { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function YouTubePlayer({ videoId, title }) {
+  const navigation = useNavigation();
   const playerRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -40,7 +42,8 @@ export default function YouTubePlayer({ videoId, title }) {
           onChangeState={(state) => {
             if (state === "ended") {
               setIsPlaying(false);
-              Alert.alert("video ended!");
+              // Alert.alert("video ended!");
+              navigation.navigate("PracticeRatingScreen");
             }
           }}
         />

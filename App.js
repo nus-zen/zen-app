@@ -13,6 +13,7 @@ import MeditationDetailScreen from "./screens/practices/MeditationDetailScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import PracticeMediaScreen from "./screens/practices/PracticeMediaScreen";
 import BtmTabsOverview from "./screens/BtmTabsOverview";
+import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,11 @@ const App = () => {
             <Stack.Screen
               name="PracticeMediaScreen"
               component={PracticeMediaScreen}
+            />
+            <Stack.Screen
+              name="PracticeRatingScreen"
+              component={PracticeRatingScreen}
+              options={{ headerShown: false }}
             />
           </Stack.Navigator>
         </NavigationContainer>
