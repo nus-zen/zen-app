@@ -12,60 +12,9 @@ import MeditationsList from "./screens/practices/MeditationsList";
 import MeditationDetailScreen from "./screens/practices/MeditationDetailScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import PracticeMediaScreen from "./screens/practices/PracticeMediaScreen";
+import BtmTabsOverview from "./screens/BtmTabsOverview";
 
-const BottomTabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
-function BtmTabsOverview() {
-  return (
-    <BottomTabs.Navigator
-      screenOptions={() => ({
-        headerShown: false,
-        headerStyle: {
-          backgroundColor: GlobalColors.primary200,
-        },
-        headerTintColor: "white",
-        tabBarStyle: { backgroundColor: "white" },
-        tabBarActiveTintColor: GlobalColors.primary300,
-      })}
-    >
-      <BottomTabs.Screen
-        name="PracticeHome"
-        component={PracticeHome}
-        options={{
-          title: "Home Screen",
-          tabBarLabel: "Practices",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <BottomTabs.Screen
-        name="RewardsScreen"
-        component={RewardsScreen}
-        options={{
-          title: "Rewards",
-          tabBarLabel: "Rewards",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="gift-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <BottomTabs.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
-        options={{
-          title: "Profile Page",
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
-          ),
-        }}
-      />
-    </BottomTabs.Navigator>
-  );
-}
-
 
 const App = () => {
   return (
