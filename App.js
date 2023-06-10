@@ -33,7 +33,7 @@ const App = () => {
         >
           <Stack.Navigator>
             <Stack.Screen
-              name="BottomTabsOverview"
+              name="HomeScreen"
               component={BtmTabsOverview}
               options={{ headerShown: false }}
             />
