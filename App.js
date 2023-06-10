@@ -10,6 +10,7 @@ import WelcomeScreen from "./screens/profile/WelcomeScreen";
 import BtmTabsOverview from "./screens/BtmTabsOverview";
 import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
 import JournalScreen from "./screens/journal/JournalScreen";
+import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -60,6 +61,10 @@ const App = () => {
               name="PracticeRatingScreen"
               component={PracticeRatingScreen}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="CrochetDetailsScreen"
+              component={CrochetDetailsScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>
