@@ -1,11 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import PracticeHome from "./screens/practices/PracticeHome";
-import ProfileScreen from "./screens/profile/ProfileScreen";
-import RewardsScreen from "./screens/rewards/RewardsScreen";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { GlobalColors } from "./themes/GlobalColors";
 import { createStackNavigator } from "@react-navigation/stack";
 import MeditationsList from "./screens/practices/MeditationsList";
@@ -34,9 +28,10 @@ const App = () => {
           }}
         >
           <Stack.Navigator>
-            <Stack.Screen 
-              name="WelcomeScreen" 
-              component={WelcomeScreen} 
+            <Stack.Screen
+              name="WelcomeScreen"
+              component={WelcomeScreen}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="HomeScreen"
@@ -44,17 +39,22 @@ const App = () => {
               options={{ headerShown: false }}
             />
 
-            <Stack.Screen name="MeditationList" component={MeditationsList} />
+            <Stack.Screen
+              name="MeditationList"
+              component={MeditationsList}
+              options={{ headerTitle: "Zen Library" }}
+            />
             <Stack.Screen name="JournalScreen" component={JournalScreen} />
-
 
             <Stack.Screen
               name="MeditationDetailScreen"
               component={MeditationDetailScreen}
+              options={{ headerTitle: "Meditation Session Details" }}
             />
             <Stack.Screen
               name="PracticeMediaScreen"
               component={PracticeMediaScreen}
+              options={{ headerTitle: "", headerTransparent: true }}
             />
             <Stack.Screen
               name="PracticeRatingScreen"
