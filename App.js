@@ -15,6 +15,7 @@ import PracticeMediaScreen from "./screens/practices/PracticeMediaScreen";
 import WelcomeScreen from "./screens/profile/WelcomeScreen";
 import BtmTabsOverview from "./screens/BtmTabsOverview";
 import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
+import JournalScreen from "./screens/journal/JournalScreen";
 
 const Stack = createStackNavigator();
 
@@ -38,15 +39,14 @@ const App = () => {
               component={WelcomeScreen} 
             />
             <Stack.Screen
-              name="BottomTabsOverview"
+              name="HomeScreen"
               component={BtmTabsOverview}
               options={{ headerShown: false }}
             />
 
-            <Stack.Screen 
-              name="MeditationList" 
-              component={MeditationsList} 
-            />
+            <Stack.Screen name="MeditationList" component={MeditationsList} />
+            <Stack.Screen name="JournalScreen" component={JournalScreen} />
+
 
             <Stack.Screen
               name="MeditationDetailScreen"

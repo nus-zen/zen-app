@@ -15,12 +15,14 @@ export default function PracticeRatingScreen() {
   const navigation = useNavigation();
 
   const handleFinishRating = () => {
-    Alert.alert("Rating", `You have rated ${rating} stars!`);
+    Alert.alert("Rating", `You have rated ${rating} stars!`, [
+      { onPress: () => navigation.navigate("HomeScreen") },
+    ]);
   };
 
   const handleBackButton = () => {
     // When user presses back on android, it goes to home screen instead of video.
-    navigation.navigate("BottomTabsOverview"); // Navigate to the home screen
+    navigation.navigate("HomeScreen"); // Navigate to the home screen
     return true; // Prevent default back button behavior
   };
 

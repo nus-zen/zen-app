@@ -2,11 +2,15 @@ import React from "react";
 import { View, Text, Image, Button, StyleSheet } from "react-native";
 
 export default function MeditationDetailScreen({ navigation, route }) {
-  const { title, imageSource, description, duration, rationale } = route.params;
+  const { title, imageSource, description, duration, rationale, videoId } =
+    route.params;
 
   const startMeditation = () => {
     // Start the meditation logic
-    navigation.navigate("PracticeMediaScreen");
+    navigation.navigate("PracticeMediaScreen", {
+      videoId: videoId,
+      title: title,
+    });
   };
 
   return (
