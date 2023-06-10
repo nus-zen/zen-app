@@ -31,7 +31,9 @@ export default function PracticeHome({ navigation, route }) {
               subtitle:
                 "Discover Your Inner World: Embrace Self-Awareness and Find Serenity Through Journaling.",
               title: "Journal",
-              onPress: () => {},
+              onPress: () => {
+                navigation.navigate("JournalScreen");
+              },
             },
           ]}
         />
