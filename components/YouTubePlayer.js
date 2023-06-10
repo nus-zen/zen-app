@@ -3,48 +3,47 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { useRef, useState } from "react";
+import { Alert } from "react-native";
+import { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function YouTubePlayer({ videoId, title }) {
-  const YouTubeRef = useRef(null);
+  const navigation = useNavigation();
+  const playerRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handleRewind = () => {
-    if (YouTubeRef.current) {
-      const currentTime = YouTubeRef.current.getCurrentTime();
-      YouTubeRef.current.seekTo(currentTime - 5);
+  const handleRewind = async () => {
+    if (playerRef.current) {
+      const currentTime = await playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(currentTime - 5);
     }
   };
 
-  const handlePlayPause = () => {
-    if (YouTubeRef.current) {
-      if (isPlaying) {
-        YouTubeRef.current.pauseVideo();
-      } else {
-        YouTubeRef.current.playVideo();
-      }
-      setIsPlaying(!isPlaying);
+  const handleForward = async () => {
+    if (playerRef.current) {
+      const currentTime = await playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(currentTime + 5);
     }
   };
+  const handlePlayPause = useCallback(() => {
+    setIsPlaying((prev) => !prev);
+  }, []);
 
-  const handleForward = () => {
-    if (YouTubeRef.current) {
-      const currentTime = YouTubeRef.current.getCurrentTime();
-      YouTubeRef.current.seekTo(currentTime + 5);
-    }
-  };
   return (
     <View style={styles.container}>
       {/* YouTube video component */}
       <View style={styles.videoContainer}>
         <YoutubePlayer
           height={400}
-          ref={YouTubeRef}
+          ref={playerRef}
           style={styles.video}
           videoId={videoId}
           play={isPlaying}
-          onChangeState={(event) => {
-            if (event.state === "ended") {
+          onChangeState={(state) => {
+            if (state === "ended") {
               setIsPlaying(false);
+              // Alert.alert("video ended!");
+              navigation.navigate("PracticeRatingScreen");
             }
           }}
         />
@@ -57,7 +56,7 @@ export default function YouTubePlayer({ videoId, title }) {
       <View style={styles.controlsContainer}>
         {/* Rewind button */}
         <TouchableOpacity style={styles.controlButton} onPress={handleRewind}>
-          <Ionicons name="ios-rewind" size={24} color="black" />
+          <Ionicons name="play-back-outline" size={24} color="black" />
         </TouchableOpacity>
 
         {/* Play/Pause button */}
@@ -70,7 +69,7 @@ export default function YouTubePlayer({ videoId, title }) {
 
         {/* Forward button */}
         <TouchableOpacity style={styles.controlButton} onPress={handleForward}>
-          <Ionicons name="ios-fastforward" size={24} color="black" />
+          <Ionicons name="play-forward-outline" size={24} color="black" />
         </TouchableOpacity>
       </View>
 
