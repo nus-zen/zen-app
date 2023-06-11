@@ -15,6 +15,7 @@ import PracticeMediaScreen from "./screens/practices/PracticeMediaScreen";
 import WelcomeScreen from "./screens/profile/WelcomeScreen";
 import BtmTabsOverview from "./screens/BtmTabsOverview";
 import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
+import MoodCheckInScreen from "./screens/profile/MoodCheckInScreen";
 
 const Stack = createStackNavigator();
 
@@ -35,7 +36,13 @@ const App = () => {
           <Stack.Navigator>
             <Stack.Screen 
               name="WelcomeScreen" 
-              component={WelcomeScreen} 
+              component={WelcomeScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen 
+              name="MoodCheckInScreen" 
+              component={MoodCheckInScreen}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="BottomTabsOverview"

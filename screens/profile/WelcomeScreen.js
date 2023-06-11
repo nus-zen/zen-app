@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import * as Font from 'expo-font';
 
-const WelcomeScreen = ({ navigation }) => {
+export default function WelcomeScreen({ navigation }) {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
@@ -18,8 +18,8 @@ const WelcomeScreen = ({ navigation }) => {
   }, []);
 
   const handlePress = () => {
-    navigation.navigate('BottomTabsOverview');
-    console.log('Button is pressed');
+    navigation.navigate('MoodCheckInScreen');
+    console.log('Welcome Screen Button is pressed');
   };
 
   return (
@@ -39,7 +39,7 @@ const WelcomeScreen = ({ navigation }) => {
       </ImageBackground>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -96,6 +96,3 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 });
-
-
-export default WelcomeScreen;
