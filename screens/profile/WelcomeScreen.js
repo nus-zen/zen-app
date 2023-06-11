@@ -9,24 +9,28 @@ import {
 } from "react-native";
 import * as Font from "expo-font";
 
-const WelcomeScreen = ({ navigation }) => {
+export default function WelcomeScreen({ navigation }) {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
     const loadFonts = async () => {
-      await Font.loadAsync({
-        InterBlack: require("../../assets/fonts/inter-font/Inter-Black.ttf"),
-      });
-
-      setFontLoaded(true);
-    };
+      try {
+        await Font.loadAsync({
+          InterBlack: require('../../assets/fonts/inter-font/Inter-Black.ttf'),
+        });
+    
+        setFontLoaded(true);
+        console.log('Font loaded successfully!');
+      } catch (error) {
+        console.log('Error loading font:', error);
+      }
 
     loadFonts();
   }, []);
 
   const handlePress = () => {
-    navigation.navigate("HomeScreen");
-    console.log("Button is pressed");
+    navigation.navigate('MoodCheckInScreen');
+    console.log('Welcome Screen Button is pressed');
   };
 
   return (
@@ -48,7 +52,7 @@ const WelcomeScreen = ({ navigation }) => {
       </ImageBackground>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -105,5 +109,3 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
 });
-
-export default WelcomeScreen;

@@ -9,6 +9,7 @@ import PracticeMediaScreen from "./screens/practices/PracticeMediaScreen";
 import WelcomeScreen from "./screens/profile/WelcomeScreen";
 import BtmTabsOverview from "./screens/BtmTabsOverview";
 import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
+import MoodCheckInScreen from "./screens/profile/MoodCheckInScreen";
 import JournalScreen from "./screens/journal/JournalScreen";
 import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
 
@@ -29,9 +30,15 @@ const App = () => {
           }}
         >
           <Stack.Navigator>
-            <Stack.Screen
-              name="WelcomeScreen"
+
+            <Stack.Screen 
+              name="WelcomeScreen" 
               component={WelcomeScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen 
+              name="MoodCheckInScreen" 
+              component={MoodCheckInScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -56,6 +63,10 @@ const App = () => {
               name="PracticeMediaScreen"
               component={PracticeMediaScreen}
               options={{ headerTitle: "", headerTransparent: true }}
+            />
+            <Stack.Screen 
+              name="ProfileScreen" 
+              component={ProfileScreen} 
             />
             <Stack.Screen
               name="PracticeRatingScreen"
