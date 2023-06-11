@@ -18,7 +18,7 @@ const WelcomeScreen = ({ navigation }) => {
   }, []);
 
   const handlePress = () => {
-    navigation.navigate('CreateAccountScreen');
+    navigation.navigate('BottomTabsOverview');
     console.log('Button is pressed');
   };
 
@@ -96,5 +96,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 });
+
 
 export default WelcomeScreen;

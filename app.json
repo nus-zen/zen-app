@@ -15,9 +15,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow access to the camera",
+        "NSPhotoLibraryUsageDescription": "Allow access to the photo library"
+      }
     },
     "android": {
+      "permissions": [
+        "CAMERA_ROLL",
+        "CAMERA"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

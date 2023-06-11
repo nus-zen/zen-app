@@ -56,6 +56,10 @@ const App = () => {
               name="PracticeMediaScreen"
               component={PracticeMediaScreen}
             />
+            <Stack.Screen 
+              name="ProfileScreen" 
+              component={ProfileScreen} 
+            />
             <Stack.Screen
               name="PracticeRatingScreen"
               component={PracticeRatingScreen}
