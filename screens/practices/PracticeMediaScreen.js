@@ -2,10 +2,11 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import YouTubePlayer from "../../components/YouTubePlayer";
 
-export default function PracticeMediaScreen() {
+export default function PracticeMediaScreen({ route }) {
+  const { videoId, title } = route.params;
   return (
     <View style={styles.container}>
-      <YouTubePlayer videoId="ZEYuSRHgmCg" title="Meditation Session" />
+      <YouTubePlayer videoId={videoId} title={title} />
     </View>
   );
 }
