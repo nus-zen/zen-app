@@ -18,6 +18,7 @@ const MeditationCard = ({ title, subtitle, imageSource, onPress }) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
+    flex: 1,
     backgroundColor: "#FFFFFF",
     padding: 16,
     borderRadius: 8,
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
     textAlign: "center",

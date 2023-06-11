@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Text, Image, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Button,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
+import { GlobalColors } from "../../themes/GlobalColors";
 
 export default function MeditationDetailScreen({ navigation, route }) {
   const { title, imageSource, description, duration, rationale, videoId } =
@@ -14,10 +22,14 @@ export default function MeditationDetailScreen({ navigation, route }) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Image source={{ uri: imageSource }} style={styles.image} />
-      <Button title="Start Meditation" onPress={startMeditation} />
+      <Button
+        title="Start Meditation"
+        onPress={startMeditation}
+        color={GlobalColors.primary300}
+      />
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Description</Text>
         <Text style={styles.sectionText}>{description}</Text>
@@ -30,7 +42,7 @@ export default function MeditationDetailScreen({ navigation, route }) {
         <Text style={styles.sectionTitle}>Rationale</Text>
         <Text style={styles.sectionText}>{rationale}</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

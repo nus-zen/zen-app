@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { useRef, useState } from "react";
-import { Alert } from "react-native";
 import { useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
 
