@@ -12,6 +12,8 @@ import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
 import MoodCheckInScreen from "./screens/profile/MoodCheckInScreen";
 import JournalScreen from "./screens/journal/JournalScreen";
 import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
+import ProfileScreen from "./screens/profile/ProfileScreen";
+import AccountsScreen from "./screens/profile/AccountsScreen";
 
 const Stack = createStackNavigator();
 
@@ -42,7 +44,7 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="HomeScreen"
+              name="BottomTabsOverview"
               component={BtmTabsOverview}
               options={{ headerShown: false }}
             />
@@ -67,6 +69,10 @@ const App = () => {
             <Stack.Screen 
               name="ProfileScreen" 
               component={ProfileScreen} 
+            />
+            <Stack.Screen 
+              name="AccountsScreen" 
+              component={AccountsScreen} 
             />
             <Stack.Screen
               name="PracticeRatingScreen"
