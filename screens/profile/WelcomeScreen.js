@@ -28,6 +28,7 @@ export default function WelcomeScreen({ navigation }) {
 
     loadFonts();
   }, []);
+  
 
   const handlePress = () => {
     navigation.navigate("MoodCheckInScreen");
