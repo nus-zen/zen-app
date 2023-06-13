@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { GlobalColors } from "../../../themes/GlobalColors";
 import { loadCrochetProjects } from "../../../utils/AsyncStorageUtils";
+import CrochetProjectCard from "../../../components/CrochetProjectCard";
 
 const CrochetDetailsScreen = () => {
   const [projects, setProjects] = useState([]);
@@ -70,29 +71,10 @@ const CrochetDetailsScreen = () => {
           <MaterialCommunityIcons name="plus" size={24} color="white" />
         </TouchableOpacity>
 
-        {projects.map((project, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.projectCard}
-            onPress={() => handleProjectPress(project)}
-          >
-            <Text style={styles.projectTitle}>{project.title}</Text>
-            {project.image ? (
-              <Image
-                source={{ uri: project.image }}
-                style={styles.projectImage}
-              />
-            ) : (
-              <View style={styles.placeholderImage}>
-                <MaterialCommunityIcons
-                  name="image-outline"
-                  size={48}
-                  color="gray"
-                />
-              </View>
-            )}
-          </TouchableOpacity>
-        ))}
+        <CrochetProjectCard
+          projects={projects}
+          handleProjectPress={handleProjectPress}
+        />
       </View>
     </ScrollView>
   );

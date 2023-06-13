@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -7,13 +7,57 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CrochetProjectDetailScreen = ({ route }) => {
   const { project } = route.params;
   const [progressImages, setProgressImages] = useState([]);
   const [journalEntry, setJournalEntry] = useState("");
+
+  useEffect(() => {
+    // Load progress pictures and journal entry from AsyncStorage when the component mounts
+    loadProjectData();
+  }, []);
+
+  const loadProjectData = async () => {
+    try {
+      // Retrieve project data from AsyncStorage
+      const storedProjectData = await AsyncStorage.getItem(
+        `projectData_${project.title}`
+      );
+
+      if (storedProjectData) {
+        // Parse and set the retrieved project data
+        const parsedProjectData = JSON.parse(storedProjectData);
+        setProgressImages(parsedProjectData.progressImages);
+        setJournalEntry(parsedProjectData.journalEntry);
+      }
+    } catch (error) {
+      console.log("Error loading progress data:", error);
+    }
+  };
+
+  const saveProjectData = async () => {
+    try {
+      // Combine progress pictures and journal entry into a single object
+      const projectData = {
+        progressImages,
+        journalEntry,
+      };
+
+      // Convert progress data to a string and store it in AsyncStorage
+      const stringifiedProjectData = JSON.stringify(projectData);
+      await AsyncStorage.setItem(
+        `projectData_${project.title}`,
+        stringifiedProjectData
+      );
+    } catch (error) {
+      console.log("Error saving progress data:", error);
+    }
+  };
 
   const handleAddImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -31,6 +75,11 @@ const CrochetProjectDetailScreen = ({ route }) => {
   const handleJournalEntryChange = (text) => {
     setJournalEntry(text);
   };
+
+  useEffect(() => {
+    // Save progress data to AsyncStorage whenever it changes
+    saveProjectData();
+  }, [progressImages, journalEntry]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
