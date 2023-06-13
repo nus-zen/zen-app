@@ -11,10 +11,12 @@ import BtmTabsOverview from "./screens/BtmTabsOverview";
 import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
 import MoodCheckInScreen from "./screens/profile/MoodCheckInScreen";
 import JournalScreen from "./screens/journal/JournalScreen";
-import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
 import ProfileScreen from "./screens/profile/ProfileScreen";
 import AccountsScreen from "./screens/profile/AccountsScreen";
 import PracticeHome from "./screens/practices/PracticeHome";
+import CrochetDetailsScreen from "./screens/practices/Crochet/CrochetDetailsScreen";
+import AddCrochetProjectScreen from "./screens/practices/Crochet/AddCrochetProjectScreen";
+import CrochetProjectDetailScreen from "./screens/practices/Crochet/CrochetProjectDetailScreen";
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -47,8 +49,8 @@ const App = () => {
               component={BtmTabsOverview}
               options={{ headerShown: false }}
             />
-          
-              <Stack.Screen
+
+            <Stack.Screen
               name="PracticeHome"
               component={PracticeHome}
               options={{ headerShown: false }}
@@ -70,14 +72,14 @@ const App = () => {
               component={PracticeMediaScreen}
               options={{ headerTitle: "", headerTransparent: true }}
             />
-            <Stack.Screen 
-              name="ProfileScreen" 
-              component={ProfileScreen} 
+            <Stack.Screen
+              name="ProfileScreen"
+              component={ProfileScreen}
               options={{ headerShown: false }}
             />
-            <Stack.Screen 
-              name="AccountsScreen" 
-              component={AccountsScreen} 
+            <Stack.Screen
+              name="AccountsScreen"
+              component={AccountsScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -88,6 +90,14 @@ const App = () => {
             <Stack.Screen
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
+            />
+            <Stack.Screen
+              name="AddCrochetProjectScreen"
+              component={AddCrochetProjectScreen}
+            />
+            <Stack.Screen
+              name="CrochetProjectDetailScreen"
+              component={CrochetProjectDetailScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>
