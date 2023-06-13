@@ -16,23 +16,23 @@ export default function WelcomeScreen({ navigation }) {
     const loadFonts = async () => {
       try {
         await Font.loadAsync({
-          InterBlack: require('../../assets/fonts/inter-font/Inter-Black.ttf'),
+          InterBlack: require("../../assets/fonts/inter-font/Inter-Black.ttf"),
         });
-  
+
         setFontLoaded(true);
-        console.log('Font loaded successfully!');
+        console.log("Font loaded successfully!");
       } catch (error) {
-        console.log('Error loading font:', error);
+        console.log("Error loading font:", error);
       }
     };
-  
+
     loadFonts();
   }, []);
   
 
   const handlePress = () => {
-    navigation.navigate('MoodCheckInScreen');
-    console.log('Welcome Screen Button is pressed');
+    navigation.navigate("MoodCheckInScreen");
+    console.log("Welcome Screen Button is pressed");
   };
 
   return (

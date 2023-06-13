@@ -32,14 +32,13 @@ const App = () => {
           }}
         >
           <Stack.Navigator>
-
-            <Stack.Screen 
-              name="WelcomeScreen" 
+            <Stack.Screen
+              name="WelcomeScreen"
               component={WelcomeScreen}
               options={{ headerShown: false }}
             />
-            <Stack.Screen 
-              name="MoodCheckInScreen" 
+            <Stack.Screen
+              name="MoodCheckInScreen"
               component={MoodCheckInScreen}
               options={{ headerShown: false }}
             />
