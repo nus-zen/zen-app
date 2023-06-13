@@ -14,7 +14,7 @@ import JournalScreen from "./screens/journal/JournalScreen";
 import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
 import ProfileScreen from "./screens/profile/ProfileScreen";
 import AccountsScreen from "./screens/profile/AccountsScreen";
-
+import PracticeHome from "./screens/practices/PracticeHome";
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -47,7 +47,11 @@ const App = () => {
               component={BtmTabsOverview}
               options={{ headerShown: false }}
             />
-
+              <Stack.Screen
+              name="PracticeHome"
+              component={PracticeHome}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="MeditationList"
               component={MeditationsList}
