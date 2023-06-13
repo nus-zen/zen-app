@@ -47,6 +47,7 @@ const App = () => {
               component={BtmTabsOverview}
               options={{ headerShown: false }}
             />
+          
               <Stack.Screen
               name="PracticeHome"
               component={PracticeHome}
@@ -72,10 +73,12 @@ const App = () => {
             <Stack.Screen 
               name="ProfileScreen" 
               component={ProfileScreen} 
+              options={{ headerShown: false }}
             />
             <Stack.Screen 
               name="AccountsScreen" 
               component={AccountsScreen} 
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="PracticeRatingScreen"

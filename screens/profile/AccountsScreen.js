@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, SafeAreaView } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import UploadImage from '../../components/UploadImage';
 
-const AccountsScreen = () => {
+export default function AccountsScreen({ navigation, route }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +16,7 @@ const AccountsScreen = () => {
     return emailPattern.test(email);
   };
 
-  const handleSetting = () => {
+  const handleSave = () => {
     if (!isValidEmail(email) || password !== confirmPassword) {
       setEmailError(!isValidEmail(email) ? 'Please enter a valid email' : '');
       setPasswordError(password !== confirmPassword ? 'Passwords do not match' : '');
@@ -28,6 +28,8 @@ const AccountsScreen = () => {
     console.log('Password:', password);
     console.log('Confirm Password:', confirmPassword);
     console.log('Confirm Birthday:', confirmBirthday);
+
+    navigation.navigate('ProfileScreen');
   };
 
   return (
@@ -86,16 +88,19 @@ const AccountsScreen = () => {
           value={confirmBirthday}
         />
       </View>
-      <Button title="Register" onPress={handleSetting} />
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.saveButtonText}>Save</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 40,
+    paddingBottom: 40,
   },
   imageContainer: {
     flex: 1,
@@ -122,6 +127,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 4,
   },
+  saveButton: {
+    backgroundColor: 'green',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    alignSelf: 'center',
+    marginTop: 16,
+  },
+  saveButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });
-
-export default AccountsScreen;
