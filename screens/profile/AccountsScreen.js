@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 40,
-    paddingBottom: 40,
+    marginTop: 40,
   },
   imageContainer: {
     flex: 1,

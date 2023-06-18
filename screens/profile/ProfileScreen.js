@@ -5,7 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import UploadImage from '../../components/UploadImage';
 import MoodCalendar from '../../components/MoodCalendar';
 import AccountsScreen from "../../screens/profile/AccountsScreen";
-
+import StatisticsComponent from "../../components/ProfileScreenBestActivitiesStats";
+import ScrollableContent from "../../components/ActivitiesCompletedScrollableContent";
 
 export default function ProfileScreen({ navigation, route }) {
   const navigateToAccounts = () => {
@@ -15,14 +16,16 @@ export default function ProfileScreen({ navigation, route }) {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
         <View style={styles.uploadContainer}>
-          <UploadImage />
-          <View style={styles.settingsContainer}>
-            <TouchableOpacity onPress={navigateToAccounts}>
-              <Image source={require('../../assets/Settings.png')} style={styles.settingsIcon} />
-            </TouchableOpacity>
+          <View style={styles.uploadButtonContainer}>
+            <UploadImage />
           </View>
+          <TouchableOpacity style={styles.settingsButton} onPress={navigateToAccounts}>
+            <Image source={require('../../assets/Settings.png')} style={styles.settingsIcon} />
+          </TouchableOpacity>
         </View>
         <Text style={{ marginVertical: 20, fontSize: 16 }}>GOAT</Text>
+        <StatisticsComponent />
+        <ScrollableContent />
         <MoodCalendar />
       </ScrollView>
     </SafeAreaView>
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    marginTop: 120,
+    marginTop: 40,
   },
   scrollView: {
     flex: 1,
@@ -52,6 +55,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
     paddingHorizontal: 20,
+  },
+  uploadButtonContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
   settingsContainer: {
     marginLeft: 'auto',
