@@ -16,7 +16,7 @@ export default function WelcomeScreen({ navigation }) {
     const loadFonts = async () => {
       try {
         await Font.loadAsync({
-          InterBlack: require("../../assets/fonts/inter-font/Inter-Black.ttf"),
+          'InterBlack': require("../../assets/fonts/inter-font/Inter-Black.ttf"),
         });
 
         setFontLoaded(true);
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     textAlign: "center",
     textAlignVertical: "top",
-    lineHeight: 60,
     color: "white",
     textShadowColor: "rgba(0, 0, 0, 0.25)",
     textShadowOffset: { width: 4, height: 4 },
@@ -88,12 +87,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: 0,
+    padding: 10,
     position: "absolute",
     width: 220,
-    height: 50,
-    left: 86,
-    top: 600,
+    bottom: "20%",
     backgroundColor: "green",
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: { width: 0, height: 4 },
