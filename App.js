@@ -12,6 +12,7 @@ import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
 import MoodCheckInScreen from "./screens/profile/MoodCheckInScreen";
 import JournalScreen from "./screens/journal/JournalScreen";
 import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
+import LoginScreen from "./screens/profile/LoginScreen";
 import ProfileScreen from "./screens/profile/ProfileScreen";
 import AccountsScreen from "./screens/profile/AccountsScreen";
 import PracticeHome from "./screens/practices/PracticeHome";
@@ -73,6 +74,11 @@ const App = () => {
             <Stack.Screen 
               name="ProfileScreen" 
               component={ProfileScreen} 
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="LoginScreen"
+              component={LoginScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen 
