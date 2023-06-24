@@ -1,7 +1,21 @@
-import React from "react";
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
+import { getAverageMeditationRating } from "../utils/AsyncStorageUtils";
+import React, { useEffect, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 const MeditationCard = ({ title, subtitle, imageSource, onPress }) => {
+  const [averageRating, setAverageRating] = useState(null);
+
+  useEffect(() => {
+    // Fetch the average rating for the meditation
+    getAverageRating();
+  }, []);
+
+  const getAverageRating = async () => {
+    const rating = await getAverageMeditationRating(title);
+    setAverageRating(rating);
+  };
+
   return (
     <View style={styles.cardContainer}>
       <Pressable
@@ -11,6 +25,15 @@ const MeditationCard = ({ title, subtitle, imageSource, onPress }) => {
         <Image source={imageSource} style={styles.image} />
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle}</Text>
+
+        {averageRating !== null ? (
+          <View style={styles.ratingContainer}>
+            <Text style={styles.rating}>{averageRating.toFixed(1)}</Text>
+            <Ionicons name="star" size={20} color="gold" />
+          </View>
+        ) : (
+          <Text style={styles.noRatingText}>No rating yet</Text>
+        )}
       </Pressable>
     </View>
   );
@@ -18,7 +41,6 @@ const MeditationCard = ({ title, subtitle, imageSource, onPress }) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    flex: 1,
     backgroundColor: "#FFFFFF",
     padding: 16,
     borderRadius: 8,
@@ -37,12 +59,14 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     marginBottom: 16,
+    borderRadius: 8,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
     textAlign: "center",
+    color: "#333333",
   },
   subtitle: {
     fontSize: 16,
@@ -51,6 +75,23 @@ const styles = StyleSheet.create({
   },
   pressedIndicator: {
     opacity: 0.75,
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+  },
+  rating: {
+    marginRight: 8,
+    fontSize: 18,
+    color: "#FFC107",
+    fontWeight: "bold",
+  },
+  noRatingText: {
+    marginTop: 4,
+    fontStyle: "italic",
+    color: "gray",
   },
 });
 
