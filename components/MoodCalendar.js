@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 
-export default function MoodCalendar() {
+export function MoodCalendar() {
   const currentDate = moment().format('YYYY-MM-DD');
 
   const CustomCalendar = () => {
