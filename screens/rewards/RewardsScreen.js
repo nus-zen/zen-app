@@ -35,3 +35,22 @@ export default function RewardsScreen({ navigation }) {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F5F5F5",
+    paddingHorizontal: 8,
+  },
+  scrollContent: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingTop: 16,
+  },
+  cardContainer: {
+    width: Dimensions.get("window").width / 2 - 24,
+    marginBottom: 16,
+    alignItems: "center",
+  },
+});
