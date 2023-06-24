@@ -7,6 +7,8 @@ import MoodCalendar from '../../components/MoodCalendar';
 import StatisticsComponent from "../../components/ProfileScreenBestActivitiesStats";
 import ScrollableContent from "../../components/ActivitiesCompletedScrollableContent";
 import ActivityLog from "../../components/ActivityLog";
+// import NotificationsButton from "../../components/NotificationsButton"; implement when firebase is activated
+//import ReminderButton from "../../components/ReminderButton"; implement when firebase is activated
 
 export default function ProfileScreen({ navigation, route }) {
   function navigateToAccounts() {
@@ -28,6 +30,8 @@ export default function ProfileScreen({ navigation, route }) {
         <ScrollableContent />
         <ActivityLog />
         <MoodCalendar />
+        {/* <NotificationsButton /> */}
+        {/* <ReminderButton /> */}
       </ScrollView>
     </SafeAreaView>
   );
