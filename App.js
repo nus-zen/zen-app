@@ -14,8 +14,10 @@ import JournalScreen from "./screens/journal/JournalScreen";
 import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
 import LoginScreen from "./screens/profile/LoginScreen";
 import ProfileScreen from "./screens/profile/ProfileScreen";
-import AccountsScreen from "./screens/profile/AccountsScreen";
+import AccountsScreen from "./screens/profile/AccountsScreenProfile";
 import PracticeHome from "./screens/practices/PracticeHome";
+import CreateAccountScreen from "./screens/profile/CreateAccountScreen";
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -33,11 +35,22 @@ const App = () => {
           }}
         >
           <Stack.Navigator>
+
             <Stack.Screen
               name="WelcomeScreen"
               component={WelcomeScreen}
               options={{ headerShown: false }}
-            />
+            />            
+            <Stack.Screen
+              name="LoginScreen"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />          
+            <Stack.Screen
+              name="CreateAccountScreen"
+              component={CreateAccountScreen}
+              options={{ headerShown: false }}
+            />           
             <Stack.Screen
               name="MoodCheckInScreen"
               component={MoodCheckInScreen}
@@ -76,13 +89,9 @@ const App = () => {
               component={ProfileScreen} 
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
+
             <Stack.Screen 
-              name="AccountsScreen" 
+              name="AccountsScreenProfile" 
               component={AccountsScreen} 
               options={{ headerShown: false }}
             />

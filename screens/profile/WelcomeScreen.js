@@ -31,7 +31,7 @@ export default function WelcomeScreen({ navigation }) {
   
 
   const handlePress = () => {
-    navigation.navigate("MoodCheckInScreen");
+    navigation.navigate("LoginScreen");
     console.log("Welcome Screen Button is pressed");
   };
 
