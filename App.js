@@ -96,11 +96,6 @@ const App = () => {
               component={AccountsScreen} 
               />
             <Stack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
               name="AccountsScreen"
               component={AccountsScreen}
               options={{ headerShown: false }}
