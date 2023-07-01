@@ -69,6 +69,7 @@ const MeditationCard = ({
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "#FFFFFF",
+    flex: 1,
     padding: 16,
     borderRadius: 8,
     shadowColor: "#000000",
