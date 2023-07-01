@@ -4,14 +4,16 @@ import { Ionicons } from '@expo/vector-icons';
 
 import UploadImage from '../../components/UploadImage';
 import MoodCalendar from '../../components/MoodCalendar';
-import AccountsScreen from "../../screens/profile/AccountsScreen";
 import StatisticsComponent from "../../components/ProfileScreenBestActivitiesStats";
 import ScrollableContent from "../../components/ActivitiesCompletedScrollableContent";
+import ActivityLog from "../../components/ActivityLog";
+// import NotificationsButton from "../../components/NotificationsButton"; implement when firebase is activated
+//import ReminderButton from "../../components/ReminderButton"; implement when firebase is activated
 
 export default function ProfileScreen({ navigation, route }) {
-  const navigateToAccounts = () => {
-    navigation.navigate('AccountsScreen'); 
-  };
+  function navigateToAccounts() {
+    navigation.navigate('AccountsScreen');
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
@@ -26,7 +28,10 @@ export default function ProfileScreen({ navigation, route }) {
         <Text style={{ marginVertical: 20, fontSize: 16 }}>GOAT</Text>
         <StatisticsComponent />
         <ScrollableContent />
+        <ActivityLog />
         <MoodCalendar />
+        {/* <NotificationsButton /> */}
+        {/* <ReminderButton /> */}
       </ScrollView>
     </SafeAreaView>
   );

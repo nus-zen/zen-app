@@ -1,4 +1,5 @@
 {
+
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
@@ -6,4 +7,5 @@
   "packagerNgrokUrl": null,
   "ngrokPid": null,
   "webpackServerPort": null
+
 }
