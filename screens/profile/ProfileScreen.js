@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import UploadImage from '../../components/UploadImage';
 import MoodCalendar from '../../components/MoodCalendar';
-import AccountsScreen from "../../screens/profile/AccountsScreen";
+import AccountsScreen from "../../screens/profile/AccountsScreenProfile";
 import StatisticsComponent from "../../components/ProfileScreenBestActivitiesStats";
 import ScrollableContent from "../../components/ActivitiesCompletedScrollableContent";
 
