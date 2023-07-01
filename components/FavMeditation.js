@@ -14,12 +14,12 @@ const FavMeditation = () => {
 
   const fetchHighestRatedMeditation = async () => {
     const favMed = await getHighestRatedMeditation();
-    console.log(`highestRatedMeditation is ${favMed.title}`);
+    // console.log(`highestRatedMeditation is ${favMed.title}`);
     setHighestRatedMeditation(favMed);
   };
 
   if (!highestRatedMeditation) {
-    console.log("highestRatedMeditation is null");
+    // console.log("highestRatedMeditation is null");
     return null; // Handle loading or no highest rated meditation case
   }
 
@@ -39,6 +39,7 @@ const FavMeditation = () => {
               highestRatedMeditation
             );
           }}
+          isSpecialStyle={true}
         />
       </View>
     </View>
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 16,
+    borderRadius: 32,
   },
   leftContainer: {
     flex: 1,

@@ -3,7 +3,13 @@ import { getAverageMeditationRating } from "../utils/AsyncStorageUtils";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
-const MeditationCard = ({ title, subtitle, imageSource, onPress }) => {
+const MeditationCard = ({
+  title,
+  subtitle,
+  imageSource,
+  onPress,
+  isSpecialStyle,
+}) => {
   const [averageRating, setAverageRating] = useState(null);
 
   useEffect(() => {
@@ -16,6 +22,27 @@ const MeditationCard = ({ title, subtitle, imageSource, onPress }) => {
     setAverageRating(rating);
   };
 
+  if (!!isSpecialStyle) {
+    return (
+      <View style={styles.cardContainer}>
+        <Pressable
+          style={({ pressed }) => pressed && styles.pressedIndicator}
+          onPress={onPress}
+        >
+          <Text style={styles.smallerTitle}>{title}</Text>
+
+          {averageRating !== null ? (
+            <View style={styles.ratingContainer}>
+              <Text style={styles.rating}>{averageRating.toFixed(1)}</Text>
+              <Ionicons name="star" size={20} color="gold" />
+            </View>
+          ) : (
+            <Text style={styles.noRatingText}>No rating yet</Text>
+          )}
+        </Pressable>
+      </View>
+    );
+  }
   return (
     <View style={styles.cardContainer}>
       <Pressable
@@ -65,6 +92,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
+    textAlign: "center",
+    color: "#333333",
+  },
+  smallerTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginBottom: 0,
     textAlign: "center",
     color: "#333333",
   },
