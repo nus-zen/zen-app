@@ -1,23 +1,54 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
+import MoodCheckInScreen from "../screens/profile/MoodCheckInScreen";
 
-export default function MoodCalendar() {
+export default function MoodCalendar({setMood}) {
   const currentDate = moment().format('YYYY-MM-DD');
+  const [selectedMoodDate, setSelectedMoodDate] = useState('');
+  const [moodColor, setMoodColor] = useState('');
+
+  
+  // const handleDayPress = (day) => {
+  // setSelectedMoodDate(day.dateString);
+  // };
+  const getSelectedMoodDate = () => {
+    if (setMood === 'Amazing') {
+      return {
+        selected: true,
+        selectedColor: '#FFFF00',
+        selectedTextColor: 'black',
+      };
+    } else if (setMood === 'Awful') {
+      return {
+        selected: true,
+        selectedColor: '#7CFC00',
+        selectedTextColor: 'white',
+      };
+    } else if (setMood === 'Good') {
+      return {
+        selected: true,
+        selectedColor: '#228B22',
+        selectedTextColor: 'white',
+      };
+    } else if (setMood === 'Meh') {
+      return {
+        selected: true,
+        selectedColor: '#556B2F',
+        selectedTextColor: 'white',
+      };
+    }
+    return {};
+  };
+
 
   const CustomCalendar = () => {
     const marked = {
-      '2023-12-10': { marked: true, dotColor: 'red' },
-      '2023-12-12': { selected: true, selectedColor: '#aa2222', selectedTextColor: 'yellow' },
-      '2023-12-13': {
-        marked: true,
-        selected: true,
-        selectedColor: '#222222',
-        selectedTextColor: 'yellow',
-        dotColor: 'white'
-      }
+      ...getSelectedMoodDate(),
+      currentDate: {marked}
     };
+
 
     return (
       <Calendar

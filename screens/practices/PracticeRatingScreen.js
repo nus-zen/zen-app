@@ -9,20 +9,23 @@ import {
 } from "react-native";
 import RatingStars from "../../components/RatingStars";
 import { useNavigation } from "@react-navigation/native";
+import { saveMeditationRating } from "../../utils/AsyncStorageUtils";
 
-export default function PracticeRatingScreen() {
+export default function PracticeRatingScreen({ route }) {
   const [rating, setRating] = useState(0);
   const navigation = useNavigation();
+  const { title } = route.params;
 
   const handleFinishRating = () => {
+    saveMeditationRating(title, rating);
     Alert.alert("Rating", `You have rated ${rating} stars!`, [
-      { onPress: () => navigation.navigate("HomeScreen") },
+      { onPress: () => navigation.navigate("BottomTabsOverview") },
     ]);
   };
 
   const handleBackButton = () => {
     // When user presses back on android, it goes to home screen instead of video.
-    navigation.navigate("HomeScreen"); // Navigate to the home screen
+    navigation.navigate("BottomTabsOverview"); // Navigate to the home screen
     return true; // Prevent default back button behavior
   };
 

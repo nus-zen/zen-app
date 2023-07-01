@@ -8,9 +8,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import * as Font from "expo-font";
-import Icon from "react-native-vector-icons/FontAwesome"; // Import the icon library
+import Icon from "react-native-vector-icons/FontAwesome"; 
+import MoodCalendar from "../../components/MoodCalendar";
 
-export default function MoodCheckInScreen({ navigation }) {
+export default function MoodCheckInScreen({ navigation}) {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [mood, setMood] = useState("");
   const [currentDate, setCurrentDate] = useState("");
@@ -172,15 +173,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 20,
   },
-  moodButtons: {
-    flexDirection: "row",
-    marginBottom: 50,
-  },
   moodButton: {
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 7,
   },
+
   imageBackground: {
     width: 80,
     height: 80,

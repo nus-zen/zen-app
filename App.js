@@ -18,6 +18,7 @@ import AccountsScreen from "./screens/profile/AccountsScreenProfile";
 import PracticeHome from "./screens/practices/PracticeHome";
 import CreateAccountScreen from "./screens/profile/CreateAccountScreen";
 
+import RewardsItems from "./screens/rewards/RewardsItems";
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -61,8 +62,8 @@ const App = () => {
               component={BtmTabsOverview}
               options={{ headerShown: false }}
             />
-          
-              <Stack.Screen
+
+            <Stack.Screen
               name="PracticeHome"
               component={PracticeHome}
               options={{ headerShown: false }}
@@ -84,15 +85,24 @@ const App = () => {
               component={PracticeMediaScreen}
               options={{ headerTitle: "", headerTransparent: true }}
             />
-            <Stack.Screen 
-              name="ProfileScreen" 
-              component={ProfileScreen} 
+            <Stack.Screen
+              name="ProfileScreen"
+              component={ProfileScreen}
               options={{ headerShown: false }}
             />
 
             <Stack.Screen 
               name="AccountsScreenProfile" 
               component={AccountsScreen} 
+              />
+            <Stack.Screen
+              name="LoginScreen"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AccountsScreen"
+              component={AccountsScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -104,6 +114,7 @@ const App = () => {
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
             />
+            <Stack.Screen name="RewardsItems" component={RewardsItems} />
           </Stack.Navigator>
         </NavigationContainer>
       </>

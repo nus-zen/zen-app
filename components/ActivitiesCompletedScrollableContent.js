@@ -44,21 +44,18 @@ export default function ScrollableContent() {
 
   const [chartWidth, setChartWidth] = useState(Dimensions.get('window').width - 40);
   const [chartHeight, setChartHeight] = useState(200);
-  const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
     const updateDimensions = () => {
-      if (isMounted) {
-        setChartWidth(Dimensions.get('window').width - 40);
-      }
+      setChartWidth(Dimensions.get('window').width - 40);
     };
 
     Dimensions.addEventListener('change', updateDimensions);
 
     return () => {
-      setIsMounted(false);
+      Dimensions.removeEventListener('change', updateDimensions);
     };
-  }, [isMounted]);
+  }, []);
 
   return (
     <View style={styles.container}>
