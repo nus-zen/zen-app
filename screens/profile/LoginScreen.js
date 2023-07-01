@@ -1,18 +1,18 @@
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-export default function LoginScreen({ navigation }) {
+const LoginScreen = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   const handleLogin = () => {
+    // Perform login logic here
     console.log('Email:', email);
     console.log('Password:', password);
-    navigation.navigate("MoodCheckInScreen");
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.title}>Login Screen</Text>
       <TextInput
         style={styles.input}
@@ -28,9 +28,9 @@ export default function LoginScreen({ navigation }) {
         value={password}
       />
       <Button title="Login" onPress={handleLogin} />
-    </SafeAreaView>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -54,3 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default LoginScreen;
