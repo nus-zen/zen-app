@@ -42,7 +42,7 @@ export default function YouTubePlayer({ videoId, title }) {
             if (state === "ended") {
               setIsPlaying(false);
               // Alert.alert("video ended!");
-              navigation.navigate("PracticeRatingScreen");
+              navigation.navigate("PracticeRatingScreen", { title: title });
             }
           }}
         />

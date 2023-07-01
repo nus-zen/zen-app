@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import MeditationCard from "../../components/MeditationCard";
 import { MEDITATIONS_DATA } from "../../data/MeditationsData";
+import FavMeditation from "./../../components/FavMeditation";
 
 export default function MeditationsList({ navigation }) {
   const meditations = MEDITATIONS_DATA;
@@ -20,17 +21,21 @@ export default function MeditationsList({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {meditations.map((meditation, index) => (
-          <View key={index} style={styles.cardContainer}>
-            <MeditationCard
-              title={meditation.title}
-              subtitle={meditation.subtitle}
-              imageSource={{ uri: meditation.imageSource }}
-              onPress={meditationPressHandler(meditation)}
-            />
-          </View>
-        ))}
+      <ScrollView>
+        <FavMeditation />
+
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          {meditations.map((meditation, index) => (
+            <View key={index} style={styles.cardContainer}>
+              <MeditationCard
+                title={meditation.title}
+                subtitle={meditation.subtitle}
+                imageSource={{ uri: meditation.imageSource }}
+                onPress={meditationPressHandler(meditation)}
+              />
+            </View>
+          ))}
+        </ScrollView>
       </ScrollView>
     </SafeAreaView>
   );
