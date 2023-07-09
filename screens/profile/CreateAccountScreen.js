@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, StyleSheet, Text, SafeAreaView, TouchableOpacity, Linking } from 'react-native';
+import * as Font from 'expo-font';
 
 export default function CreateAccountScreen({ navigation }) {
   const [fullName, setFullName] = useState('');
@@ -8,6 +9,19 @@ export default function CreateAccountScreen({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        'Inter-Bold': require("../../assets/fonts/inter-font/Inter-Bold.ttf"),
+      });
+
+      setFontLoaded(true);
+    };
+
+    loadFonts();
+  }, []);
 
   const isValidEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,60 +43,68 @@ export default function CreateAccountScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Full Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="John Smith"
-          onChangeText={(text) => setFullName(text)}
-          value={fullName}
-          placeholderTextColor="white"
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email Address</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="example@gmail.com"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          placeholderTextColor="white"
-        />
-        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Password</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry
-          placeholderTextColor="white"
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Confirm Password</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="password"
-          onChangeText={(text) => setConfirmPassword(text)}
-          value={confirmPassword}
-          secureTextEntry
-          placeholderTextColor="white"
-        />
-        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
-      </View>
-      <TouchableOpacity style={styles.createAccountButton} onPress={handleCreateAccount}>
-        <Text style={styles.createAccountButtonText}>Create Account</Text>
-      </TouchableOpacity>
-      <View style={styles.buttonSeparator} />
-      <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-        <Text style={styles.loginLink}>Already have an account? Log in</Text>
-      </TouchableOpacity>
+      {fontLoaded && (
+        <>
+          <Text style={styles.title}>Create Account</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Full Name</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="John Smith"
+              onChangeText={(text) => setFullName(text)}
+              value={fullName}
+              placeholderTextColor="white"
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Email Address</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="example@gmail.com"
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              placeholderTextColor="white"
+            />
+            {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="password"
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+              secureTextEntry
+              placeholderTextColor="white"
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Confirm Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="password"
+              onChangeText={(text) => setConfirmPassword(text)}
+              value={confirmPassword}
+              secureTextEntry
+              placeholderTextColor="white"
+            />
+            {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+              <Text
+                style={styles.loginLinkText}
+                onPress={() => navigation.navigate('LoginScreen')}
+              >Already have an account? Log in
+              </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.createAccountButton} onPress={handleCreateAccount}>
+            <Text style={styles.createAccountButtonText}>Create Account</Text>
+          </TouchableOpacity>
+          <View style={styles.buttonSeparator} />
+        </>
+      )}
     </SafeAreaView>
   );
 }
@@ -95,10 +117,10 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 28,
     marginBottom: 16,
     textAlign: 'center',
+    fontFamily: 'Inter-Bold'
   },
   inputContainer: {
     marginBottom: 16,
@@ -106,6 +128,7 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 8,
     fontSize: 16,
+    fontWeight: 'bold',
   },
   input: {
     height: 50,
@@ -137,9 +160,11 @@ const styles = StyleSheet.create({
   buttonSeparator: {
     height: 16,
   },
-  loginLink: {
-    fontSize: 16,
-    color: 'black',
+  loginLinkText: {
+    color: 'green',
+    textDecorationLine: 'underline',
+    marginLeft: 5,
+    fontSize: 14,
     textAlign: 'center',
   },
 });
