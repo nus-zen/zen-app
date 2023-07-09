@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import UploadImage from '../../components/UploadImage';
 
-export default function AccountsScreen({ navigation, route }) {
+export default function AccountsScreenProfile({ navigation, route }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,6 +42,7 @@ export default function AccountsScreen({ navigation, route }) {
         <TextInput
           style={styles.input}
           placeholder="John Smith"
+          placeholderTextColor="white"
           onChangeText={(text) => setFullName(text)}
           value={fullName}
         />
@@ -55,6 +56,7 @@ export default function AccountsScreen({ navigation, route }) {
           value={email}
           keyboardType="email-address"
           autoCapitalize="none"
+          placeholderTextColor="white"
         />
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
       </View>
@@ -66,6 +68,7 @@ export default function AccountsScreen({ navigation, route }) {
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry
+          placeholderTextColor="white"
         />
       </View>
       <View style={styles.inputContainer}>
@@ -76,6 +79,7 @@ export default function AccountsScreen({ navigation, route }) {
           onChangeText={(text) => setConfirmPassword(text)}
           value={confirmPassword}
           secureTextEntry
+          placeholderTextColor="white"
         />
         {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
       </View>
@@ -86,6 +90,7 @@ export default function AccountsScreen({ navigation, route }) {
           placeholder="dd/mm/yy"
           onChangeText={(text) => setConfirmBirthday(text)}
           value={confirmBirthday}
+          placeholderTextColor="white"
         />
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
@@ -106,21 +111,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 16,
   },
   inputContainer: {
-    marginBottom: 16,
+    marginBottom: 10,
   },
   label: {
     marginBottom: 8,
     fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
   },
   input: {
     height: 50,
-    borderColor: 'gray',
+    borderColor: '#589310',
     borderWidth: 1,
     paddingHorizontal: 60,
     borderRadius: 50,
+    backgroundColor: '#589310',
+    color: 'white',
   },
   errorText: {
     color: 'red',
@@ -128,17 +136,18 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   saveButton: {
-    backgroundColor: 'green',
-    borderRadius: 8,
-    paddingVertical: 12,
+    backgroundColor: '#589310',
+    borderRadius: 50,
+    paddingVertical: 10,
     paddingHorizontal: 24,
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     marginTop: 16,
   },
   saveButtonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+    textAlign: 'center',
   },
 });
 
