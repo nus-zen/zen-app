@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   settingsIcon: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
     resizeMode: 'contain',
   },
 });

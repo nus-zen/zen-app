@@ -13,12 +13,13 @@ import MoodCheckInScreen from "./screens/profile/MoodCheckInScreen";
 import JournalScreen from "./screens/journal/JournalScreen";
 import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
 import LoginScreen from "./screens/profile/LoginScreen";
-import ProfileScreen from "./screens/profile/ProfileScreen";
-import AccountsScreen from "./screens/profile/AccountsScreenProfile";
+
+import AccountsScreenProfile from "./screens/profile/AccountsScreenProfile";
 import PracticeHome from "./screens/practices/PracticeHome";
 import CreateAccountScreen from "./screens/profile/CreateAccountScreen";
-
+import ProfileScreen from "./screens/profile/ProfileScreen";
 import RewardsItems from "./screens/rewards/RewardsItems";
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -93,13 +94,9 @@ const App = () => {
 
             <Stack.Screen 
               name="AccountsScreenProfile" 
-              component={AccountsScreen} 
-              />
-            <Stack.Screen
-              name="AccountsScreen"
-              component={AccountsScreen}
+              component={AccountsScreenProfile} 
               options={{ headerShown: false }}
-            />
+              />
             <Stack.Screen
               name="PracticeRatingScreen"
               component={PracticeRatingScreen}
@@ -109,7 +106,10 @@ const App = () => {
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
             />
-            <Stack.Screen name="RewardsItems" component={RewardsItems} />
+            <Stack.Screen 
+              name="RewardsItems" 
+              component={RewardsItems} 
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </>

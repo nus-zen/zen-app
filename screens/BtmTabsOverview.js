@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PracticeHome from "../screens/practices/PracticeHome";
 import ProfileScreen from "../screens/profile/ProfileScreen";
-import RewardsScreen from "../screens/rewards/RewardsScreen";
+import RewardsHomeScreen from "../screens/rewards/RewardsHomeScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { GlobalColors } from "../themes/GlobalColors";
 
@@ -32,8 +32,8 @@ export default function BtmTabsOverview() {
         }}
       />
       <BottomTabs.Screen
-        name="RewardsScreen"
-        component={RewardsScreen}
+        name="RewardsHomeScreen"
+        component={RewardsHomeScreen}
         options={{
           title: "Rewards",
           tabBarLabel: "Rewards",
