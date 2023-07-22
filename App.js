@@ -19,6 +19,8 @@ import PracticeHome from "./screens/practices/PracticeHome";
 import CreateAccountScreen from "./screens/profile/CreateAccountScreen";
 import ProfileScreen from "./screens/profile/ProfileScreen";
 import RewardsItems from "./screens/rewards/RewardsItems";
+import TerrariumDetailScreen from "./screens/practices/TerrariumDetailScreen";
+import ZenBandDetailScreen from "./screens/practices/ZenBandDetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -106,6 +108,15 @@ const App = () => {
               component={CrochetDetailsScreen}
             />
             <Stack.Screen name="RewardsItems" component={RewardsItems} />
+            <Stack.Screen
+              name="TerrariumDetailScreen"
+              component={TerrariumDetailScreen}
+            />
+
+            <Stack.Screen
+              name="ZenBandDetailScreen"
+              component={ZenBandDetailScreen}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </>
