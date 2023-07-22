@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,19 +8,19 @@ import {
   TouchableOpacity,
   Linking,
   Image,
-} from 'react-native';
-import * as Font from 'expo-font';
+} from "react-native";
+import * as Font from "expo-font";
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
-        'Inter-Bold': require("../../assets/fonts/inter-font/Inter-Bold.ttf"),
+        "Inter-Bold": require("../../assets/fonts/inter-font/Inter-Bold.ttf"),
       });
 
       setFontLoaded(true);
@@ -30,17 +30,18 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   const isValidEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
+    // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // return emailPattern.test(email);
+    return true;
   };
 
   const handleLogin = () => {
     if (!isValidEmail(email)) {
-      setEmailError('Please enter a valid email');
+      setEmailError("Please enter a valid email");
       return;
     }
-    console.log('Email:', email);
-    console.log('Password:', password);
+    console.log("Email:", email);
+    console.log("Password:", password);
     navigation.navigate("MoodCheckInScreen");
   };
 
@@ -49,21 +50,24 @@ export default function LoginScreen({ navigation }) {
   };
 
   const handleGoogleLogin = () => {
-    Linking.openURL('https://accounts.google.com');
+    Linking.openURL("https://accounts.google.com");
   };
 
   const handleFacebookLogin = () => {
-    Linking.openURL('https://www.facebook.com');
+    Linking.openURL("https://www.facebook.com");
   };
 
   const handleTwitterLogin = () => {
-    Linking.openURL('https://www.twitter.com');
+    Linking.openURL("https://www.twitter.com");
   };
 
   return (
     <>
       <View style={styles.headerContainer}>
-        <Image source={require('../../assets/LoginScreenBackground.jpg')} style={styles.headerImage} />
+        <Image
+          source={require("../../assets/LoginScreenBackground.jpg")}
+          style={styles.headerImage}
+        />
       </View>
 
       <SafeAreaView style={styles.container}>
@@ -81,7 +85,9 @@ export default function LoginScreen({ navigation }) {
                 autoCapitalize="none"
                 placeholderTextColor="white"
               />
-              {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+              {emailError ? (
+                <Text style={styles.errorText}>{emailError}</Text>
+              ) : null}
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Password</Text>
@@ -100,19 +106,39 @@ export default function LoginScreen({ navigation }) {
             <View style={styles.orContainer}>
               <Text style={styles.orText}>Or Continue With</Text>
               <View style={styles.socialButtonsContainer}>
-                <TouchableOpacity style={styles.socialButton} onPress={handleGoogleLogin}>
-                  <Image source={require('../../assets/social_media/google.png')} style={styles.socialButtonImage} />
+                <TouchableOpacity
+                  style={styles.socialButton}
+                  onPress={handleGoogleLogin}
+                >
+                  <Image
+                    source={require("../../assets/social_media/google.png")}
+                    style={styles.socialButtonImage}
+                  />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.socialButton} onPress={handleFacebookLogin}>
-                  <Image source={require('../../assets/social_media/facebook.png')} style={styles.socialButtonImage} />
+                <TouchableOpacity
+                  style={styles.socialButton}
+                  onPress={handleFacebookLogin}
+                >
+                  <Image
+                    source={require("../../assets/social_media/facebook.png")}
+                    style={styles.socialButtonImage}
+                  />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.socialButton} onPress={handleTwitterLogin}>
-                  <Image source={require('../../assets/social_media/twitter.png')} style={styles.socialButtonImage} />
+                <TouchableOpacity
+                  style={styles.socialButton}
+                  onPress={handleTwitterLogin}
+                >
+                  <Image
+                    source={require("../../assets/social_media/twitter.png")}
+                    style={styles.socialButtonImage}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
             <TouchableOpacity onPress={handleSignUp}>
-              <Text style={styles.signUpText}>Don't have an account? Sign Up</Text>
+              <Text style={styles.signUpText}>
+                Don't have an account? Sign Up
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -123,29 +149,29 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   headerImage: {
-    width: '100%',
+    width: "100%",
     height: 200,
-    resizeMode: 'stretch',
+    resizeMode: "stretch",
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: 40,
     marginTop: 40,
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   title: {
     fontSize: 28,
     marginBottom: 16,
-    textAlign: 'center',
-    color: 'black',
-    fontFamily: 'Inter-Bold',
+    textAlign: "center",
+    color: "black",
+    fontFamily: "Inter-Bold",
   },
   inputContainer: {
     marginBottom: 16,
@@ -153,56 +179,56 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 8,
     fontSize: 16,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   input: {
     height: 50,
-    borderColor: '#589310',
+    borderColor: "#589310",
     borderWidth: 1,
     paddingHorizontal: 60,
     borderRadius: 50,
-    backgroundColor: '#589310',
-    color: 'white',
+    backgroundColor: "#589310",
+    color: "white",
   },
   errorText: {
-    color: 'red',
+    color: "red",
     fontSize: 14,
     marginTop: 4,
   },
   loginButton: {
-    backgroundColor: '#589310',
+    backgroundColor: "#589310",
     borderRadius: 50,
     paddingVertical: 12,
     paddingHorizontal: 24,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     marginTop: 16,
   },
   loginText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
   orContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 16,
   },
   orText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   signUpText: {
     marginTop: 16,
     fontSize: 14,
-    textAlign: 'center',
-    color: '#589310',
-    textDecorationLine: 'underline',
+    textAlign: "center",
+    color: "#589310",
+    textDecorationLine: "underline",
   },
   socialButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginTop: 8,
   },
   socialButton: {
