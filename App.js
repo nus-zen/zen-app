@@ -19,6 +19,7 @@ import PracticeHome from "./screens/practices/PracticeHome";
 import CreateAccountScreen from "./screens/profile/CreateAccountScreen";
 import ProfileScreen from "./screens/profile/ProfileScreen";
 import RewardsItems from "./screens/rewards/RewardsItems";
+import TerrariumDetailScreen from "./screens/practices/TerrariumDetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -37,22 +38,21 @@ const App = () => {
           }}
         >
           <Stack.Navigator>
-
             <Stack.Screen
               name="WelcomeScreen"
               component={WelcomeScreen}
               options={{ headerShown: false }}
-            />            
+            />
             <Stack.Screen
               name="LoginScreen"
               component={LoginScreen}
               options={{ headerShown: false }}
-            />          
+            />
             <Stack.Screen
               name="CreateAccountScreen"
               component={CreateAccountScreen}
               options={{ headerShown: false }}
-            />           
+            />
             <Stack.Screen
               name="MoodCheckInScreen"
               component={MoodCheckInScreen}
@@ -92,11 +92,11 @@ const App = () => {
               options={{ headerShown: false }}
             />
 
-            <Stack.Screen 
-              name="AccountsScreenProfile" 
-              component={AccountsScreenProfile} 
+            <Stack.Screen
+              name="AccountsScreenProfile"
+              component={AccountsScreenProfile}
               options={{ headerShown: false }}
-              />
+            />
             <Stack.Screen
               name="PracticeRatingScreen"
               component={PracticeRatingScreen}
@@ -106,9 +106,10 @@ const App = () => {
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
             />
-            <Stack.Screen 
-              name="RewardsItems" 
-              component={RewardsItems} 
+            <Stack.Screen name="RewardsItems" component={RewardsItems} />
+            <Stack.Screen
+              name="TerrariumDetailScreen"
+              component={TerrariumDetailScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>
