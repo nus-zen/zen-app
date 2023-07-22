@@ -1,8 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
+const lines = [
+  "A crochet a day keeps the doctor away!",
+  "Hook, yarn, and stitch your worries away!",
+  "In a stitch of time, stress unwinds!",
+  "Knit one, purl one, embrace the fun!",
+  "When life unravels, crochet to travel!",
+  "One loop at a time, find your peace of mind!",
+  "Wrap your worries in threads of crochet!",
+  "Crochet away, make stress decay!",
+  "Knit a little, laugh a lot!",
+  "Cuddle your hook, bid stress goodbye!",
+  "From chaos to crochet, find your Zen way!",
+  "Chase away blues with a hook and hues!",
+];
+
 const PracticeModal = ({ isVisible, onClose, onPressLearnMore }) => {
+  if (!isVisible) {
+    return null;
+  }
+
+  const [randomLine, setRandomLine] = useState(
+    "A crochet a day keeps the doctor away!"
+  );
+
+  // Function to select a random line from the lines array
+  const selectRandomLine = () => {
+    const randomIndex = Math.floor(Math.random() * lines.length);
+    setRandomLine(lines[randomIndex]);
+  };
+
+  // Call selectRandomLine when the modal is opened or refreshed
+  useEffect(() => {
+    if (isVisible) {
+      selectRandomLine();
+    }
+  }, [isVisible]);
+
   if (!isVisible) {
     return null;
   }
@@ -16,9 +52,7 @@ const PracticeModal = ({ isVisible, onClose, onPressLearnMore }) => {
       />
 
       {/* Title */}
-      <Text style={styles.titleText}>
-        A crochet a day keeps the doctor away!
-      </Text>
+      <Text style={styles.titleText}>{randomLine}</Text>
 
       {/* Learn More Button */}
       <TouchableOpacity
