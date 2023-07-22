@@ -30,9 +30,8 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   const isValidEmail = (email) => {
-    // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // return emailPattern.test(email);
-    return true;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
   };
 
   const handleLogin = () => {
