@@ -48,8 +48,9 @@ const TerrariumDetailScreen = () => {
           style={styles.materialsImage}
         />
         <Text style={styles.materialsText}>
-          Glass container{"\n"}Pebbles {"\n"}Activated charcoal{"\n"}Potting
-          soil{"\n"}Terrarium plants{"\n"}Decorative elements (optional)
+          • Glass container{"\n"}• Pebbles {"\n"}• Activated charcoal{"\n"}•
+          Potting soil{"\n"}• Terrarium plants{"\n"}• Decorative elements
+          (optional)
         </Text>
       </View>
     </ScrollView>
