@@ -10,7 +10,7 @@ export default function MyTabs() {
   return (
     <TopTabs.Navigator
       screenOptions={{
-        
+        swipeEnabled: false,
         tabBarActiveTintColor: 'white',
         tabBarStyle: {
           backgroundColor: 'green',
