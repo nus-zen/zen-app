@@ -30,6 +30,7 @@ const TerrariumDetailScreen = () => {
 
       {/* Instructions */}
       <View style={styles.instructionsContainer}>
+        <Text style={styles.sectionTitle}>Instructions</Text>
         {steps.map((step, index) => (
           <View key={index} style={styles.stepContainer}>
             <Image source={stepImages[index]} style={styles.stepImage} />
@@ -40,10 +41,16 @@ const TerrariumDetailScreen = () => {
 
       {/* Materials List */}
       <View style={styles.materialsContainer}>
+        <Text style={styles.sectionTitle}>Materials List</Text>
+
         <Image
           source={require("../../assets/terrarium/terra-materials.jpg")}
           style={styles.materialsImage}
         />
+        <Text style={styles.materialsText}>
+          Glass container{"\n"}Pebbles {"\n"}Activated charcoal{"\n"}Potting
+          soil{"\n"}Terrarium plants{"\n"}Decorative elements (optional)
+        </Text>
       </View>
     </ScrollView>
   );
@@ -53,6 +60,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
   },
   terrariumImage: {
     width: "100%",
@@ -83,8 +95,12 @@ const styles = StyleSheet.create({
   },
   materialsImage: {
     width: "80%",
-    height: 200,
+    height: 300,
     resizeMode: "contain",
+  },
+  materialsText: {
+    fontSize: 16,
+    marginBottom: 8,
   },
 });
 
