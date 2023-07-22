@@ -22,7 +22,7 @@ export default function MyTabs() {
       }}
     >
       <TopTabs.Screen
-        name="Home"
+        name="RewardsScreen"
         component={RewardsScreen}
         options={{
           title: 'Rewards',
@@ -30,7 +30,7 @@ export default function MyTabs() {
         }}
       />
       <TopTabs.Screen
-        name="Settings"
+        name="StreaksScreen"
         component={StreaksScreen}
         options={{
           title: 'Streaks',
