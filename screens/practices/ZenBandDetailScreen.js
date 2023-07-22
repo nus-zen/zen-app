@@ -21,11 +21,12 @@ const ZenBandDetailScreen = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Features</Text>
         <Text style={styles.featuresText}>
-          &#8226; Minimalist look for unisex wearing {"\n"}
-          &#8226; Fashionable and stylish design {"\n"}
-          &#8226; Fidget-friendly band to play with {"\n"}
-          &#8226; Quick access to aromatherapy with a twist cap {"\n"}
-          &#8226; Easy reloading of scents
+          • Stylish and Unisex design for university students {"\n"}
+          {"\n"}• Stress Relief with Fidget-Friendly Design during busy
+          university days {"\n"}
+          {"\n"}• Quick Access to Aromatherapy to unwind during study sessions{" "}
+          {"\n"}
+          {"\n"}• Customizable Scents for a personalized aromatherapy experience
         </Text>
       </View>
 
@@ -33,10 +34,14 @@ const ZenBandDetailScreen = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Benefits</Text>
         <Text style={styles.benefitsText}>
-          &#8226; Quick access to aromatherapy through a fashionable band {"\n"}
-          &#8226; Scientific-based benefits of aromatherapy include: {"\n"}
-          &nbsp;&nbsp; - Stress relief {"\n"}
-          &nbsp;&nbsp; - Improved mood
+          • University Stress Buster: Find calmness and manage stress during
+          your university journey {"\n"}
+          {"\n"}• Improved Focus and Concentration for better study performance{" "}
+          {"\n"}
+          {"\n"}• Mindfulness and Relaxation with aromatic scents for a positive
+          mindset {"\n"}
+          {"\n"}• Fashion Meets Function: Enhance your style while supporting
+          your mental well-being
         </Text>
       </View>
 
@@ -44,9 +49,9 @@ const ZenBandDetailScreen = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Usage Instructions</Text>
         <Text style={styles.usageText}>
-          &#8226; Adjustable size for a comfortable fit {"\n"}
-          &#8226; Fidget-friendly twist cap for stress relief {"\n"}
-          &#8226; Twist the cap to open the smell hole for aromatherapy
+          • Adjustable size for a comfortable fit {"\n"}
+          {"\n"}• Fidget-friendly twist cap for stress relief {"\n"}
+          {"\n"}• Twist the cap to open the smell hole for aromatherapy
         </Text>
       </View>
 
