@@ -30,13 +30,17 @@ export const PracticeHomeScreenData = (navigation) => [
     uri: "https://static.vecteezy.com/system/resources/previews/019/465/921/non_2x/illustration-cute-terrarium-in-a-glass-jar-isolated-on-white-background-vector.jpg",
     subtitle: "Nurture Your Peace: Build a Terrarium and Cultivate Serenity.",
     title: "Terrarium",
-    onPress: () => {},
+    onPress: () => {
+      navigation.navigate("TerrariumDetailScreen");
+    },
   },
   {
     uri: "https://media.istockphoto.com/id/854150828/vector/aroma-therapy-set-a-collection-of-home-fragrances-aroma-candle-sticks-and-oil-flat-editable.jpg?s=612x612&w=0&k=20&c=FLPasF9qXc9EqcWPW-CEKc_N_dBPmlPRwvAoLipUAj8=",
     subtitle:
       "Unleash the Power of Scent: Experience Tranquility with ZenBand Aromatherapy.",
     title: "ZenBand",
-    onPress: () => {},
+    onPress: () => {
+      navigation.navigate("ZenBandDetailScreen");
+    },
   },
 ];
