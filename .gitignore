@@ -1,0 +1,9 @@
+# Dependency directories
+/node_modules
+/npm-debug.log
+/yarn-error.log
+
+# Expo build and cache directories
+/.expo
+/.expo-shared
+/web-build
