@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  BackHandler,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, BackHandler, StyleSheet, Text, TouchableOpacity, View, } from "react-native";
 import RatingStars from "../../components/RatingStars";
 import { useNavigation } from "@react-navigation/native";
 import { saveMeditationRating } from "../../utils/AsyncStorageUtils";

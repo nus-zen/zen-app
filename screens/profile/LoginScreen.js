@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  Linking,
-  Image,
+import { View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity,Linking, Image,
 } from "react-native";
 import * as Font from "expo-font";
 

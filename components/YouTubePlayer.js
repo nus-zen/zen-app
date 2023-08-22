@@ -42,12 +42,11 @@ export default function YouTubePlayer({ videoId, title }) {
             if (state === "ended") {
               setIsPlaying(false);
               // Alert.alert("video ended!");
-              navigation.navigate("PracticeRatingScreen", { title: title });
+              navigation.navigate("HRVFeedbackScreen", { title: title });
             }
           }}
         />
       </View>
-
       {/* Title */}
       <Text style={styles.title}>{title}</Text>
 
