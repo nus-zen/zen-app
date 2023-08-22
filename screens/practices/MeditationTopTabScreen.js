@@ -1,6 +1,5 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import MeditationsList from "./MeditationsList";
-import TerrariumDetailScreen from "./TerrariumDetailScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -9,8 +8,9 @@ export default function MeditationTopTabScreen() {
     <Tab.Navigator>
       <Tab.Screen name="MeditationsList" component={MeditationsList} />
       <Tab.Screen
-        name="TerrariumDetailScreen"
-        component={TerrariumDetailScreen}
+        name="MeditationsListFavOnly"
+        component={MeditationsList}
+        initialParams={{ showFavOnly: true }}
       />
     </Tab.Navigator>
   );

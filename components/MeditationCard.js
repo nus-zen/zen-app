@@ -1,48 +1,34 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import { getAverageMeditationRating } from "../utils/AsyncStorageUtils";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import {
+  retrieveFavStatus,
+  setFavStatusAsync,
+} from "../utils/AsyncStorageUtils";
 
-const MeditationCard = ({
-  title,
-  subtitle,
-  imageSource,
-  onPress,
-  isSpecialStyle,
-}) => {
-  const [averageRating, setAverageRating] = useState(null);
+const MeditationCard = ({ title, subtitle, imageSource, onPress }) => {
+  // track favourite status
+  const [isFav, setIsFav] = useState(false);
 
-  useEffect(() => {
-    // Fetch the average rating for the meditation
-    getAverageRating();
-  }, []);
+  // Toggle the fav status and save it in asyncStorage
+  const onFavPress = async () => {
+    const newFav = !isFav;
+    setIsFav(newFav);
 
-  const getAverageRating = async () => {
-    const rating = await getAverageMeditationRating(title);
-    setAverageRating(rating);
+    // save to asyncstorage
+    await setFavStatusAsync(title, newFav);
   };
 
-  if (!!isSpecialStyle) {
-    return (
-      <View style={styles.cardContainer}>
-        <Pressable
-          style={({ pressed }) => pressed && styles.pressedIndicator}
-          onPress={onPress}
-        >
-          <Text style={styles.smallerTitle}>{title}</Text>
+  // use UseEffect to set the initial fav status when the component mounts
+  useEffect(() => {
+    const fetchFavStatus = async () => {
+      const favStatus = await retrieveFavStatus(title);
+      setIsFav(favStatus);
+    };
 
-          {averageRating !== null ? (
-            <View style={styles.ratingContainer}>
-              <Text style={styles.rating}>{averageRating.toFixed(1)}</Text>
-              <Ionicons name="star" size={20} color="gold" />
-            </View>
-          ) : (
-            <Text style={styles.noRatingText}>No rating yet</Text>
-          )}
-        </Pressable>
-      </View>
-    );
-  }
+    fetchFavStatus();
+  }, [title]);
+
   return (
     <View style={styles.cardContainer}>
       <Pressable
@@ -53,14 +39,12 @@ const MeditationCard = ({
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle}</Text>
 
-        {averageRating !== null ? (
+        <Pressable onPress={onFavPress}>
           <View style={styles.ratingContainer}>
-            <Text style={styles.rating}>{averageRating.toFixed(1)}</Text>
-            <Ionicons name="star" size={20} color="gold" />
+            <Text>{isFav ? "Favourited" : "Not Favourited"}</Text>
+            <Ionicons name="star" size={20} color={isFav ? "gold" : "grey"} />
           </View>
-        ) : (
-          <Text style={styles.noRatingText}>No rating yet</Text>
-        )}
+        </Pressable>
       </Pressable>
     </View>
   );

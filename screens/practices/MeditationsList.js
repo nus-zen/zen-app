@@ -8,10 +8,15 @@ import {
 } from "react-native";
 import MeditationCard from "../../components/MeditationCard";
 import { MEDITATIONS_DATA } from "../../data/MeditationsData";
-import FavMeditation from "./../../components/FavMeditation";
+import { useEffect, useState } from "react";
+import { retrieveFavStatus } from "../../utils/AsyncStorageUtils";
+import { FlatList } from "react-native-gesture-handler";
+import { useRoute } from "@react-navigation/native";
 
-export default function MeditationsList({ navigation }) {
-  const meditations = MEDITATIONS_DATA;
+export default function MeditationsList({ navigation, route }) {
+  const [meditations, setMeditations] = useState(MEDITATIONS_DATA);
+  const showFavOnly = route.params?.showFavOnly || false;
+  console.log("route.params: ", route.params?.showFavOnly);
 
   function meditationPressHandler(meditation) {
     return () => {
@@ -19,24 +24,34 @@ export default function MeditationsList({ navigation }) {
     };
   }
 
+  useEffect(() => {
+    if (showFavOnly) {
+      // Filter meditations to show only fav
+      const filteredMeditations = meditations.filter((m) => {
+        const isFav = retrieveFavStatus(m.title);
+        return isFav;
+      });
+
+      setMeditations(filteredMeditations);
+    }
+  }, [meditations, showFavOnly]);
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <FavMeditation />
-
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-          {meditations.map((meditation, index) => (
-            <View key={index} style={styles.cardContainer}>
-              <MeditationCard
-                title={meditation.title}
-                subtitle={meditation.subtitle}
-                imageSource={{ uri: meditation.imageSource }}
-                onPress={meditationPressHandler(meditation)}
-              />
-            </View>
-          ))}
-        </ScrollView>
-      </ScrollView>
+      <FlatList
+        data={meditations}
+        renderItem={({ item: med }) => (
+          <View style={styles.cardContainer}>
+            <MeditationCard
+              title={med.title}
+              subtitle={med.subtitle}
+              imageSource={{ uri: med.imageSource }}
+              onPress={meditationPressHandler(med)}
+            />
+          </View>
+        )}
+        keyExtractor={(med) => med.videoId}
+      />
     </SafeAreaView>
   );
 }
