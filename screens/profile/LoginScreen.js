@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity,Linking, Image,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
 
 export default function LoginScreen({ navigation }) {
@@ -26,14 +27,42 @@ export default function LoginScreen({ navigation }) {
     return emailPattern.test(email);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!isValidEmail(email)) {
       setEmailError("Please enter a valid email");
       return;
     }
     console.log("Email:", email);
     console.log("Password:", password);
-    navigation.navigate("MoodCheckInScreen");
+  
+    const checkMoodCheckIn = async () => {
+      const lastShownTimestamp = await AsyncStorage.getItem("lastShownTimestamp");
+      console.log("Last Shown Timestamp:", lastShownTimestamp);
+  
+      if (!lastShownTimestamp) {
+        // First time, show MoodCheckInScreen
+        console.log("First time user. Showing MoodCheckInScreen.");
+        navigation.navigate("MoodCheckInScreen");
+        AsyncStorage.setItem("lastShownTimestamp", new Date().getTime().toString());
+      } else {
+        // Check if it has been more than 24 hours since the last shown time
+        const currentTime = new Date().getTime();
+        const timeDifference = currentTime - parseInt(lastShownTimestamp, 10);
+        const millisecondsInADay = 24 * 60 * 60 * 1000;
+  
+        if (timeDifference >= millisecondsInADay) {
+          console.log("More than 24 hours. Showing MoodCheckInScreen.");
+          navigation.navigate("MoodCheckInScreen");
+          AsyncStorage.setItem("lastShownTimestamp", currentTime.toString());
+        } else {
+          // Less than 24 hours, show BottomTabsOverview
+          console.log("Less than 24 hours. Showing BottomTabsOverview.");
+          navigation.navigate("BottomTabsOverview");
+        }
+      }
+    };
+  
+    await checkMoodCheckIn(); // Use await here to properly wait for the async function to complete.
   };
 
   const handleSignUp = () => {
