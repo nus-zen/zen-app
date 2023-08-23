@@ -73,6 +73,8 @@ export default function MeditationsList({ navigation }) {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={meditations}
+        numColumns={2}
+        columnWrapperStyle={styles.columnWrapper}
         renderItem={({ item: med }) => (
           <View style={styles.cardContainer}>
             <MeditationCard
@@ -105,5 +107,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width / 2 - 24,
     marginBottom: 16,
     alignItems: "center",
+  },
+  columnWrapper: {
+    justifyContent: "space-between", // Space between columns
   },
 });
