@@ -71,12 +71,12 @@ const App = () => {
               component={PracticeHome}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="MeditationTopTabScreen"
               component={MeditationTopTabScreen}
-            />
+            /> */}
             <Stack.Screen
-              name="MeditationList"
+              name="MeditationsList"
               component={MeditationsList}
               options={{ headerTitle: "Zen Library" }}
             />

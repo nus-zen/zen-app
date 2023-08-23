@@ -5,7 +5,7 @@ export const PracticeHomeScreenData = (navigation) => [
       "Journey Within: Find Inner Harmony and Renewal Through Meditation.",
     title: "Meditation",
     onPress: () => {
-      navigation.navigate("MeditationTopTabScreen");
+      navigation.navigate("MeditationsList");
     },
   },
   {
