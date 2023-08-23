@@ -14,6 +14,7 @@ import JournalScreen from "./screens/journal/JournalScreen";
 import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
 import LoginScreen from "./screens/profile/LoginScreen";
 import HRVFeedbackScreen from "./screens/practices/HRVFeedbackScreen";
+import DailyStreaksScreen from "./screens/practices/DailyStreaksScreen";
 import AccountsScreenProfile from "./screens/profile/AccountsScreenProfile";
 import PracticeHome from "./screens/practices/PracticeHome";
 import CreateAccountScreen from "./screens/profile/CreateAccountScreen";
@@ -57,6 +58,11 @@ const App = () => {
             <Stack.Screen
               name="MoodCheckInScreen"
               component={MoodCheckInScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="DailyStreaksScreen"
+              component={DailyStreaksScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
