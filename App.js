@@ -13,7 +13,8 @@ import MoodCheckInScreen from "./screens/profile/MoodCheckInScreen";
 import JournalScreen from "./screens/journal/JournalScreen";
 import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
 import LoginScreen from "./screens/profile/LoginScreen";
-
+import HRVFeedbackScreen from "./screens/practices/HRVFeedbackScreen";
+import DailyStreaksScreen from "./screens/practices/DailyStreaksScreen";
 import AccountsScreenProfile from "./screens/profile/AccountsScreenProfile";
 import PracticeHome from "./screens/practices/PracticeHome";
 import CreateAccountScreen from "./screens/profile/CreateAccountScreen";
@@ -21,6 +22,7 @@ import ProfileScreen from "./screens/profile/ProfileScreen";
 import RewardsItems from "./screens/rewards/RewardsItems";
 import TerrariumDetailScreen from "./screens/practices/TerrariumDetailScreen";
 import ZenBandDetailScreen from "./screens/practices/ZenBandDetailScreen";
+import MeditationTopTabScreen from "./screens/practices/MeditationTopTabScreen";
 
 const Stack = createStackNavigator();
 
@@ -60,6 +62,11 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name="DailyStreaksScreen"
+              component={DailyStreaksScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name="BottomTabsOverview"
               component={BtmTabsOverview}
               options={{ headerShown: false }}
@@ -70,8 +77,12 @@ const App = () => {
               component={PracticeHome}
               options={{ headerShown: false }}
             />
+            {/* <Stack.Screen
+              name="MeditationTopTabScreen"
+              component={MeditationTopTabScreen}
+            /> */}
             <Stack.Screen
-              name="MeditationList"
+              name="MeditationsList"
               component={MeditationsList}
               options={{ headerTitle: "Zen Library" }}
             />
@@ -86,6 +97,11 @@ const App = () => {
               name="PracticeMediaScreen"
               component={PracticeMediaScreen}
               options={{ headerTitle: "", headerTransparent: true }}
+            />
+            <Stack.Screen
+              name="HRVFeedbackScreen"
+              component={HRVFeedbackScreen}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="ProfileScreen"

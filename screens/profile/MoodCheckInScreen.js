@@ -30,7 +30,7 @@ export default function MoodCheckInScreen({ navigation}) {
 
   const handleMoodSelection = (selectedMood) => {
     setMood(selectedMood);
-    navigation.navigate("BottomTabsOverview");
+    navigation.navigate("DailyStreaksScreen");
     console.log("MoodCheckIn Button is pressed");
   };
 
