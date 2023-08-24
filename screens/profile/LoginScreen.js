@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity,Linking, Image,
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  Linking,
+  Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
@@ -24,7 +32,8 @@ export default function LoginScreen({ navigation }) {
 
   const isValidEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
+    //return emailPattern.test(email);
+    return true;
   };
 
   const handleLogin = async () => {
