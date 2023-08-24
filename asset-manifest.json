@@ -1,25 +1,31 @@
 {
   "files": {
-    "main.js": "/zen-app/static/js/main.63cdd606.js",
-    "static/js/149.b9186c02.js": "/zen-app/static/js/149.b9186c02.js",
+    "main.js": "/zen-app/static/js/main.c743ef5e.js",
+    "static/js/818.4a888aeb.js": "/zen-app/static/js/818.4a888aeb.js",
     "static/media/WelcomeScreenForestBackground.jpg": "/zen-app/static/media/WelcomeScreenForestBackground.14b9f55fceefab1402cd.jpg",
     "static/media/Inter-Black.ttf": "/zen-app/static/media/Inter-Black.143c28420846d45c5834.ttf",
     "static/media/Inter-Bold.ttf": "/zen-app/static/media/Inter-Bold.88fa7ae373b07b41ecce.ttf",
     "static/media/Inter-Regular.ttf": "/zen-app/static/media/Inter-Regular.e89cb19905e7db5591b0.ttf",
+    "static/media/zenband.jpg": "/zen-app/static/media/zenband.09a41e34cd5a2323adfb.jpg",
     "static/media/LoginScreenBackground.jpg": "/zen-app/static/media/LoginScreenBackground.aefaca6f470ed82d3e0d.jpg",
     "static/media/Ionicons.ttf": "/zen-app/static/media/Ionicons.3517aeaa34b2f8cd8eef.ttf",
     "static/media/MaterialIcons.ttf": "/zen-app/static/media/MaterialIcons.120b4c7bbd155bd0a04d.ttf",
+    "static/media/testimonial1.jpg": "/zen-app/static/media/testimonial1.232eff8e2197edf1b168.jpg",
     "static/media/FontAwesome.ttf": "/zen-app/static/media/FontAwesome.1e59d2330b4c6deb84b3.ttf",
+    "static/media/stylish-design.jpg": "/zen-app/static/media/stylish-design.10c132f9624b6815f093.jpg",
     "static/media/terra-materials.jpg": "/zen-app/static/media/terra-materials.68fb427a78b3d0b27058.jpg",
     "static/media/terra-final.jpg": "/zen-app/static/media/terra-final.31ed7eabff581c5f5186.jpg",
+    "static/media/mechanics.jpg": "/zen-app/static/media/mechanics.ff55f9faf4ab7b6917ae.jpg",
     "static/media/AntDesign.ttf": "/zen-app/static/media/AntDesign.163adab9dbd7cb1ed12a.ttf",
     "static/media/terra-step-2.jpg": "/zen-app/static/media/terra-step-2.9f874f7f906adbd920a4.jpg",
     "static/media/terra-step-5.jpg": "/zen-app/static/media/terra-step-5.5994f2823b897e9e6138.jpg",
     "static/media/terra-step-3.jpg": "/zen-app/static/media/terra-step-3.ee033a6851f769ad96a8.jpg",
-    "static/media/zenband-over-ledge.jpg": "/zen-app/static/media/zenband-over-ledge.60fd4e13eec617d44bc2.jpg",
     "static/media/terra-step-6.jpg": "/zen-app/static/media/terra-step-6.96ac814a6ecb48522e9c.jpg",
     "static/media/terra-step-1.jpg": "/zen-app/static/media/terra-step-1.7b555b7d34041b4dc671.jpg",
     "static/media/terra-step-4.jpg": "/zen-app/static/media/terra-step-4.660beadd6015ca35ec73.jpg",
+    "static/media/components.jpg": "/zen-app/static/media/components.857265618dbb8d2f870c.jpg",
+    "static/media/fidget-design.jpg": "/zen-app/static/media/fidget-design.d7f6da1c3bf4e5d3e52c.jpg",
+    "static/media/HRVFeedbackBackground.png": "/zen-app/static/media/HRVFeedbackBackground.502a357a344231296a98.png",
     "static/media/yarn-ball-icon.png": "/zen-app/static/media/yarn-ball-icon.6880a1b1cbd16ac2161f.png",
     "static/media/brain.png": "/zen-app/static/media/brain.5576492585866fe9f773.png",
     "static/media/Settings.png": "/zen-app/static/media/Settings.fd076119b411fff41e1f.png",
@@ -29,6 +35,7 @@
     "static/media/Good.png": "/zen-app/static/media/Good.5d237f6414f0100837c5.png",
     "static/media/Amazing.png": "/zen-app/static/media/Amazing.8dcba6a194b5a1b3dd0b.png",
     "static/media/facebook.png": "/zen-app/static/media/facebook.01a470d813915c298403.png",
+    "static/media/flame.png": "/zen-app/static/media/flame.ba596e2be208e882b0b3.png",
     "static/media/Meh.png": "/zen-app/static/media/Meh.02d90f23c8c9500c7653.png",
     "favicon.ico": "/zen-app/favicon.ico",
     "static/media/green_shield.png": "/zen-app/static/media/green_shield.32a404203226c0427494.png",
@@ -38,14 +45,15 @@
     "static/media/coupon.png": "/zen-app/static/media/coupon.aaf44482e4fc2f88a24c.png",
     "index.html": "/zen-app/index.html",
     "favicon-32.png": "/zen-app/favicon-32.png",
+    ".expo/README.md": "/zen-app/.expo/README.md",
     "favicon-16.png": "/zen-app/favicon-16.png",
     "manifest.json": "/zen-app/manifest.json",
     "serve.json": "/zen-app/serve.json",
-    "main.63cdd606.js.map": "/zen-app/static/js/main.63cdd606.js.map",
-    "149.b9186c02.js.map": "/zen-app/static/js/149.b9186c02.js.map"
+    "main.c743ef5e.js.map": "/zen-app/static/js/main.c743ef5e.js.map",
+    "818.4a888aeb.js.map": "/zen-app/static/js/818.4a888aeb.js.map"
   },
   "entrypoints": [
-    "static/js/149.b9186c02.js",
-    "static/js/main.63cdd606.js"
+    "static/js/818.4a888aeb.js",
+    "static/js/main.c743ef5e.js"
   ]
 }
