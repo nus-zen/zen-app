@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, SafeAreaView, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
+import { Dimensions, SafeAreaView, StyleSheet, View } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import MeditationCard from "../../components/MeditationCard";
 import { MEDITATIONS_DATA } from "../../data/MeditationsData";
-import {
-  getMeditationsFavorites,
-  retrieveFavStatus,
-} from "../../utils/AsyncStorageUtils";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getMeditationsFavorites } from "../../utils/AsyncStorageUtils";
 
 export default function MeditationsList({ navigation }) {
   const [showFavOnly, setShowFavOnly] = useState(false);
@@ -46,25 +43,33 @@ export default function MeditationsList({ navigation }) {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
-          onPress={() => {
-            // Toggle the showFavOnly state when the button is pressed
-            setShowFavOnly(!showFavOnly);
-            console.log("showfavonly: ", !showFavOnly);
+        <View
+          style={{
+            marginRight: 20,
+            flexDirection: "row",
+            justifyContent: "flex-end",
           }}
-          style={({ pressed }) => [
-            {
-              opacity: pressed ? 0.5 : 1,
-              marginRight: 10,
-            },
-          ]}
         >
-          <Ionicons
-            name={showFavOnly ? "star" : "star-outline"}
-            size={24}
-            color={showFavOnly ? "red" : "black"}
-          />
-        </TouchableOpacity>
+          {/* <Text style={{ marginRight: 20 }}>Show Favourites</Text> */}
+          <TouchableOpacity
+            onPress={() => {
+              // Toggle the showFavOnly state when the button is pressed
+              setShowFavOnly(!showFavOnly);
+              console.log("showfavonly: ", !showFavOnly);
+            }}
+            style={({ pressed }) => [
+              {
+                opacity: pressed ? 0.5 : 1,
+              },
+            ]}
+          >
+            <Ionicons
+              name={showFavOnly ? "star" : "star-outline"}
+              size={24}
+              color={showFavOnly ? "red" : "black"}
+            />
+          </TouchableOpacity>
+        </View>
       ),
     });
   }, [navigation, showFavOnly]);

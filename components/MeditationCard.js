@@ -39,10 +39,12 @@ const MeditationCard = ({ title, subtitle, imageSource, onPress }) => {
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle}</Text>
 
-        <Pressable onPress={onFavPress}>
+        <Pressable onPress={onFavPress} style={styles.buttonContainer}>
           <View style={styles.ratingContainer}>
-            <Text>{isFav ? "Favourited" : "Not Favourited"}</Text>
-            <Ionicons name="star" size={20} color={isFav ? "gold" : "grey"} />
+            <Ionicons name="star" size={24} color={isFav ? "gold" : "grey"} />
+            <Text style={styles.ratingText}>
+              {isFav ? "Favourited" : "Not Favourited"}
+            </Text>
           </View>
         </Pressable>
       </Pressable>
@@ -95,22 +97,23 @@ const styles = StyleSheet.create({
   pressedIndicator: {
     opacity: 0.75,
   },
-  ratingContainer: {
+  buttonContainer: {
+    padding: 2,
+    backgroundColor: "#ffffffca", // background color for button
+    borderRadius: 8,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 8,
   },
-  rating: {
-    marginRight: 8,
-    fontSize: 18,
-    color: "#FFC107",
-    fontWeight: "bold",
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
-  noRatingText: {
-    marginTop: 4,
-    fontStyle: "italic",
-    color: "gray",
+  ratingText: {
+    marginLeft: 8, // Add spacing between the star icon and text
+    fontSize: 16, // Adjust the font size to your preference
+    fontWeight: "bold", // Add bold style to the text
+    color: "#333", // Add your preferred text color
   },
 });
 
