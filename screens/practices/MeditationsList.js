@@ -5,11 +5,30 @@ import { Dimensions, SafeAreaView, StyleSheet, View } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import MeditationCard from "../../components/MeditationCard";
 import { MEDITATIONS_DATA } from "../../data/MeditationsData";
-import { getMeditationsFavorites } from "../../utils/AsyncStorageUtils";
+import {
+  getMeditationsFavorites,
+  getShowFavOnly,
+  saveShowFavOnly,
+} from "../../utils/AsyncStorageUtils";
 
 export default function MeditationsList({ navigation }) {
   const [showFavOnly, setShowFavOnly] = useState(false);
   const [meditations, setMeditations] = useState(MEDITATIONS_DATA);
+
+  useEffect(() => {
+    // Retrieve showFavOnly value from AsyncStorage when the component mounts
+    const getShowFavOnlyStored = async () => {
+      const stored = await getShowFavOnly();
+      setShowFavOnly(stored);
+    };
+
+    getShowFavOnlyStored();
+  }, []);
+
+  useEffect(() => {
+    // Update AsyncStorage when showFavOnly changes
+    saveShowFavOnly(showFavOnly);
+  }, [showFavOnly]);
 
   useEffect(() => {
     updateMeditations(showFavOnly);
