@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image, SafeAreaView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function DailyStreaksLoginScreen({ navigation }) {
@@ -85,14 +85,12 @@ export default function DailyStreaksLoginScreen({ navigation }) {
 
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <Image source={require("../../assets/flame.png")} style={styles.TextImage} />
-          <Text style={styles.streakHeaderText}>{` ${streak}   `}</Text>
-          <Image source={require("../../assets/money.png")} style={styles.TextImage} />
-          <Text style={styles.pointsText}>{` ${points}`}</Text>           
-        </View>
+        <Image source={require("../../assets/flame.png")} style={styles.TextImage} />
+        <Text style={styles.streakHeaderText}>{` ${streak}   `}</Text>
+        <Image source={require("../../assets/money.png")} style={styles.TextImage} />
+        <Text style={styles.pointsText}>{` ${points}`}</Text>           
       </View>
       <View style={styles.content}>
         <Image source={require("../../assets/flame.png")} style={styles.flameImage} />
@@ -122,7 +120,7 @@ export default function DailyStreaksLoginScreen({ navigation }) {
           <Text style={styles.continueButtonText}>Continue</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -139,10 +137,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginRight: -250,
     zIndex: 1,
-  },
-  headerContent: {
-    flexDirection: "row",
-    alignItems: "center",
   },
   content: {
     flex: 1,

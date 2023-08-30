@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
-import { GlobalColors } from "../../themes/GlobalColors";
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Dimensions } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RewardsItems = () => {
-  const [coinBalance, setCoinBalance] = useState(100); // Example coin balance
+
+  const [STpoints, setSTPoints] = useState(0);
+  const [streak, setStreak] = useState(0);
+
+  useEffect(() => {
+    loadPoints();
+  }, []);
+
+  const loadPoints = async () => {
+    const storedSTPoints = await AsyncStorage.getItem("userPoints");
+    setSTPoints(storedSTPoints ? parseInt(storedSTPoints) : 0);
+    console.log(`Total points: ${storedSTPoints}`);
+  };
+  
   const [vouchers, setVouchers] = useState([
     { id: 1, name: "$2 KOI Voucher", coins: 50 },
     { id: 2, name: "$3 Awfully Chocolate Voucher", coins: 70 },
@@ -22,18 +27,8 @@ const RewardsItems = () => {
     // Add more vouchers as needed
   ]);
 
-  const redeemVoucher = (voucher) => {
-    // Logic to handle voucher redemption
-    // You can deduct coins from the coin balance and perform any necessary actions
-    // For example: setCoinBalance(coinBalance - voucher.coins);
-    console.log(`Redeeming voucher: ${voucher.name}`);
-  };
-
   const renderVoucher = ({ item }) => (
-    <TouchableOpacity
-      style={styles.voucherCard}
-      onPress={() => redeemVoucher(item)}
-    >
+    <TouchableOpacity style={styles.voucherCard}>
       <Text style={styles.voucherName}>{item.name}</Text>
       <Text style={styles.voucherCoins}>{item.coins} Coins</Text>
     </TouchableOpacity>
@@ -41,10 +36,15 @@ const RewardsItems = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.coinBalance}>
-        DRAFT REWARDS SCREEN. REPLACE THIS SCREEN WITH YOUR CODE
-      </Text>
-      <Text style={styles.coinBalance}>Coin Balance: {coinBalance}</Text>
+      <View style={styles.header}>
+        <View style={styles.pointsContainer}>
+          <View style={styles.centered}>
+            <Image source={require("../../assets/money.png")} style={styles.TextImage} />
+            <Text style={styles.pointsText}>{STpoints}</Text>
+            <Text style={styles.totalCoinsText}>Total Coins</Text>
+          </View>
+        </View>
+      </View>
       <FlatList
         data={vouchers}
         renderItem={renderVoucher}
@@ -58,19 +58,14 @@ const RewardsItems = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    marginTop: 100,
-  },
-  coinBalance: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 16,
+    backgroundColor: "#F5F5F5",
+    paddingHorizontal: 8,
   },
   vouchersContainer: {
     flexGrow: 1,
   },
   voucherCard: {
-    backgroundColor: GlobalColors.primary100,
+    backgroundColor: "grey",
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
@@ -83,6 +78,33 @@ const styles = StyleSheet.create({
   voucherCoins: {
     fontSize: 14,
     color: "#888888",
+  },
+  TextImage: {
+    width: 40,
+    height: 40,
+  },
+  pointsText: {
+    fontSize: 38,
+    color: "black",
+    fontWeight: "bold",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
+    justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 20,
+    borderRadius: 18,
+    height: Dimensions.get("window").height / 4,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 5,
   },
 });
 
