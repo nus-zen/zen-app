@@ -5,6 +5,6 @@
   "minify": false,
   "urlRandomness": "1TudI1U",
   "https": false,
-  "scheme": null,
+  "scheme": "com.nus_zen.ZenAPP",
   "devClient": false
 }

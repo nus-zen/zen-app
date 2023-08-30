@@ -22,6 +22,7 @@ import ProfileScreen from "./screens/profile/ProfileScreen";
 import RewardsItems from "./screens/rewards/RewardsItems";
 import TerrariumDetailScreen from "./screens/practices/TerrariumDetailScreen";
 import ZenBandDetailScreen from "./screens/practices/ZenBandDetailScreen";
+import MeditationTopTabScreen from "./screens/practices/MeditationTopTabScreen";
 
 const Stack = createStackNavigator();
 
@@ -76,8 +77,12 @@ const App = () => {
               component={PracticeHome}
               options={{ headerShown: false }}
             />
+            {/* <Stack.Screen
+              name="MeditationTopTabScreen"
+              component={MeditationTopTabScreen}
+            /> */}
             <Stack.Screen
-              name="MeditationList"
+              name="MeditationsList"
               component={MeditationsList}
               options={{ headerTitle: "Zen Library" }}
             />

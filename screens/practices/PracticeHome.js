@@ -43,14 +43,8 @@ export default function PracticeHome({ navigation }) {
     <View style={styles.rootContainer}>
       <MotivationalQuote />
       <ScrollView>
-        <PracticeRow
-          title="Meditation"
-          cardsData={HOME_PAGE_DATA.slice(0, 1)}
-        />
-        <PracticeRow
-          title="Journaling"
-          cardsData={HOME_PAGE_DATA.slice(1, 2)}
-        />
+        <PracticeRow title="Practices" cardsData={HOME_PAGE_DATA.slice(0, 2)} />
+
         <PracticeRow title="Zen Box" cardsData={HOME_PAGE_DATA.slice(2, 5)} />
 
         <Button

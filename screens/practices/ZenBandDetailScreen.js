@@ -13,7 +13,7 @@ const ZenBandDetailScreen = () => {
     <ScrollView style={styles.container}>
       {/* ZenBand Image */}
       <Image
-        source={require("../../assets/zenband-over-ledge.jpg")}
+        source={require("../../assets/zenband/zenband.jpg")}
         style={styles.zenBandImage}
       />
 
@@ -28,12 +28,20 @@ const ZenBandDetailScreen = () => {
           {"\n"}
           {"\n"}• Customizable Scents for a personalized aromatherapy experience
         </Text>
+        <Image
+          source={require("../../assets//zenband/stylish-design.jpg")}
+          style={styles.featureImage}
+        />
+        <Image
+          source={require("../../assets//zenband/components.jpg")}
+          style={styles.featureImage}
+        />
       </View>
 
       {/* Benefits */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Benefits</Text>
-        <Text style={styles.benefitsText}>
+        <Text style={styles.featuresText}>
           • University Stress Buster: Find calmness and manage stress during
           your university journey {"\n"}
           {"\n"}• Improved Focus and Concentration for better study performance{" "}
@@ -48,23 +56,35 @@ const ZenBandDetailScreen = () => {
       {/* Usage Instructions */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Usage Instructions</Text>
-        <Text style={styles.usageText}>
+        <Text style={styles.featuresText}>
           • Adjustable size for a comfortable fit {"\n"}
           {"\n"}• Fidget-friendly twist cap for stress relief {"\n"}
           {"\n"}• Twist the cap to open the smell hole for aromatherapy
         </Text>
+        <Image
+          source={require("../../assets//zenband/mechanics.jpg")}
+          style={styles.featureImage}
+        />
+        <Image
+          source={require("../../assets//zenband/fidget-design.jpg")}
+          style={styles.featureImage}
+        />
       </View>
 
       {/* Testimonials */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Testimonials</Text>
-        <Text style={styles.testimonialText}>
+        <Text style={styles.featuresText}>
           "The ZenBand has been a lifesaver during exam season! I felt more
           focused and calm while wearing it." - Sarah {"\n"}
           {"\n"}
           "As a college student, the ZenBand helped me manage stress and feel
           more relaxed during busy days." - Alex
         </Text>
+        <Image
+          source={require("../../assets//zenband/testimonial1.jpg")}
+          style={{ width: "100%", height: 200, resizeMode: "repeat" }}
+        />
       </View>
 
       {/* Call-to-Action */}
@@ -88,15 +108,16 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   section: {
-    padding: 16,
+    padding: 0,
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 8,
+    margin: 12,
   },
   featuresText: {
     fontSize: 16,
+    paddingHorizontal: 16,
   },
   benefitsText: {
     fontSize: 16,
@@ -119,6 +140,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  featureImage: {
+    width: "100%",
+    height: 200,
+    resizeMode: "cover",
+    marginBottom: 16,
   },
 });
 
