@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Button, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function DailyStreaksLoginScreen({ navigation }) {
   const [streak, setStreak] = useState(0);
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const currentDate = new Date();
+  const dayOfWeekIndex = currentDate.getDay();
+  const dayOfWeekName = daysOfWeek[dayOfWeekIndex];
 
   useEffect(() => {
     loadStreak();
@@ -24,8 +29,6 @@ export default function DailyStreaksLoginScreen({ navigation }) {
     setStreak(0);
     await AsyncStorage.setItem("dailyStreak", "0");
   };
-
-  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const handleLogin = async () => {
     const lastLoginDate = await AsyncStorage.getItem("lastLoginDate");
@@ -57,13 +60,21 @@ export default function DailyStreaksLoginScreen({ navigation }) {
           <View style={styles.daysContainer}>
             {daysOfWeek.map((day, index) => (
               <View key={index} style={styles.dayContainer}>
-                <View style={styles.circle} />
+                <View style={[styles.circle, streak === 1 && dayOfWeekName === day ? styles.redCircle : (streak === 0 ? styles.grayCircle : null)]}>
+                  {streak === 1 && dayOfWeekName === day ? (
+                    <Image source={require("../../assets/redcheckcircle.png")} style={styles.checkIcon} />
+                  ) : null}
+                </View>
+
                 <Text style={styles.dayLabel}>{day}</Text>
               </View>
             ))}
           </View>
         </View>
       </View>
+      <Text style={styles.subtitle}>
+        {streak === 1 ? "Wow, you are making great progress!" : "You can try harder next time."}
+      </Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.continueButton} onPress={handleNavigateToBottomTabs}>
           <Text style={styles.continueButtonText}>Continue</Text>
@@ -82,7 +93,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    alignItems: "center", // Center vertically
+    alignItems: "center",
     marginTop: 20,
     marginRight: -300,
     zIndex: 1,
@@ -94,20 +105,16 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: "center",
+    marginVertical: 200,
     alignItems: "center",
   },
-  streakContainer: {
-    marginBottom: 10,
-    position: "relative",
-  },
-
   continueButton: {
     backgroundColor: "green",
     borderRadius: 12,
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     width: "80%",
-    marginBottom: 20,
+    marginBottom: 60,
   },
   continueButtonText: {
     color: "white",
@@ -134,13 +141,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     backgroundColor: "transparent",
-    opacity: 0.8,
-    marginBottom: 20,
+  
   },
   daysContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
   },
   dayContainer: {
     alignItems: "center",
@@ -151,15 +155,39 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "white",
     marginHorizontal: 6,
-    opacity: 0.8,
+  },
+  redCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "red",
+    marginHorizontal: 6,
+  },
+  grayCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "gray",
+    marginHorizontal: 6,
+  },
+  checkIcon: {
+    width: 40,
+    height: 40,
   },
   dayLabel: {
     fontSize: 14,
     color: "white",
     fontWeight: "bold",
-    opacity: 0.8,
   },
   buttonContainer: {
+    flex: 1,
     justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  subtitle: {
+    fontSize: 20,
+    color: "white",
+    textAlign: "center",
+    marginTop: -100,
   },
 });
