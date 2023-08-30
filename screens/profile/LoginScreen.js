@@ -66,7 +66,8 @@ export default function LoginScreen({ navigation }) {
         } else {
           // Less than 24 hours, show BottomTabsOverview
           console.log("Less than 24 hours. Showing BottomTabsOverview.");
-          navigation.navigate("BottomTabsOverview");
+          // navigation.navigate("BottomTabsOverview");
+          navigation.navigate("MoodCheckInScreen");
         }
       }
     };

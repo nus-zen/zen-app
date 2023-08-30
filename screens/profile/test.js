@@ -1,30 +1,22 @@
-// ... (other imports and code)
+const handleLogin = async () => {
+  const lastLoginDate = await AsyncStorage.getItem("lastLoginDate");
+  const currentTime = new Date().getTime();
 
-export default function DailyStreaksLoginScreen({ navigation }) {
-  // ... (other code)
+  if (!lastLoginDate) {
+    // User's first login or app's first use, directly increment streak
+    incrementStreak();
+  } else {
+    const timeDifference = currentTime - parseInt(lastLoginDate, 10);
+    const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000;
 
-  return (
-    <View style={styles.container}>
-      {/* ... (other components) */}
-      <Text style={styles.subtitle}>
-        {streak === 1 ? "Wow, you are making great progress!" : "You can try harder next time."}
-      </Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.continueButton} onPress={handleNavigateToBottomTabs}>
-          <Text style={styles.continueButtonText}>Continue</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
+    if (timeDifference >= twentyFourHoursInMilliseconds) {
+      // More than 24 hours since last login, reset streak
+      resetStreak();
+    } else {
+      // Less than 24 hours since last login, increment streak
+      incrementStreak();
+    }
+  }
 
-const styles = StyleSheet.create({
-  // ... (other styles)
-
-  buttonContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  // ... (other styles)
-});
+  await AsyncStorage.setItem("lastLoginDate", currentTime.toString());
+};
