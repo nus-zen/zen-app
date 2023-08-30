@@ -10,6 +10,7 @@ import {
 import * as Font from "expo-font";
 import Icon from "react-native-vector-icons/FontAwesome"; 
 import MoodCalendar from "../../components/MoodCalendar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function MoodCheckInScreen({ navigation}) {
   const [fontLoaded, setFontLoaded] = useState(false);
