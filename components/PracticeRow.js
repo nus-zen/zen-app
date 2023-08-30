@@ -15,7 +15,8 @@ export default function PracticeRow({ title, cardsData }) {
             onPress={item.onPress}
           />
         )}
-        horizontal
+        //horizontal
+        numColumns={2}
       />
     </View>
   );

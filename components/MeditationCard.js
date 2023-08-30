@@ -1,48 +1,34 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import { getAverageMeditationRating } from "../utils/AsyncStorageUtils";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import {
+  retrieveFavStatus,
+  setFavStatusAsync,
+} from "../utils/AsyncStorageUtils";
 
-const MeditationCard = ({
-  title,
-  subtitle,
-  imageSource,
-  onPress,
-  isSpecialStyle,
-}) => {
-  const [averageRating, setAverageRating] = useState(null);
+const MeditationCard = ({ title, subtitle, imageSource, onPress }) => {
+  // track favourite status
+  const [isFav, setIsFav] = useState(false);
 
-  useEffect(() => {
-    // Fetch the average rating for the meditation
-    getAverageRating();
-  }, []);
+  // Toggle the fav status and save it in asyncStorage
+  const onFavPress = async () => {
+    const newFav = !isFav;
+    setIsFav(newFav);
 
-  const getAverageRating = async () => {
-    const rating = await getAverageMeditationRating(title);
-    setAverageRating(rating);
+    // save to asyncstorage
+    await setFavStatusAsync(title, newFav);
   };
 
-  if (!!isSpecialStyle) {
-    return (
-      <View style={styles.cardContainer}>
-        <Pressable
-          style={({ pressed }) => pressed && styles.pressedIndicator}
-          onPress={onPress}
-        >
-          <Text style={styles.smallerTitle}>{title}</Text>
+  // use UseEffect to set the initial fav status when the component mounts
+  useEffect(() => {
+    const fetchFavStatus = async () => {
+      const favStatus = await retrieveFavStatus(title);
+      setIsFav(favStatus);
+    };
 
-          {averageRating !== null ? (
-            <View style={styles.ratingContainer}>
-              <Text style={styles.rating}>{averageRating.toFixed(1)}</Text>
-              <Ionicons name="star" size={20} color="gold" />
-            </View>
-          ) : (
-            <Text style={styles.noRatingText}>No rating yet</Text>
-          )}
-        </Pressable>
-      </View>
-    );
-  }
+    fetchFavStatus();
+  }, [title]);
+
   return (
     <View style={styles.cardContainer}>
       <Pressable
@@ -53,14 +39,14 @@ const MeditationCard = ({
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle}</Text>
 
-        {averageRating !== null ? (
+        <Pressable onPress={onFavPress} style={styles.buttonContainer}>
           <View style={styles.ratingContainer}>
-            <Text style={styles.rating}>{averageRating.toFixed(1)}</Text>
-            <Ionicons name="star" size={20} color="gold" />
+            <Ionicons name="star" size={24} color={isFav ? "gold" : "grey"} />
+            <Text style={styles.ratingText}>
+              {isFav ? "Favourited" : "Not Favourited"}
+            </Text>
           </View>
-        ) : (
-          <Text style={styles.noRatingText}>No rating yet</Text>
-        )}
+        </Pressable>
       </Pressable>
     </View>
   );
@@ -111,22 +97,23 @@ const styles = StyleSheet.create({
   pressedIndicator: {
     opacity: 0.75,
   },
-  ratingContainer: {
+  buttonContainer: {
+    padding: 2,
+    backgroundColor: "#ffffffca", // background color for button
+    borderRadius: 8,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 8,
   },
-  rating: {
-    marginRight: 8,
-    fontSize: 18,
-    color: "#FFC107",
-    fontWeight: "bold",
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
-  noRatingText: {
-    marginTop: 4,
-    fontStyle: "italic",
-    color: "gray",
+  ratingText: {
+    marginLeft: 8, // Add spacing between the star icon and text
+    fontSize: 16, // Adjust the font size to your preference
+    fontWeight: "bold", // Add bold style to the text
+    color: "#333", // Add your preferred text color
   },
 });
 
