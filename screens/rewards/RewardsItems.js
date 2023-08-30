@@ -5,7 +5,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const RewardsItems = () => {
 
   const [STpoints, setSTPoints] = useState(0);
-  const [streak, setStreak] = useState(0);
 
   useEffect(() => {
     loadPoints();
@@ -16,7 +15,18 @@ const RewardsItems = () => {
     setSTPoints(storedSTPoints ? parseInt(storedSTPoints) : 0);
     console.log(`Total points: ${storedSTPoints}`);
   };
-  
+
+  const deductPoints = async (coins) => {
+    if (STpoints >= coins) {
+      const remainingPoints = STpoints - coins;
+      setSTPoints(remainingPoints);
+      console.log(`Deducted ${coins} Coins. Remaining: ${remainingPoints}`);
+      await AsyncStorage.setItem("userPoints", remainingPoints.toString()); // Store updated points
+    } else {
+      console.log("Not enough coins!");
+    }
+  };
+
   const [vouchers, setVouchers] = useState([
     { id: 1, name: "$2 KOI Voucher", coins: 50 },
     { id: 2, name: "$3 Awfully Chocolate Voucher", coins: 70 },
@@ -28,7 +38,7 @@ const RewardsItems = () => {
   ]);
 
   const renderVoucher = ({ item }) => (
-    <TouchableOpacity style={styles.voucherCard}>
+    <TouchableOpacity style={styles.voucherCard} onPress={() => deductPoints(item.coins)}>
       <Text style={styles.voucherName}>{item.name}</Text>
       <Text style={styles.voucherCoins}>{item.coins} Coins</Text>
     </TouchableOpacity>
