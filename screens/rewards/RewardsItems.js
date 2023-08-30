@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import {
   View,
   Text,
+  Image,
+  Button,
   StyleSheet,
   TouchableOpacity,
   FlatList,
@@ -11,9 +13,12 @@ import { GlobalColors } from "../../themes/GlobalColors";
 const RewardsItems = () => {
   const [coinBalance, setCoinBalance] = useState(100); // Example coin balance
   const [vouchers, setVouchers] = useState([
-    { id: 1, name: "Item 1", coins: 50 },
-    { id: 2, name: "Item 2", coins: 80 },
-    { id: 3, name: "Item 3", coins: 120 },
+    { id: 1, name: "$2 KOI Voucher", coins: 50 },
+    { id: 2, name: "$3 Awfully Chocolate Voucher", coins: 70 },
+    { id: 3, name: "$3 TWG Tea Voucher", coins: 70 },
+    { id: 4, name: "$4 Crave Voucher", coins: 80 },
+    { id: 5, name: "$4 Cat & The Fiddle Voucher", coins: 80 },
+    { id: 6, name: "$6 Birds of Paradise Voucher", coins: 90 },
     // Add more vouchers as needed
   ]);
 
