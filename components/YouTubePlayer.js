@@ -1,16 +1,61 @@
-import React from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import YoutubePlayer from "react-native-youtube-iframe";
-import { useRef, useState } from "react";
-import { useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function YouTubePlayer({ videoId, title }) {
   const navigation = useNavigation();
   const playerRef = useRef();
-  const [isPlaying, setIsPlaying] = useState(false);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+  const [startTime, setStartTime] = useState(0);
+  const [totalTimePlayed, setTotalTimePlayed] = useState(0);
+  const [points, setPoints] = useState(0);
+
+  useEffect(() => {
+    loadPoints();
+  }, []);
+
+  useEffect(() => {
+    if (isPlaying) {
+      const interval = setInterval(() => {
+        const currentTime = Date.now() - startTime;
+        setTotalTimePlayed(currentTime);
+      }, 1000); // Update every 1 second
+
+      return () => clearInterval(interval); // Clean up the interval when unmounting
+    }
+  }, [isPlaying, startTime]);
+
+  const loadPoints = async () => {
+    const storedPoints = await AsyncStorage.getItem("userPoints");
+    setPoints(storedPoints ? parseInt(storedPoints) : 0); 
+    console.log("Total Points Stored:", storedPoints); 
+  };
+
+  const IncreasePoints = (totalTimePlayed) => {
+    const PointsToBeAdded = Math.floor(totalTimePlayed / 6000);
+    return PointsToBeAdded;
+  };
+
+  const handleVideoEnd = async () => {
+    setIsPlaying(false);
+    const amount = IncreasePoints(totalTimePlayed);
+
+    // Update points and store in AsyncStorage
+    const updatedPoints = points + amount;
+    setPoints(updatedPoints);
+    await AsyncStorage.setItem("userPoints", updatedPoints.toString());
+
+    console.log("Total Time Played:", totalTimePlayed);
+    console.log("Amount:", amount);
+    console.log("Updated Points:", updatedPoints);
+
+    navigation.navigate("HRVFeedbackScreen", { title: title });
+  };
   const handleRewind = async () => {
     if (playerRef.current) {
       const currentTime = await playerRef.current.getCurrentTime();
@@ -24,9 +69,16 @@ export default function YouTubePlayer({ videoId, title }) {
       playerRef.current.seekTo(currentTime + 5);
     }
   };
+
   const handlePlayPause = useCallback(() => {
+    if (!isPlaying) {
+      setStartTime(Date.now() - totalTimePlayed);
+    } else {
+      const currentTime = Date.now() - startTime;
+      setTotalTimePlayed(currentTime);
+    }
     setIsPlaying((prev) => !prev);
-  }, []);
+  }, [isPlaying, startTime, totalTimePlayed]);
 
   return (
     <View style={styles.container}>
@@ -40,9 +92,13 @@ export default function YouTubePlayer({ videoId, title }) {
           play={isPlaying}
           onChangeState={(state) => {
             if (state === "ended") {
-              setIsPlaying(false);
-              // Alert.alert("video ended!");
-              navigation.navigate("HRVFeedbackScreen", { title: title });
+              handleVideoEnd();
+            } else if (state === "playing") {
+              setStartTime(Date.now());
+              console.log("Video Playing"); 
+            } else if (state === "paused") {
+              const currentTime = Date.now() - startTime;
+              setTotalTimePlayed(totalTimePlayed + currentTime);
             }
           }}
         />

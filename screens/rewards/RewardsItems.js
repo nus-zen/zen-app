@@ -74,6 +74,10 @@ const styles = StyleSheet.create({
   vouchersContainer: {
     flexGrow: 1,
   },
+  centered: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   voucherCard: {
     backgroundColor: "grey",
     borderRadius: 8,

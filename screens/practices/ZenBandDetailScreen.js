@@ -1,14 +1,12 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet,} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const ZenBandDetailScreen = () => {
+const ZenBandDetailScreen = ({ navigation }) => {
+  const handleTabButtonPress = () => {
+    navigation.navigate("BottomTabsOverview");
+  };
+
   return (
     <ScrollView style={styles.container}>
       {/* ZenBand Image */}
@@ -88,7 +86,9 @@ const ZenBandDetailScreen = () => {
       </View>
 
       {/* Call-to-Action */}
-      <TouchableOpacity style={styles.ctaButton}>
+      <TouchableOpacity 
+        style={styles.ctaButton}
+        onPress={handleTabButtonPress}>
         <Text style={styles.ctaButtonText}>
           Use the ZenBand in Your Zen Box!
         </Text>
