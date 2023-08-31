@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
 
 export default function JournalScreen() {
@@ -14,19 +14,20 @@ export default function JournalScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>DRAFT JOURNAL SCREEN</Text>
+      <Text style={styles.title}>Write Your Journal Entry</Text>
       <TextInput
         style={styles.input}
         multiline
-        placeholder="Write your journal entry... (logs to console)  "
+        placeholder="Start typing here..."
         value={entry}
         onChangeText={setEntry}
       />
-      <Button
-        title="Save Entry"
+      <TouchableOpacity
+        style={styles.button}
         onPress={handleSaveEntry}
-        color={GlobalColors.primary300}
-      />
+      >
+        <Text style={styles.buttonText}>Save Entry</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -34,19 +35,35 @@ export default function JournalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 20,
+    backgroundColor: "#f9f9f9",
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 16,
+    marginBottom: 20,
+    color: GlobalColors.primary500,
   },
   input: {
     height: 200,
-    borderColor: "gray",
+    borderColor: "#ddd",
     borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 16,
-    padding: 8,
+    borderRadius: 10,
+    marginBottom: 20,
+    padding: 16,
+    fontSize: 18,
+    backgroundColor: "#fff",
+    color: "#333",
+  },
+  button: {
+    backgroundColor: GlobalColors.primary300,
+    paddingVertical: 14,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
