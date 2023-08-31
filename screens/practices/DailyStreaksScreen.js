@@ -113,7 +113,7 @@ export default function DailyStreaksLoginScreen({ navigation }) {
       <Text style={styles.subtitle}>
         {streak >= 1 
           ? `Wow, you are making great progress! Adding ${points} points!`
-          : "You can try harder next time. Removing ${points} points"}
+          : `You can try harder next time. Removing ${points} points`}
       </Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.continueButton} onPress={handleNavigateToBottomTabs}>

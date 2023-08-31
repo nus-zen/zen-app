@@ -1,18 +1,32 @@
-import React, { useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import * as ImagePicker from "expo-image-picker";
 import { GlobalColors } from "../../themes/GlobalColors";
 
 const CrochetDetailsScreen = () => {
   const [progressImages, setProgressImages] = useState([]);
+  const [points, setPoints] = useState(0);
+
+  useEffect(() => {
+    loadPoints();
+  }, []);
+
+  const loadPoints = async () => {
+    const storedPoints = await AsyncStorage.getItem("userPoints");
+    setPoints(storedPoints ? parseInt(storedPoints) : 0); 
+    console.log("Total Points Stored:", storedPoints); 
+  };
+
+  const addPoints = async (amount) => {
+    const updatedPoints = points + amount;
+    setPoints(updatedPoints);
+    await AsyncStorage.setItem("userPoints", updatedPoints.toString());
+    console.log("Points Added:", amount);
+    console.log("Updated Points:", updatedPoints);
+  };
+  
 
   const handleAddImage = async () => {
     try {
@@ -22,7 +36,7 @@ const CrochetDetailsScreen = () => {
         // Permission denied, handle accordingly
         return;
       }
-
+  
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -31,6 +45,9 @@ const CrochetDetailsScreen = () => {
       if (!result.cancelled) {
         const imageSource = { uri: result.uri };
         setProgressImages((prevImages) => [...prevImages, imageSource]);
+  
+        // Add points here when an image is added
+        addPoints(30); // You can adjust the amount of points as needed
       }
     } catch (error) {
       // Handle any errors that occur during image selection
@@ -130,6 +147,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+    textAlign: "center",
   },
   progressImagesContainer: {
     flexDirection: "row",

@@ -1,9 +1,33 @@
-import React from "react";
+import React,{ useState, useEffect }  from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet,} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ZenBandDetailScreen = ({ navigation }) => {
+
+
+  const [points, setPoints] = useState(0);
+
+  useEffect(() => {
+    loadPoints();
+  }, []);
+
+  const loadPoints = async () => {
+    const storedPoints = await AsyncStorage.getItem("userPoints");
+    setPoints(storedPoints ? parseInt(storedPoints) : 0); 
+    console.log("Total Points Stored:", storedPoints); 
+  };
+
+  const addPoints = async (amount) => {
+    const updatedPoints = points + amount;
+    setPoints(updatedPoints);
+    await AsyncStorage.setItem("userPoints", updatedPoints.toString());
+    console.log("Points Added:", amount);
+    console.log("Updated Points:", updatedPoints);
+  };
+
   const handleTabButtonPress = () => {
+    addPoints(30);
     navigation.navigate("BottomTabsOverview");
   };
 
@@ -129,7 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   ctaButton: {
-    backgroundColor: "#42b983",
+    backgroundColor: "green",
     paddingVertical: 12,
     marginHorizontal: 16,
     marginVertical: 24,
