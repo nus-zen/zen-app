@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Alert, BackHandler, StyleSheet, Text, TouchableOpacity, View, } from "react-native";
-import RatingStars from "../../components/RatingStars";
 import { useNavigation } from "@react-navigation/native";
-import { saveMeditationRating } from "../../utils/AsyncStorageUtils";
+import React, { useEffect } from "react";
+import {
+  BackHandler,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function PracticeRatingScreen({ route }) {
-  const [rating, setRating] = useState(0);
   const navigation = useNavigation();
-  const { title } = route.params;
 
   const handleFinishRating = () => {
-    saveMeditationRating(title, rating);
-    Alert.alert("Rating", `You have rated ${rating} stars!`, [
-      { onPress: () => navigation.navigate("BottomTabsOverview") },
-    ]);
+    navigation.navigate("BottomTabsOverview");
   };
 
   const handleBackButton = () => {
@@ -38,15 +37,8 @@ export default function PracticeRatingScreen({ route }) {
       {/* Title */}
       <Text style={styles.title}>You have completed the practice!</Text>
 
-      <Text style={styles.subtitle}>Was that activity useful?</Text>
-      {/* Rating */}
-      <View style={styles.ratingContainer}>
-        <RatingStars rating={rating} setRating={setRating} />
-      </View>
-
-      {/* Finish Rating button */}
       <TouchableOpacity style={styles.button} onPress={handleFinishRating}>
-        <Text style={styles.buttonText}>Finish Rating</Text>
+        <Text style={styles.buttonText}>Great effort!</Text>
       </TouchableOpacity>
     </View>
   );

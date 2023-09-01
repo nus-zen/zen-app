@@ -86,7 +86,11 @@ const App = () => {
               component={MeditationsList}
               options={{ headerTitle: "Zen Library" }}
             />
-            <Stack.Screen name="JournalScreen" component={JournalScreen} />
+            <Stack.Screen
+              name="JournalScreen"
+              component={JournalScreen}
+              options={{ headerTitle: "Journal" }}
+            />
 
             <Stack.Screen
               name="MeditationDetailScreen"
@@ -122,16 +126,19 @@ const App = () => {
             <Stack.Screen
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
+              options={{ headerTitle: "" }}
             />
             <Stack.Screen name="RewardsItems" component={RewardsItems} />
             <Stack.Screen
               name="TerrariumDetailScreen"
               component={TerrariumDetailScreen}
+              options={{ headerTitle: "" }}
             />
 
             <Stack.Screen
               name="ZenBandDetailScreen"
               component={ZenBandDetailScreen}
+              options={{ headerTitle: "" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

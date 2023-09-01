@@ -1,22 +1,66 @@
 import React, { useState, useEffect } from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import * as ImagePicker from "expo-image-picker";
 import { GlobalColors } from "../../themes/GlobalColors";
+import ImageModal from "../../components/ImageModal";
+import {
+  loadProgressImages,
+  saveProgressImages,
+} from "../../utils/AsyncStorageUtils";
 
 const CrochetDetailsScreen = () => {
   const [progressImages, setProgressImages] = useState([]);
   const [points, setPoints] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null); // To track the selected image
+  const [isImageModalVisible, setImageModalVisible] = useState(false); // To control the visibility of the modal
 
   useEffect(() => {
     loadPoints();
   }, []);
 
+  useEffect(() => {
+    loadProgressImagesFromStorage();
+  }, []);
+
+  const loadProgressImagesFromStorage = async () => {
+    const storedImages = await loadProgressImages();
+    setProgressImages(storedImages);
+  };
+
+  const addProgressImage = async (imageUri) => {
+    const updatedImages = [...progressImages, imageUri];
+    setProgressImages(updatedImages);
+    await saveProgressImages(updatedImages); // Save the updated progress images
+    console.log("Progress Image Added:", imageUri);
+  };
+
+  // const deleteProgressImage = (imageUri) => {
+  //   const updatedImages = progressImages.filter((uri) => uri !== imageUri);
+  //   setProgressImages(updatedImages);
+  //   saveProgressImages(updatedImages); // Save the updated progress images after deletion
+  //   console.log("Progress Image Deleted:", imageUri);
+  // };
+
+  // const handleDeleteImage = () => {
+  //   if (selectedImage) {
+  //     deleteProgressImage(selectedImage); // Delete the selected image URI
+  //     setImageModalVisible(false);
+  //   }
+  // };
+
   const loadPoints = async () => {
     const storedPoints = await AsyncStorage.getItem("userPoints");
-    setPoints(storedPoints ? parseInt(storedPoints) : 0); 
-    console.log("Total Points Stored:", storedPoints); 
+    setPoints(storedPoints ? parseInt(storedPoints) : 0);
+    console.log("Total Points Stored:", storedPoints);
   };
 
   const addPoints = async (amount) => {
@@ -26,7 +70,6 @@ const CrochetDetailsScreen = () => {
     console.log("Points Added:", amount);
     console.log("Updated Points:", updatedPoints);
   };
-  
 
   const handleAddImage = async () => {
     try {
@@ -36,7 +79,7 @@ const CrochetDetailsScreen = () => {
         // Permission denied, handle accordingly
         return;
       }
-  
+
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -44,8 +87,9 @@ const CrochetDetailsScreen = () => {
       });
       if (!result.cancelled) {
         const imageSource = { uri: result.uri };
-        setProgressImages((prevImages) => [...prevImages, imageSource]);
-  
+        addProgressImage(imageSource);
+        //setProgressImages((prevImages) => [...prevImages, imageSource]);
+
         // Add points here when an image is added
         addPoints(30); // You can adjust the amount of points as needed
       }
@@ -53,6 +97,12 @@ const CrochetDetailsScreen = () => {
       // Handle any errors that occur during image selection
       console.log("Error selecting image:", error);
     }
+  };
+
+  // Function to open the modal and display the selected image
+  const handleImagePress = (imageUri) => {
+    setSelectedImage(imageUri);
+    setImageModalVisible(true);
   };
 
   return (
@@ -98,9 +148,22 @@ const CrochetDetailsScreen = () => {
 
         <ScrollView horizontal={true} style={styles.progressImagesContainer}>
           {progressImages.map((image, index) => (
-            <Image key={index} source={image} style={styles.progressImage} />
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleImagePress(image.uri)} // Open the modal on image press
+            >
+              <Image source={image} style={styles.progressImage} />
+            </TouchableOpacity>
           ))}
         </ScrollView>
+
+        {/* Image Modal */}
+        <ImageModal
+          visible={isImageModalVisible}
+          imageUri={selectedImage}
+          onClose={() => setImageModalVisible(false)} // Close the modal
+          // onDelete={handleDeleteImage}
+        />
       </View>
     </ScrollView>
   );

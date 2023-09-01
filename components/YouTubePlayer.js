@@ -1,16 +1,14 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import YoutubePlayer from "react-native-youtube-iframe";
-import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 export default function YouTubePlayer({ videoId, title }) {
   const navigation = useNavigation();
-  const playerRef = useRef();
 
   const [isPlaying, setIsPlaying] = useState(false);
-  
+
   const [startTime, setStartTime] = useState(0);
   const [totalTimePlayed, setTotalTimePlayed] = useState(0);
   const [points, setPoints] = useState(0);
@@ -32,8 +30,8 @@ export default function YouTubePlayer({ videoId, title }) {
 
   const loadPoints = async () => {
     const storedPoints = await AsyncStorage.getItem("userPoints");
-    setPoints(storedPoints ? parseInt(storedPoints) : 0); 
-    console.log("Total Points Stored:", storedPoints); 
+    setPoints(storedPoints ? parseInt(storedPoints) : 0);
+    console.log("Total Points Stored:", storedPoints);
   };
 
   const IncreasePoints = (totalTimePlayed) => {
@@ -56,29 +54,6 @@ export default function YouTubePlayer({ videoId, title }) {
 
     navigation.navigate("HRVFeedbackScreen", { title: title });
   };
-  const handleRewind = async () => {
-    if (playerRef.current) {
-      const currentTime = await playerRef.current.getCurrentTime();
-      playerRef.current.seekTo(currentTime - 5);
-    }
-  };
-
-  const handleForward = async () => {
-    if (playerRef.current) {
-      const currentTime = await playerRef.current.getCurrentTime();
-      playerRef.current.seekTo(currentTime + 5);
-    }
-  };
-
-  const handlePlayPause = useCallback(() => {
-    if (!isPlaying) {
-      setStartTime(Date.now() - totalTimePlayed);
-    } else {
-      const currentTime = Date.now() - startTime;
-      setTotalTimePlayed(currentTime);
-    }
-    setIsPlaying((prev) => !prev);
-  }, [isPlaying, startTime, totalTimePlayed]);
 
   return (
     <View style={styles.container}>
@@ -86,7 +61,6 @@ export default function YouTubePlayer({ videoId, title }) {
       <View style={styles.videoContainer}>
         <YoutubePlayer
           height={400}
-          ref={playerRef}
           style={styles.video}
           videoId={videoId}
           play={isPlaying}
@@ -95,7 +69,7 @@ export default function YouTubePlayer({ videoId, title }) {
               handleVideoEnd();
             } else if (state === "playing") {
               setStartTime(Date.now());
-              console.log("Video Playing"); 
+              console.log("Video Playing");
             } else if (state === "paused") {
               const currentTime = Date.now() - startTime;
               setTotalTimePlayed(totalTimePlayed + currentTime);
@@ -105,30 +79,6 @@ export default function YouTubePlayer({ videoId, title }) {
       </View>
       {/* Title */}
       <Text style={styles.title}>{title}</Text>
-
-      {/* Media controls */}
-      <View style={styles.controlsContainer}>
-        {/* Rewind button */}
-        <TouchableOpacity style={styles.controlButton} onPress={handleRewind}>
-          <Ionicons name="play-back-outline" size={24} color="black" />
-        </TouchableOpacity>
-
-        {/* Play/Pause button */}
-        <TouchableOpacity
-          style={styles.controlButton}
-          onPress={handlePlayPause}
-        >
-          <Ionicons name="ios-play" size={32} color="black" />
-        </TouchableOpacity>
-
-        {/* Forward button */}
-        <TouchableOpacity style={styles.controlButton} onPress={handleForward}>
-          <Ionicons name="play-forward-outline" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Scrub bar */}
-      <View style={styles.scrubBar} />
     </View>
   );
 }

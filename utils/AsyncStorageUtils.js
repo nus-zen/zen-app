@@ -58,3 +58,24 @@ export const saveShowFavOnly = async (value) => {
     console.error("Error setting showFavOnly:", error);
   }
 };
+
+// Function to load progress images from AsyncStorage
+export const loadProgressImages = async () => {
+  try {
+    const storedImages = await AsyncStorage.getItem("progressImages");
+    return storedImages ? JSON.parse(storedImages) : [];
+  } catch (error) {
+    console.error("Error loading progress images:", error);
+    return [];
+  }
+};
+
+// Function to save progress images' URIs to AsyncStorage
+export const saveProgressImages = async (images) => {
+  try {
+    await AsyncStorage.setItem("progressImages", JSON.stringify(images));
+    console.log("Progress Images saved:", images);
+  } catch (error) {
+    console.error("Error saving progress images:", error);
+  }
+};
