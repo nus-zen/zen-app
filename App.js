@@ -122,6 +122,7 @@ const App = () => {
             <Stack.Screen
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
+              options={{ headerTitle: "" }}
             />
             <Stack.Screen name="RewardsItems" component={RewardsItems} />
             <Stack.Screen
