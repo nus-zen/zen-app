@@ -3,8 +3,15 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Dimensions }
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RewardsItems = () => {
-
   const [STpoints, setSTPoints] = useState(0);
+  const [vouchers, setVouchers] = useState([
+    { id: 1, name: "$2 KOI Voucher", coins: 50, count: 0 },
+    { id: 2, name: "$3 Awfully Chocolate Voucher", coins: 70, count: 0 },
+    { id: 3, name: "$3 TWG Tea Voucher", coins: 70, count: 0 },
+    { id: 4, name: "$4 Crave Voucher", coins: 80, count: 0 },
+    { id: 5, name: "$4 Cat & The Fiddle Voucher", coins: 80, count: 0 },
+    { id: 6, name: "$6 Birds of Paradise Voucher", coins: 90, count: 0 },
+  ]);
 
   useEffect(() => {
     loadPoints();
@@ -16,32 +23,79 @@ const RewardsItems = () => {
     console.log(`Total points: ${storedSTPoints}`);
   };
 
-  const deductPoints = async (coins) => {
+  const deductPoints = async (coins, index) => {
     if (STpoints >= coins) {
+      const updatedVouchers = [...vouchers];
+      updatedVouchers[index].count += 1;
+      setVouchers(updatedVouchers);
       const remainingPoints = STpoints - coins;
       setSTPoints(remainingPoints);
+      await AsyncStorage.setItem("userPoints", remainingPoints.toString());
       console.log(`Deducted ${coins} Coins. Remaining: ${remainingPoints}`);
-      await AsyncStorage.setItem("userPoints", remainingPoints.toString()); // Store updated points
     } else {
       console.log("Not enough coins!");
     }
   };
 
-  const [vouchers, setVouchers] = useState([
-    { id: 1, name: "$2 KOI Voucher", coins: 50 },
-    { id: 2, name: "$3 Awfully Chocolate Voucher", coins: 70 },
-    { id: 3, name: "$3 TWG Tea Voucher", coins: 70 },
-    { id: 4, name: "$4 Crave Voucher", coins: 80 },
-    { id: 5, name: "$4 Cat & The Fiddle Voucher", coins: 80 },
-    { id: 6, name: "$6 Birds of Paradise Voucher", coins: 90 },
-    // Add more vouchers as needed
-  ]);
+  const incrementQuantity = (index) => {
+    const updatedVouchers = [...vouchers];
+    updatedVouchers[index].count += 1;
+    setVouchers(updatedVouchers);
+  };
 
-  const renderVoucher = ({ item }) => (
-    <TouchableOpacity style={styles.voucherCard} onPress={() => deductPoints(item.coins)}>
-      <Text style={styles.voucherName}>{item.name}</Text>
-      <Text style={styles.voucherCoins}>{item.coins} Coins</Text>
-    </TouchableOpacity>
+  const decrementQuantity = (index) => {
+    const updatedVouchers = [...vouchers];
+    if (updatedVouchers[index].count > 0) {
+      updatedVouchers[index].count -= 1;
+      setVouchers(updatedVouchers);
+    }
+  };
+
+  const totalCost = vouchers.reduce((acc, item) => acc + item.coins * item.count, 0);
+
+  const handlePurchase = async () => {
+    const totalSelectedCost = vouchers.reduce((acc, item) => acc + item.coins * item.count, 0);
+  
+    if (totalSelectedCost > STpoints) {
+      console.log("Not enough coins for checkout!");
+      // Optionally, you can display a message or handle this situation in your app.
+    } else {
+      // Deduct coins and update points in AsyncStorage
+      const remainingPoints = STpoints - totalSelectedCost;
+      setSTPoints(remainingPoints);
+      await AsyncStorage.setItem("userPoints", remainingPoints.toString());
+  
+      // Reset the counts for selected vouchers
+      const updatedVouchers = vouchers.map((item) => ({ ...item, count: 0 }));
+      setVouchers(updatedVouchers);
+  
+      console.log("Checkout successful!");
+    }
+  };
+
+  const renderVoucher = ({ item, index }) => (
+    <View style={styles.voucherCard}>
+      <Image source={require("../../assets/diet.png")} style={styles.voucherImage} />
+      <View style={styles.voucherInfo}>
+        <Text style={styles.voucherName}>{item.name}</Text>
+        <Text style={styles.voucherCoins}>{item.coins} Coins</Text>
+      </View>
+      <View style={styles.quantityContainer}>
+        <TouchableOpacity
+          style={styles.quantityButton}
+          onPress={() => decrementQuantity(index)}
+        >
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+        <Text style={styles.quantity}>{item.count}</Text>
+        <TouchableOpacity
+          style={styles.quantityButton}
+          onPress={() => incrementQuantity(index)}
+        >
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 
   return (
@@ -49,7 +103,7 @@ const RewardsItems = () => {
       <View style={styles.header}>
         <View style={styles.pointsContainer}>
           <View style={styles.centered}>
-            <Image source={require("../../assets/money.png")} style={styles.TextImage} />
+            <Image source={require("../../assets/money.png")} style={styles.textImage} />
             <Text style={styles.pointsText}>{STpoints}</Text>
             <Text style={styles.totalCoinsText}>Total Coins</Text>
           </View>
@@ -61,6 +115,16 @@ const RewardsItems = () => {
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.vouchersContainer}
       />
+      <View style={styles.checkoutContainer}>
+        <Text style={styles.totalCostText}>Total Cost: {totalCost} Coins</Text>
+        <TouchableOpacity
+        title="Checkout"
+        onPress={handlePurchase}
+        style={styles.checkoutButton} // Apply the new style here
+      >
+        <Text style={styles.checkoutButtonText}>Checkout</Text>
+      </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -68,7 +132,7 @@ const RewardsItems = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "white",
     paddingHorizontal: 8,
   },
   vouchersContainer: {
@@ -79,10 +143,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   voucherCard: {
-    backgroundColor: "grey",
+    backgroundColor: "white",
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#dddddd",
+    
+  },
+  voucherImage: {
+    width: 80,
+    height: 80,
+    marginRight: 16,
+    resizeMode: "cover",
+  },
+  voucherInfo: {
+    flex: 1,
   },
   voucherName: {
     fontSize: 16,
@@ -90,10 +168,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   voucherCoins: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#888888",
   },
-  TextImage: {
+  textImage: {
     width: 40,
     height: 40,
   },
@@ -120,6 +198,52 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 5,
   },
+  checkoutContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "white",
+    padding: 16,
+  },
+  totalCostText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  quantityContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  quantityButton: {
+    backgroundColor: "green",
+    borderRadius: 15,
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 8,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
+  },
+  quantity: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  checkoutButton: {
+    backgroundColor: "green",
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    alignItems: "center",
+    
+  },
+  checkoutButtonText: {
+    color: "white", 
+    fontSize: 18, 
+    fontWeight: "bold",
+  },
 });
+
 
 export default RewardsItems;
