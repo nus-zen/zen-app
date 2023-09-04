@@ -2,7 +2,7 @@ import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import RewardsScreen from './RewardsScreen';
-import StreaksScreen from './StreaksScreen';
+import LeagueHomepageScreen from './LeagueHomepageScreen';
 
 const TopTabs = createMaterialTopTabNavigator();
 
@@ -30,11 +30,11 @@ export default function MyTabs() {
         }}
       />
       <TopTabs.Screen
-        name="StreaksScreen"
-        component={StreaksScreen}
+        name="LeagueHomepageScreen"
+        component={LeagueHomepageScreen}
         options={{
-          title: 'Streaks',
-          tabBarLabel: 'Streaks',
+          title: 'League',
+          tabBarLabel: 'League',
         }}
       />
     </TopTabs.Navigator>

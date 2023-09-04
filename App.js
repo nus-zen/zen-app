@@ -23,6 +23,7 @@ import RewardsItems from "./screens/rewards/RewardsItems";
 import TerrariumDetailScreen from "./screens/practices/TerrariumDetailScreen";
 import ZenBandDetailScreen from "./screens/practices/ZenBandDetailScreen";
 import MeditationTopTabScreen from "./screens/practices/MeditationTopTabScreen";
+import LeagueHomepageScreen from "./screens/rewards/LeagueHomepageScreen";
 
 const Stack = createStackNavigator();
 
@@ -86,6 +87,7 @@ const App = () => {
               component={MeditationsList}
               options={{ headerTitle: "Zen Library" }}
             />
+
             <Stack.Screen
               name="JournalScreen"
               component={JournalScreen}
@@ -126,21 +128,29 @@ const App = () => {
             <Stack.Screen
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
-              options={{ headerTitle: "" }}
+              options={{ headerTitle: ""}}
             />
-            <Stack.Screen name="RewardsItems" component={RewardsItems} />
+            <Stack.Screen 
+              name="RewardsItems" 
+              component={RewardsItems}
+              options={{ headerTitle: "My Cart" }}
+            />
             <Stack.Screen
               name="TerrariumDetailScreen"
               component={TerrariumDetailScreen}
-              options={{ headerTitle: "" }}
+              options={{ headerTitle: ""}}
             />
-
             <Stack.Screen
               name="ZenBandDetailScreen"
               component={ZenBandDetailScreen}
-              options={{ headerTitle: "" }}
+              options={{ headerTitle: ""}}
             />
-          </Stack.Navigator>
+            <Stack.Screen 
+              name="LeagueHomepage" 
+              component={LeagueHomepageScreen}
+              options={{ headerTitle: ""}}
+             />
+           </Stack.Navigator>
         </NavigationContainer>
       </>
     </SafeAreaProvider>
