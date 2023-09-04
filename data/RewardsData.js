@@ -12,7 +12,7 @@ export const REWARDS_DATA = [
       title: "F&B",
       subtitle: "Off Campus",
       imageSource:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fvulcanpost.com%2F719808%2Fsingapore-hawker-stall-to-restaurant-chain%2F&psig=AOvVaw3bSKkOLyTghxWtzFx0r9oB&ust=1692978370889000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCPi0-4TS9YADFQAAAAAdAAAAABAE",
+        "https://www.asiaone.com/sites/default/files/styles/article_main_image/public/original_images/Jul2013/20130528.085530_clementi_mall.jpg?itok=xX5LlzvL",
       description:
         "Redeem F&B items conveniently on the go by presenting a generated QR code to the store vendor after selecting the item of your choice. Enjoy it with a friend!",
       rationale:
