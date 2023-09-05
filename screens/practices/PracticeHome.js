@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import PracticeRow from "../../components/PracticeRow";
 import MotivationalQuote from "../../components/MotivationalQuote";
 import { PracticeHomeScreenData } from "../../data/PracticeHomeScreenData";
@@ -42,7 +42,7 @@ export default function PracticeHome({ navigation }) {
   return (
     <View style={styles.rootContainer}>
       <MotivationalQuote />
-      <ScrollView>
+    
         <PracticeRow title="Practices" cardsData={HOME_PAGE_DATA.slice(0, 2)} />
 
         <PracticeRow title="Zen Box" cardsData={HOME_PAGE_DATA.slice(2, 5)} />
@@ -51,7 +51,6 @@ export default function PracticeHome({ navigation }) {
           title="Show Bottom Sheet"
           onPress={() => setBottomSheetVisible(true)}
         />
-      </ScrollView>
       <PracticeModal
         isVisible={bottomSheetVisible}
         onClose={closeBottomSheet}
