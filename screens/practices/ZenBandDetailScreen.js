@@ -1,11 +1,16 @@
-import React,{ useState, useEffect }  from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet,} from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ZenBandDetailScreen = ({ navigation }) => {
-
-
   const [points, setPoints] = useState(0);
 
   useEffect(() => {
@@ -14,8 +19,8 @@ const ZenBandDetailScreen = ({ navigation }) => {
 
   const loadPoints = async () => {
     const storedPoints = await AsyncStorage.getItem("userPoints");
-    setPoints(storedPoints ? parseInt(storedPoints) : 0); 
-    console.log("Total Points Stored:", storedPoints); 
+    setPoints(storedPoints ? parseInt(storedPoints) : 0);
+    console.log("Total Points Stored:", storedPoints);
   };
 
   const addPoints = async (amount) => {
@@ -108,15 +113,6 @@ const ZenBandDetailScreen = ({ navigation }) => {
           style={{ width: "100%", height: 200, resizeMode: "repeat" }}
         />
       </View>
-
-      {/* Call-to-Action */}
-      <TouchableOpacity 
-        style={styles.ctaButton}
-        onPress={handleTabButtonPress}>
-        <Text style={styles.ctaButtonText}>
-          Use the ZenBand in Your Zen Box!
-        </Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -151,19 +147,6 @@ const styles = StyleSheet.create({
   },
   testimonialText: {
     fontSize: 16,
-  },
-  ctaButton: {
-    backgroundColor: "green",
-    paddingVertical: 12,
-    marginHorizontal: 16,
-    marginVertical: 24,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  ctaButtonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
   },
   featureImage: {
     width: "100%",
