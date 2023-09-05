@@ -79,7 +79,7 @@ export default function HRVFeedbackScreen({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    marginTop: 20,
     alignItems: "center",
     backgroundColor: "#F5F5F5",
   },
@@ -137,10 +137,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   buttonContainer: {
-    width: Dimensions.get('window').width -50,
-    // backgroundColor: "#58930D",
-    backgroundColor: "green",
+    marginTop: 20,
+    width: Dimensions.get('window').width - 50,
+    backgroundColor: "green", // Change this to the desired green color
     borderRadius: 20,
-
   },
 });
