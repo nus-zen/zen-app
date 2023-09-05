@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MEDITATIONS_DATA } from "../data/MeditationsData";
 
 // Constants
 const MEDITATIONS_FAVORITES_KEY = "meditationsFavorites";
