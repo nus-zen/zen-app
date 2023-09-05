@@ -1,3 +1,20 @@
+# OSX
+#
+.DS_Store
+node_modules
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+
+# Bundle artifacts
+*.jsbundle
+
 node_modules/
 node_modules
 web-build

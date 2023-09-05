@@ -1,14 +1,6 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const ZenBandDetailScreen = ({ navigation }) => {
   const [points, setPoints] = useState(0);
