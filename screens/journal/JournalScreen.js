@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
+import { FlatList } from "react-native"; // Import FlatList
 
 export default function JournalScreen() {
   const [entryTitle, setEntryTitle] = useState("");
   const [entryText, setEntryText] = useState("");
   const [entries, setEntries] = useState([]);
   const [editingEntry, setEditingEntry] = useState(null);
+  const [score, setScore] = useState(0); // Add score state
 
   const handleSaveEntry = () => {
     if (entryTitle.trim() !== "" && entryText.trim() !== "") {
@@ -29,6 +31,9 @@ export default function JournalScreen() {
           date: new Date().toLocaleString(),
         };
         setEntries([...entries, newEntry]);
+
+        // Increment the score by 10 points
+        setScore(score + 10);
       }
 
       // Clear input fields
@@ -53,7 +58,12 @@ export default function JournalScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sticky Notes Journal</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Mood Journaling</Text>
+        <View style={styles.scoreContainer}>
+          <Text style={styles.scoreText}>Score: {score}</Text>
+        </View>
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Title..."
@@ -67,35 +77,40 @@ export default function JournalScreen() {
         value={entryText}
         onChangeText={setEntryText}
       />
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={handleSaveEntry}
-      >
-        <Text style={styles.buttonText}>{editingEntry !== null ? "Update Entry" : "Save Entry"}</Text>
+      <TouchableOpacity style={styles.addButton} onPress={handleSaveEntry}>
+        <Text style={styles.buttonText}>
+          {editingEntry !== null ? "Update Entry" : "Save Entry"}
+        </Text>
       </TouchableOpacity>
-      <ScrollView style={styles.entriesContainer}>
-        {entries.map((item) => (
-          <View key={item.id} style={styles.entry}>
-            <Text style={styles.entryTitle}>{item.title}</Text>
-            <Text style={styles.entryText}>{item.text}</Text>
-            <Text style={styles.entryDate}>{item.date}</Text>
-            <View style={styles.entryActions}>
-              <TouchableOpacity
-                onPress={() => handleEditEntry(item.id)}
-                style={styles.editButton}
-              >
-                <Text style={styles.editButtonText}>Edit</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => handleDeleteEntry(item.id)}
-                style={styles.deleteButton}
-              >
-                <Text style={styles.deleteButtonText}>Delete</Text>
-              </TouchableOpacity>
+      {/* Replace the outer ScrollView with a View */}
+      <View style={styles.entriesContainer}>
+        {/* Replace the inner ScrollView with a FlatList */}
+        <FlatList
+          data={entries}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.entry}>
+              <Text style={styles.entryTitle}>{item.title}</Text>
+              <Text style={styles.entryText}>{item.text}</Text>
+              <Text style={styles.entryDate}>{item.date}</Text>
+              <View style={styles.entryActions}>
+                <TouchableOpacity
+                  onPress={() => handleEditEntry(item.id)}
+                  style={styles.editButton}
+                >
+                  <Text style={styles.editButtonText}>Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleDeleteEntry(item.id)}
+                  style={styles.deleteButton}
+                >
+                  <Text style={styles.deleteButtonText}>Delete</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        ))}
-      </ScrollView>
+          )}
+        />
+      </View>
     </View>
   );
 }
@@ -106,10 +121,14 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#f9f9f9",
   },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 20,
     color: GlobalColors.primary500,
   },
   input: {
@@ -180,5 +199,17 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     color: "red",
     fontSize: 16,
+  },
+  scoreContainer: {
+    alignItems: "flex-end",
+    paddingRight: 20,
+  },
+  scoreText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    backgroundColor: GlobalColors.primary300, // Background color for the score bar
+    color: "#fff", // Text color for the score bar
+    padding: 8, // Add padding to make it visually appealing
+    borderRadius: 10, // Add border radius for a rounded look
   },
 });
