@@ -1,23 +1,25 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import PracticeCard from "./PracticeCard";
 
 export default function PracticeRow({ title, cardsData }) {
   return (
     <View>
       <Text style={styles.titleStyle}>{title}</Text>
-      <FlatList
-        data={cardsData}
-        renderItem={({ item }) => (
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator
+        persistentScrollbar={true}
+      >
+        {cardsData.map((item, index) => (
           <PracticeCard
+            key={index} // Use a unique key for each item
             uri={item.uri}
             subtitle={item.subtitle}
             title={item.title}
             onPress={item.onPress}
           />
-        )}
-        //horizontal
-        numColumns={2}
-      />
+        ))}
+      </ScrollView>
     </View>
   );
 }
