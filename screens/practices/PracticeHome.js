@@ -5,6 +5,7 @@ import { PracticeHomeScreenData } from "../../data/PracticeHomeScreenData";
 import PracticeModal from "../../components/PracticeModal";
 import { useState, useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
+import ThumbsRating from "../../components/ThumbsRating";
 
 export default function PracticeHome({ navigation }) {
   const HOME_PAGE_DATA = PracticeHomeScreenData(navigation);
