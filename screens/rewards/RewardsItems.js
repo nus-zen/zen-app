@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 const RewardsItems = () => {
   const [STpoints, setSTPoints] = useState(0);
   const [vouchers, setVouchers] = useState([

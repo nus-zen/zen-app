@@ -13,7 +13,7 @@ import ActivityLog from "../../components/ActivityLog";
 
 export default function ProfileScreen({ navigation, route }) {
   function navigateToAccounts() {
-    navigation.navigate('AccountsScreen');
+    navigation.navigate('AccountsScreenProfile');
   }
   return (
     <SafeAreaView style={styles.container}>
