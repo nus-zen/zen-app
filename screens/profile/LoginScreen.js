@@ -32,8 +32,8 @@ export default function LoginScreen({ navigation }) {
 
   const isValidEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //return emailPattern.test(email);
-    return true;
+    return emailPattern.test(email);
+    //return true;
   };
 
   const handleLogin = async () => {
@@ -43,22 +43,26 @@ export default function LoginScreen({ navigation }) {
     }
     console.log("Email:", email);
     console.log("Password:", password);
-  
+
     const checkMoodCheckIn = async () => {
-      const lastShownTimestamp = await AsyncStorage.getItem("lastShownTimestamp");
+      const lastShownTimestamp =
+        await AsyncStorage.getItem("lastShownTimestamp");
       console.log("Last Shown Timestamp:", lastShownTimestamp);
-  
+
       if (!lastShownTimestamp) {
         // First time, show MoodCheckInScreen
         console.log("First time user. Showing MoodCheckInScreen.");
         navigation.navigate("MoodCheckInScreen");
-        AsyncStorage.setItem("lastShownTimestamp", new Date().getTime().toString());
+        AsyncStorage.setItem(
+          "lastShownTimestamp",
+          new Date().getTime().toString()
+        );
       } else {
         // Check if it has been more than 24 hours since the last shown time
         const currentTime = new Date().getTime();
         const timeDifference = currentTime - parseInt(lastShownTimestamp, 10);
         const millisecondsInADay = 24 * 60 * 60 * 1000;
-  
+
         if (timeDifference >= millisecondsInADay) {
           console.log("More than 24 hours. Showing MoodCheckInScreen.");
           navigation.navigate("MoodCheckInScreen");
@@ -71,7 +75,7 @@ export default function LoginScreen({ navigation }) {
         }
       }
     };
-  
+
     await checkMoodCheckIn(); // Use await here to properly wait for the async function to complete.
   };
 

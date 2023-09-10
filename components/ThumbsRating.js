@@ -9,7 +9,7 @@ const ThumbsRating = () => {
 
   const handleRating = (selectedRating) => {
     // Handle the rating selection here, e.g., send it to a server or update state
-    Alert.alert("you have rated " + selectedRating);
+    //Alert.alert("you have rated " + selectedRating);
     setRating(selectedRating);
     navigation.navigate("BottomTabsOverview");
   };
