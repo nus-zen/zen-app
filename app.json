@@ -20,7 +20,8 @@
       "infoPlist": {
         "NSCameraUsageDescription": "Allow access to the camera",
         "NSPhotoLibraryUsageDescription": "Allow access to the photo library"
-      }
+      },
+      "bundleIdentifier":"zen-app"
     },
     "android": {
       "permissions": [
