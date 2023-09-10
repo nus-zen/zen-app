@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
@@ -23,16 +21,13 @@
       }
     },
     "android": {
-      "permissions": [
-        "CAMERA_ROLL",
-        "CAMERA"
-      ],
+      "permissions": ["CAMERA_ROLL", "CAMERA"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.nus_zen.ZenAPP"
+      "package": "com.nus.zen.ZenAPP"
     },
     "web": {
       "favicon": "./assets/favicon.png"

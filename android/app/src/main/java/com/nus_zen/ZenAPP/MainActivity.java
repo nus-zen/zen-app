@@ -1,4 +1,4 @@
-package com.nus_zen.ZenAPP;
+package com.nus.zen.ZenAPP;
 
 import android.os.Build;
 import android.os.Bundle;

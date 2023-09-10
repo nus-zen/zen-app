@@ -4,6 +4,8 @@ import MotivationalQuote from "../../components/MotivationalQuote";
 import { PracticeHomeScreenData } from "../../data/PracticeHomeScreenData";
 import PracticeModal from "../../components/PracticeModal";
 import { useState, useEffect } from "react";
+import { ScrollView } from "react-native-gesture-handler";
+import ThumbsRating from "../../components/ThumbsRating";
 
 export default function PracticeHome({ navigation }) {
   const HOME_PAGE_DATA = PracticeHomeScreenData(navigation);
@@ -42,15 +44,16 @@ export default function PracticeHome({ navigation }) {
   return (
     <View style={styles.rootContainer}>
       <MotivationalQuote />
-    
+      <ScrollView>
         <PracticeRow title="Practices" cardsData={HOME_PAGE_DATA.slice(0, 2)} />
 
         <PracticeRow title="Zen Box" cardsData={HOME_PAGE_DATA.slice(2, 5)} />
 
-        <Button
+        {/* <Button
           title="Show Bottom Sheet"
           onPress={() => setBottomSheetVisible(true)}
-        />
+        /> */}
+      </ScrollView>
       <PracticeModal
         isVisible={bottomSheetVisible}
         onClose={closeBottomSheet}
