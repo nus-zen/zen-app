@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { FontAwesome } from "@expo/vector-icons"; // You can use other icon libraries if preferred
+import { useNavigation } from "@react-navigation/native";
 
 const ThumbsRating = () => {
   const [rating, setRating] = useState(null);
+  const navigation = useNavigation();
 
   const handleRating = (selectedRating) => {
     // Handle the rating selection here, e.g., send it to a server or update state
     Alert.alert("you have rated " + selectedRating);
     setRating(selectedRating);
+    navigation.navigate("BottomTabsOverview");
   };
 
   return (
