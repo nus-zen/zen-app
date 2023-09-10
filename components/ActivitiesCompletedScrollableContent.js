@@ -94,6 +94,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray', 
   },
   currentPageIndicator: {
-    backgroundColor: 'green', 
+    backgroundColor: 'black', 
   },
 });

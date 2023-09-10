@@ -11,7 +11,7 @@ export default function JournalScreen() {
   const handleSaveEntry = () => {
     if (entryTitle.trim() !== "" && entryText.trim() !== "") {
       if (editingEntry !== null) {
-        // Update the edited entry
+        // Update the edited
         const updatedEntries = entries.map((item) => {
           if (item.id === editingEntry) {
             return { ...item, title: entryTitle, text: entryText };
