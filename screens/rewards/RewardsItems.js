@@ -9,7 +9,7 @@ const RewardsItems = () => {
     { id: 1, name: "$2 KOI Voucher", coins: 50, count: 0 },
     { id: 2, name: "$3 Awfully Chocolate Voucher", coins: 70, count: 0 },
     { id: 3, name: "$3 TWG Tea Voucher", coins: 70, count: 0 },
-    { id: 4, name: "$4 Crave Voucher", coins: 80, count: 0 },
+    { id: 4, name: "$4 Crave Voucher", coins: 40, count: 0 },
     { id: 5, name: "$4 Cat & The Fiddle Voucher", coins: 80, count: 0 },
     { id: 6, name: "$6 Birds of Paradise Voucher", coins: 90, count: 0 },
   ]);
