@@ -128,7 +128,7 @@ const App = () => {
             <Stack.Screen
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
-              options={{ headerTitle: ""}}
+              options={{ headerTitle: "ZenTree"}}
             />
             <Stack.Screen 
               name="RewardsItems" 
@@ -143,7 +143,7 @@ const App = () => {
             <Stack.Screen
               name="ZenBandDetailScreen"
               component={ZenBandDetailScreen}
-              options={{ headerTitle: ""}}
+              options={{ headerTitle: "ZenBand"}}
             />
             <Stack.Screen 
               name="LeagueHomepage" 
