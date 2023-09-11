@@ -70,7 +70,7 @@ const App = () => {
             <Stack.Screen
               name="BottomTabsOverview"
               component={BtmTabsOverview}
-              options={{ headerShown: false }}
+              options={{ headerShown: false, title: "Home" }}
             />
 
             <Stack.Screen
@@ -128,29 +128,29 @@ const App = () => {
             <Stack.Screen
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
-              options={{ headerTitle: ""}}
+              options={{ headerTitle: "" }}
             />
-            <Stack.Screen 
-              name="RewardsItems" 
+            <Stack.Screen
+              name="RewardsItems"
               component={RewardsItems}
               options={{ headerTitle: "My Cart" }}
             />
             <Stack.Screen
               name="TerrariumDetailScreen"
               component={TerrariumDetailScreen}
-              options={{ headerTitle: "ZenTerrarium"}}
+              options={{ headerTitle: "ZenTerrarium" }}
             />
             <Stack.Screen
               name="ZenBandDetailScreen"
               component={ZenBandDetailScreen}
-              options={{ headerTitle: ""}}
+              options={{ headerTitle: "" }}
             />
-            <Stack.Screen 
-              name="LeagueHomepage" 
+            <Stack.Screen
+              name="LeagueHomepage"
               component={LeagueHomepageScreen}
-              options={{ headerTitle: ""}}
-             />
-           </Stack.Navigator>
+              options={{ headerTitle: "" }}
+            />
+          </Stack.Navigator>
         </NavigationContainer>
       </>
     </SafeAreaProvider>

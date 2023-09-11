@@ -16,6 +16,7 @@ import {
   loadProgressImages,
   saveProgressImages,
 } from "../../utils/AsyncStorageUtils";
+import YouTubePlayer from "../../components/YouTubePlayer";
 
 const CrochetDetailsScreen = () => {
   const [progressImages, setProgressImages] = useState([]);
@@ -115,7 +116,9 @@ const CrochetDetailsScreen = () => {
           creative outlet and can be a relaxing and meditative activity.
         </Text>
       </View>
-
+      <View style={styles.middleSection}>
+        <YouTubePlayer videoId={"QdMwJyatGMI"} title={""} />
+      </View>
       <View style={styles.middleSection}>
         <Text style={styles.sectionTitle}>How to Crochet</Text>
         <Text style={styles.instructions}>
