@@ -138,7 +138,7 @@ const App = () => {
             <Stack.Screen
               name="TerrariumDetailScreen"
               component={TerrariumDetailScreen}
-              options={{ headerTitle: ""}}
+              options={{ headerTitle: "ZenTerrarium"}}
             />
             <Stack.Screen
               name="ZenBandDetailScreen"
