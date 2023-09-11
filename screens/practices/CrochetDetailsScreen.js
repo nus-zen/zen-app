@@ -1,22 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import * as ImagePicker from "expo-image-picker";
 import { GlobalColors } from "../../themes/GlobalColors";
 import ImageModal from "../../components/ImageModal";
-import {
-  loadProgressImages,
-  saveProgressImages,
-} from "../../utils/AsyncStorageUtils";
-import YouTubePlayer from "../../components/YouTubePlayer";
+import { loadProgressImages, saveProgressImages, } from "../../utils/AsyncStorageUtils";
+
 
 const CrochetDetailsScreen = () => {
   const [progressImages, setProgressImages] = useState([]);
@@ -137,7 +126,7 @@ const CrochetDetailsScreen = () => {
         <Text style={styles.instructions}>
           5. Yarn over again and pull through both loops on the hook.
         </Text>
-        {/* Add more instructions as needed */}
+
       </View>
 
       <View style={styles.bottomSection}>
@@ -183,10 +172,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
+    textAlign: "center",
   },
   description: {
     fontSize: 16,
     lineHeight: 24,
+    textAlign: "justify",
   },
   middleSection: {
     marginBottom: 20,
@@ -195,9 +186,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
+    textAlign: "center",
   },
   instructions: {
     marginBottom: 6,
+    textAlign: "justify",
   },
   bottomSection: {
     marginBottom: 20,

@@ -1,9 +1,17 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { GlobalColors } from "../../themes/GlobalColors";
+import { useNavigation } from '@react-navigation/native';
 
 const ZenBandDetailScreen = ({ navigation }) => {
   const [points, setPoints] = useState(0);
+ 
+
+  // Function to navigate to PracticeHome
+  const goToBottomTabsOverview = () => {
+    navigation.navigate('BottomTabsOverview');
+  };
 
   useEffect(() => {
     loadPoints();
@@ -102,8 +110,11 @@ const ZenBandDetailScreen = ({ navigation }) => {
         </Text>
         <Image
           source={require("../../assets//zenband/testimonial1.jpg")}
-          style={{ width: "100%", height: 200, resizeMode: "repeat" }}
+          style={{ width: "100%", height: 300, resizeMode: "center" }}
         />
+        <TouchableOpacity style={styles.amazingButton} onPress={goToBottomTabsOverview}>
+        <Text style={styles.amazingButtonText}>That's Amazing!</Text>
+      </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -126,19 +137,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     margin: 12,
+    textAlign: "center",
   },
   featuresText: {
     fontSize: 16,
     paddingHorizontal: 16,
+    textAlign: "justify",
   },
   benefitsText: {
     fontSize: 16,
+    textAlign: "justify",
   },
   usageText: {
     fontSize: 16,
   },
   testimonialText: {
     fontSize: 16,
+    textAlign: "justify",
   },
   featureImage: {
     width: "100%",
@@ -146,6 +161,21 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     marginBottom: 16,
   },
+  amazingButton: {
+    backgroundColor: GlobalColors.primary300,
+    paddingVertical: 12,
+    paddingHorizontal: 48,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 16,
+    marginHorizontal: 30,
+  },
+  amazingButtonText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
+      textAlign: "center",
+    },
 });
 
 export default ZenBandDetailScreen;

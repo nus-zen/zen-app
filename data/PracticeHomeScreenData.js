@@ -21,7 +21,7 @@ export const PracticeHomeScreenData = (navigation) => [
     uri: "https://us.123rf.com/450wm/chatun09/chatun092206/chatun09220600135/187305559-knitting-icon-hand-drawn-skein-of-thread-and-crochet-hook-hobby-concept-illustration-print.jpg",
     subtitle:
       "Stitch Away Stress: Find Calm and Creativity through Crocheting.",
-    title: "Crocheting",
+    title: "ZenTree",
     onPress: () => {
       navigation.navigate("CrochetDetailsScreen");
     },
@@ -29,7 +29,7 @@ export const PracticeHomeScreenData = (navigation) => [
   {
     uri: "https://static.vecteezy.com/system/resources/previews/019/465/921/non_2x/illustration-cute-terrarium-in-a-glass-jar-isolated-on-white-background-vector.jpg",
     subtitle: "Nurture Your Peace: Build a Terrarium and Cultivate Serenity.",
-    title: "Terrarium",
+    title: "ZenTerrarium",
     onPress: () => {
       navigation.navigate("TerrariumDetailScreen");
     },
