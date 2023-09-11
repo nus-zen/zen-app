@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import ThumbsRating from "../../components/ThumbsRating";
 
-export default function PracticeRatingScreen({ route }) {
+export default function PracticeRatingScreen() {
   const navigation = useNavigation();
 
   const handleFinishRating = () => {
@@ -37,9 +38,11 @@ export default function PracticeRatingScreen({ route }) {
       {/* Title */}
       <Text style={styles.title}>You have completed the practice!</Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleFinishRating}>
+      {/* <TouchableOpacity style={styles.button} onPress={handleFinishRating}>
         <Text style={styles.buttonText}>Great effort!</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <Text style={styles.buttonText}>Was that practice effective?</Text>
+      <ThumbsRating />
     </View>
   );
 }
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonText: {
-    color: "white",
+    color: "black",
     fontSize: 16,
     fontWeight: "bold",
   },

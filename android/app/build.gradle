@@ -113,9 +113,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.nus_zen.ZenAPP'
+    namespace 'com.nus.zen.ZenAPP'
     defaultConfig {
-        applicationId 'com.nus_zen.ZenAPP'
+        applicationId 'com.nus.zen.ZenAPP'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
