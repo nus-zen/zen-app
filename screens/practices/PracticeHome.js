@@ -1,4 +1,4 @@
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Button, ScrollView } from "react-native";
 import PracticeRow from "../../components/PracticeRow";
 import MotivationalQuote from "../../components/MotivationalQuote";
 import { PracticeHomeScreenData } from "../../data/PracticeHomeScreenData";
