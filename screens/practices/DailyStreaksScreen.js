@@ -42,7 +42,7 @@ export default function DailyStreaksLoginScreen({ navigation }) {
     setStreak(0);
     await AsyncStorage.setItem("dailyStreak", "0");
 
-    if (newStreak === 0) {
+    if (streak === 0) {
       addPoints(-50);
     }
   };
