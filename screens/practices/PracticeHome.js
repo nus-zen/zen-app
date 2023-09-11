@@ -1,11 +1,9 @@
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import PracticeRow from "../../components/PracticeRow";
 import MotivationalQuote from "../../components/MotivationalQuote";
 import { PracticeHomeScreenData } from "../../data/PracticeHomeScreenData";
 import PracticeModal from "../../components/PracticeModal";
 import { useState, useEffect } from "react";
-import { ScrollView } from "react-native-gesture-handler";
-import ThumbsRating from "../../components/ThumbsRating";
 
 export default function PracticeHome({ navigation }) {
   const HOME_PAGE_DATA = PracticeHomeScreenData(navigation);
