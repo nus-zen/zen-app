@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, View, Text, ImageBackground, StyleSheet, TouchableOpacity, } from "react-native";
 import * as Font from "expo-font";
 import Icon from "react-native-vector-icons/FontAwesome"; 
 import MoodCalendar from "../../components/MoodCalendar";
@@ -29,11 +22,23 @@ export default function MoodCheckInScreen({ navigation}) {
     loadFonts();
   }, []);
 
-  const handleMoodSelection = (selectedMood) => {
-    setMood(selectedMood);
-    navigation.navigate("DailyStreaksScreen");
-    console.log("MoodCheckIn Button is pressed");
+  const handleMoodSelection = async (selectedMood) => {
+    try {
+      // Store the selected mood in AsyncStorage
+      await AsyncStorage.setItem("selectedMood", selectedMood);
+      
+      // Print a message when storing is successful
+      console.log("Mood stored:", selectedMood);
+      
+      // Navigate to the DailyStreaksScreen
+      navigation.navigate("DailyStreaksScreen");
+      
+      console.log("MoodCheckIn Button is pressed");
+    } catch (error) {
+      console.error("Error storing mood:", error);
+    }
   };
+  
 
   useEffect(() => {
     const getCurrentDate = () => {

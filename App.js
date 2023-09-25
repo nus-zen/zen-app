@@ -112,7 +112,7 @@ const App = () => {
             <Stack.Screen
               name="ProfileScreen"
               component={ProfileScreen}
-              options={{ headerShown: false }}
+              options={{ headerTitle: "", headerTransparent: true }}
             />
 
             <Stack.Screen
