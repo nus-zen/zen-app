@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from "@expo/vector-icons";
+import { ZenBandHelpCard } from "../../components/ZenBandHelpCard";
 
-const ZenBandDetailScreen = ({ navigation }) => {
+  export default function ZenBandDetailScreen({ navigation }) {
   const [points, setPoints] = useState(0);
- 
+  const [isHelpVisible, setIsHelpVisible] = useState(false);
 
   // Function to navigate to PracticeHome
   const goToBottomTabsOverview = () => {
@@ -35,6 +37,21 @@ const ZenBandDetailScreen = ({ navigation }) => {
     addPoints(30);
     navigation.navigate("BottomTabsOverview");
   };
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => {
+            setIsHelpVisible(true);
+          }}
+          style={{ marginRight: 15 }}
+        >
+          <Ionicons name="ios-help-circle" size={30} color="black" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <ScrollView style={styles.container}>
@@ -116,9 +133,14 @@ const ZenBandDetailScreen = ({ navigation }) => {
         <Text style={styles.amazingButtonText}>That's Amazing!</Text>
       </TouchableOpacity>
       </View>
+        <ZenBandHelpCard
+          isVisible={isHelpVisible}
+          onClose={() => setIsHelpVisible(false)}
+        />
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -142,18 +164,18 @@ const styles = StyleSheet.create({
   featuresText: {
     fontSize: 16,
     paddingHorizontal: 16,
-    textAlign: "justify",
+    textAlign: "left",
   },
   benefitsText: {
     fontSize: 16,
-    textAlign: "justify",
+    textAlign: "left",
   },
   usageText: {
     fontSize: 16,
   },
   testimonialText: {
     fontSize: 16,
-    textAlign: "justify",
+    textAlign: "left",
   },
   featureImage: {
     width: "100%",
@@ -178,4 +200,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ZenBandDetailScreen;

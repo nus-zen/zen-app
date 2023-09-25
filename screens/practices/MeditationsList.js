@@ -1,21 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import {
-  Dimensions,
-  SafeAreaView,
-  StyleSheet,
-  View,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { Dimensions, SafeAreaView, StyleSheet, View, FlatList, TouchableOpacity, } from "react-native";
 import MeditationCard from "../../components/MeditationCard";
 import { MEDITATIONS_DATA } from "../../data/MeditationsData";
-import {
-  getMeditationsFavorites,
-  getShowFavOnly,
-  saveShowFavOnly,
-} from "../../utils/AsyncStorageUtils";
+import { getMeditationsFavorites, getShowFavOnly, saveShowFavOnly,} from "../../utils/AsyncStorageUtils";
 
 export default function MeditationsList({ navigation }) {
   const [showFavOnly, setShowFavOnly] = useState(false);
