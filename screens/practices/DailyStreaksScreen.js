@@ -20,7 +20,7 @@ export default function DailyStreaksLoginScreen({ navigation }) {
 
   const loadStreak = async () => {
     const storedStreak = await AsyncStorage.getItem("dailyStreak");
-    setStreak(storedStreak ? parseInt(storedStreak) : 0);
+    setStreak(storedStreak ? parseInt(storedStreak) : 1);
   };
 
   const loadPoints = async () => {

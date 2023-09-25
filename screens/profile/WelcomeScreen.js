@@ -1,34 +1,37 @@
 import React, { useEffect, useState } from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+import {SafeAreaView, View, Text, StyleSheet, TouchableOpacity, ImageBackground, } from "react-native";
 import * as Font from "expo-font";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function WelcomeScreen({ navigation }) {
   const [fontLoaded, setFontLoaded] = useState(false);
 
-  useEffect(() => {
-    const loadFonts = async () => {
-      try {
-        await Font.loadAsync({
-          'InterBlack': require("../../assets/fonts/inter-font/Inter-Black.ttf"),
-        });
-
-        setFontLoaded(true);
-        console.log("Font loaded successfully!");
-      } catch (error) {
-        console.log("Error loading font:", error);
-      }
-    };
-
-    loadFonts();
-  }, []);
+  const loadFonts = async () => {
+    try {
+      await Font.loadAsync({
+        'InterBlack': require("../../assets/fonts/inter-font/Inter-Black.ttf"),
+      });
   
+      setFontLoaded(true);
+      console.log("Font loaded successfully!");
+    } catch (error) {
+      console.log("Error loading font:", error);
+    }
+  };
+  
+  const handleClearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('AsyncStorage has been cleared.');
+    } catch (error) {
+      console.error('Error clearing AsyncStorage:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadFonts();
+    handleClearAsyncStorage();
+  }, []);
 
   const handlePress = () => {
     navigation.navigate("LoginScreen");
