@@ -1,66 +1,70 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
-import MoodCheckInScreen from "../screens/profile/MoodCheckInScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function MoodCalendar({setMood}) {
+export default function MoodCalendar({}) {
   const currentDate = moment().format('YYYY-MM-DD');
-  const [selectedMoodDate, setSelectedMoodDate] = useState('');
-  const [moodColor, setMoodColor] = useState('');
+  const [storedMood, setStoredMood] = useState(null);
 
-  
-  // const handleDayPress = (day) => {
-  // setSelectedMoodDate(day.dateString);
-  // };
-  const getSelectedMoodDate = () => {
-    if (setMood === 'Amazing') {
-      return {
-        selected: true,
-        selectedColor: '#FFFF00',
-        selectedTextColor: 'black',
-      };
-    } else if (setMood === 'Awful') {
-      return {
-        selected: true,
-        selectedColor: '#7CFC00',
-        selectedTextColor: 'white',
-      };
-    } else if (setMood === 'Good') {
-      return {
-        selected: true,
-        selectedColor: '#228B22',
-        selectedTextColor: 'white',
-      };
-    } else if (setMood === 'Meh') {
-      return {
-        selected: true,
-        selectedColor: '#556B2F',
-        selectedTextColor: 'white',
-      };
+  useEffect(() => {
+    getStoredMood();
+  }, []);
+
+  const getStoredMood = async () => {
+    try {
+      const storedMood = await AsyncStorage.getItem("selectedMood");
+      setStoredMood(storedMood);
+      console.log("Mood stored:", storedMood);
+    } catch (error) {
+      console.error("Error retrieving mood:", error);
     }
-    return {};
   };
 
-
   const CustomCalendar = () => {
-    const marked = {
-      ...getSelectedMoodDate(),
-      currentDate: {marked}
-    };
+    // Calculate the date range for one year from the current date
+    const oneYearAgo = moment().subtract(1, 'year').format('YYYY-MM-DD');
+    const oneYearFromNow = moment().add(1, 'year').format('YYYY-MM-DD');
+    console.log(getColorForMood(storedMood));
+    console.log(currentDate);
+    // Define the marked dates object inside the CustomCalendar component
+    const marked = {};
+
+  marked[currentDate] = {
+    dotColor: getColorForMood(storedMood), // Pass storedMood here
+    selected: true,
+  };
 
 
     return (
       <Calendar
         initialDate={currentDate}
-        minDate="2022-12-01"
-        maxDate="2022-12-31"
+        minDate={oneYearAgo} // Set minDate to one year ago
+        maxDate={oneYearFromNow} // Set maxDate to one year from now
         disableAllTouchEventsForDisabledDays={true}
         markedDates={marked}
         style={styles.calendar}
       />
     );
   };
+
+  const getColorForMood = (mood) => {
+    let color = 'transparent'; // Default color
+  
+    if (mood === 'Good') {
+      color = '#7CFC00'; // Green
+    } else if (mood === 'Awful') {
+      color = '#228B22'; // Forest Green
+    } else if (mood === 'Meh') {
+      color = '#556B2F'; // Dark Olive Green
+    } else if (mood === 'Amazing') {
+      color = '#FFFF00'; // Yellow
+    }
+  
+    return color;
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 4,
-    textAlign: 'center', 
+    textAlign: 'center',
   },
   calendar: {
     width: '100%',
