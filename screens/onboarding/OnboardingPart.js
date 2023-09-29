@@ -1,11 +1,21 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Image, Text, View } from "react-native";
 
-const OnboardingPart = ({ imageSource, text }) => {
+const OnboardingPart = ({ imageSource, text, isLast, navigation }) => {
+  const handleButtonPress = () => {
+    navigation.navigate("WelcomeScreen");
+  };
+
   return (
     <View style={styles.container}>
       <Image source={imageSource} style={styles.image} />
       <Text style={styles.text}> {text} </Text>
+
+      {isLast && (
+        <TouchableOpacity onPress={handleButtonPress} style={styles.button}>
+          <Text style={styles.buttonText}>Start Zenning</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -25,6 +35,18 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20, // Adjust the font size as needed
     textAlign: "center", // Center the text
+    padding: 20,
+  },
+  button: {
+    backgroundColor: "green",
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
   },
 });
 
