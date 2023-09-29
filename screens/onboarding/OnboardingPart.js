@@ -3,7 +3,7 @@ import { Image, Text, View } from "react-native";
 
 const OnboardingPart = ({ imageSource, text, isLast, navigation }) => {
   const handleButtonPress = () => {
-    navigation.navigate("WelcomeScreen");
+    navigation.navigate("LoginScreen");
   };
 
   return (
@@ -25,12 +25,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
   },
   image: {
-    width: 200, // Adjust the width as needed
-    height: 200, // Adjust the height as needed
+    width: "100%", // Adjust the width as needed
+    height: "70%", // Adjust the height as needed
     resizeMode: "contain", // Adjust the resizeMode as needed
     marginBottom: 20, // Add spacing between image and text
+    borderRadius: 50,
+    borderColor: "green",
   },
   text: {
     fontSize: 20, // Adjust the font size as needed
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginTop: 20,
+    marginBottom: 100,
   },
   buttonText: {
     color: "white",
