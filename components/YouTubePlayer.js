@@ -51,8 +51,10 @@ export default function YouTubePlayer({ videoId, title }) {
     console.log("Total Time Played:", totalTimePlayed);
     console.log("Amount:", amount);
     console.log("Updated Points:", updatedPoints);
-
-    navigation.navigate("HRVFeedbackScreen", { title: title });
+    //unless crocheting
+    if (videoId !== "QdMwJyatGMI") {
+      navigation.navigate("HRVFeedbackScreen", { title: title });
+    }
   };
 
   return (

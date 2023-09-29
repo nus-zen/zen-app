@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
 import { FlatList } from "react-native"; // Import FlatList
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function JournalScreen() {
   const [entryTitle, setEntryTitle] = useState("");
   const [entryText, setEntryText] = useState("");
   const [entries, setEntries] = useState([]);
   const [editingEntry, setEditingEntry] = useState(null);
-  const [score, setScore] = useState(0); // Add score state
+  const [points, setPoints] = useState(0); // Add score state
 
-  const handleSaveEntry = () => {
+  useEffect(() => {
+    loadPoints();
+  }, []);
+
+  const loadPoints = async () => {
+    const storedPoints = await AsyncStorage.getItem("userPoints");
+    setPoints(storedPoints ? parseInt(storedPoints) : 0);
+    console.log("Total Points Stored:", storedPoints);
+  };
+
+  const handleSaveEntry = async () => {
     if (entryTitle.trim() !== "" && entryText.trim() !== "") {
       if (editingEntry !== null) {
         // Update the edited
@@ -32,8 +44,9 @@ export default function JournalScreen() {
         };
         setEntries([...entries, newEntry]);
 
-        // Increment the score by 10 points
-        setScore(score + 10);
+        const updatedPoints = points + 100;
+        setPoints(updatedPoints);
+        await AsyncStorage.setItem("userPoints", updatedPoints.toString());
       }
 
       // Clear input fields
@@ -56,12 +69,13 @@ export default function JournalScreen() {
     setEntries(updatedEntries);
   };
 
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Mood Journaling</Text>
         <View style={styles.scoreContainer}>
-          <Text style={styles.scoreText}>Score: {score}</Text>
+          <Text style={styles.scoreText}>Points: {points}</Text>
         </View>
       </View>
       <TextInput
