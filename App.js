@@ -51,6 +51,7 @@ const App = () => {
             <Stack.Screen
               name="OnboardingScreen"
               component={OnboardingScreen}
+              options={{ title: "Welcome to ZenApp!" }}
             />
             <Stack.Screen
               name="LoginScreen"
