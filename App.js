@@ -24,6 +24,7 @@ import TerrariumDetailScreen from "./screens/practices/TerrariumDetailScreen";
 import ZenBandDetailScreen from "./screens/practices/ZenBandDetailScreen";
 import MeditationTopTabScreen from "./screens/practices/MeditationTopTabScreen";
 import LeagueHomepageScreen from "./screens/rewards/LeagueHomepageScreen";
+import OnboardingScreen from "./screens/onboarding/OnboardingScreen";
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,10 @@ const App = () => {
               name="WelcomeScreen"
               component={WelcomeScreen}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="OnboardingScreen"
+              component={OnboardingScreen}
             />
             <Stack.Screen
               name="LoginScreen"
@@ -128,7 +133,7 @@ const App = () => {
             <Stack.Screen
               name="CrochetDetailsScreen"
               component={CrochetDetailsScreen}
-              options={{ headerTitle: "ZenTree"}}
+              options={{ headerTitle: "ZenTree" }}
             />
             <Stack.Screen
               name="RewardsItems"
@@ -143,7 +148,7 @@ const App = () => {
             <Stack.Screen
               name="ZenBandDetailScreen"
               component={ZenBandDetailScreen}
-              options={{ headerTitle: "ZenBand"}}
+              options={{ headerTitle: "ZenBand" }}
             />
             <Stack.Screen
               name="LeagueHomepage"
