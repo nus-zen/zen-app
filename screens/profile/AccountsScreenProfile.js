@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import UploadImage from '../../components/UploadImage';
+import React, { useState } from "react";
+import {
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import UploadImage from "../../components/UploadImage";
 
 export default function AccountsScreenProfile({ navigation, route }) {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [confirmBirthday, setConfirmBirthday] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmBirthday, setConfirmBirthday] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const isValidEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -18,18 +26,20 @@ export default function AccountsScreenProfile({ navigation, route }) {
 
   const handleSave = () => {
     if (!isValidEmail(email) || password !== confirmPassword) {
-      setEmailError(!isValidEmail(email) ? 'Please enter a valid email' : '');
-      setPasswordError(password !== confirmPassword ? 'Passwords do not match' : '');
+      setEmailError(!isValidEmail(email) ? "Please enter a valid email" : "");
+      setPasswordError(
+        password !== confirmPassword ? "Passwords do not match" : ""
+      );
       return;
     }
 
-    console.log('Full Name:', fullName);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
-    console.log('Confirm Birthday:', confirmBirthday);
+    console.log("Full Name:", fullName);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    console.log("Confirm Password:", confirmPassword);
+    console.log("Confirm Birthday:", confirmBirthday);
 
-    navigation.navigate('ProfileScreen');
+    navigation.navigate("ProfileScreen");
   };
 
   return (
@@ -81,7 +91,9 @@ export default function AccountsScreenProfile({ navigation, route }) {
           secureTextEntry
           placeholderTextColor="white"
         />
-        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+        {passwordError ? (
+          <Text style={styles.errorText}>{passwordError}</Text>
+        ) : null}
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Birthday</Text>
@@ -103,14 +115,14 @@ export default function AccountsScreenProfile({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: 40,
     marginTop: 40,
   },
   imageContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   inputContainer: {
     marginBottom: 10,
@@ -118,36 +130,35 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 8,
     fontSize: 16,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   input: {
     height: 50,
-    borderColor: '#589310',
+    borderColor: "#589310",
     borderWidth: 1,
     paddingHorizontal: 60,
     borderRadius: 50,
-    backgroundColor: '#589310',
-    color: 'white',
+    backgroundColor: "#589310",
+    color: "white",
   },
   errorText: {
-    color: 'red',
+    color: "red",
     fontSize: 14,
     marginTop: 4,
   },
   saveButton: {
-    backgroundColor: '#589310',
+    backgroundColor: "#589310",
     borderRadius: 50,
     paddingVertical: 10,
     paddingHorizontal: 24,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     marginTop: 16,
   },
   saveButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
-

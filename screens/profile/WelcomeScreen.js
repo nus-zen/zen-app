@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {SafeAreaView, View, Text, StyleSheet, TouchableOpacity, ImageBackground, } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 import * as Font from "expo-font";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function WelcomeScreen({ navigation }) {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -9,22 +16,22 @@ export default function WelcomeScreen({ navigation }) {
   const loadFonts = async () => {
     try {
       await Font.loadAsync({
-        'InterBlack': require("../../assets/fonts/inter-font/Inter-Black.ttf"),
+        InterBlack: require("../../assets/fonts/inter-font/Inter-Black.ttf"),
       });
-  
+
       setFontLoaded(true);
       console.log("Font loaded successfully!");
     } catch (error) {
       console.log("Error loading font:", error);
     }
   };
-  
+
   const handleClearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
-      console.log('AsyncStorage has been cleared.');
+      console.log("AsyncStorage has been cleared.");
     } catch (error) {
-      console.error('Error clearing AsyncStorage:', error);
+      console.error("Error clearing AsyncStorage:", error);
     }
   };
 
@@ -38,6 +45,10 @@ export default function WelcomeScreen({ navigation }) {
     console.log("Welcome Screen Button is pressed");
   };
 
+  const handleOnboardingPress = () => {
+    console.log("pressed onboarding button");
+    navigation.navigate("OnboardingScreen");
+  };
   return (
     <SafeAreaView style={styles.safeArea}>
       <ImageBackground
@@ -51,6 +62,13 @@ export default function WelcomeScreen({ navigation }) {
             </Text>
             <TouchableOpacity style={styles.button} onPress={handlePress}>
               <Text style={styles.buttonText}>Get Started</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.button, { marginTop: 20 }]}
+              onPress={handleOnboardingPress}
+            >
+              <Text style={styles.buttonText}>Onboarding</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -91,9 +109,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    position: "absolute",
+    //position: "absolute",
     width: 220,
-    bottom: "20%",
+    bottom: "-20%",
     backgroundColor: "green",
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: { width: 0, height: 4 },
