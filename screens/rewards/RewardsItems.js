@@ -57,7 +57,7 @@ const RewardsItems = () => {
   const handlePurchase = async () => {
     const totalSelectedCost = vouchers.reduce((acc, item) => acc + item.coins * item.count, 0);
   
-    if (totalSelectedCost > STpoints) {
+    if (totalSelectedCost > STpoints || STpoints == 0) {
       console.log("Not enough coins for checkout!");
       // Optionally, you can display a message or handle this situation in your app.
     } else {
