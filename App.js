@@ -11,6 +11,7 @@ import BtmTabsOverview from "./screens/BtmTabsOverview";
 import PracticeRatingScreen from "./screens/practices/PracticeRatingScreen";
 import MoodCheckInScreen from "./screens/profile/MoodCheckInScreen";
 import JournalScreen from "./screens/journal/JournalScreen";
+import JournalScreen2 from "./screens/journal/JournalScreen2";
 import CrochetDetailsScreen from "./screens/practices/CrochetDetailsScreen";
 import LoginScreen from "./screens/profile/LoginScreen";
 import HRVFeedbackScreen from "./screens/practices/HRVFeedbackScreen";
@@ -96,7 +97,7 @@ const App = () => {
 
             <Stack.Screen
               name="JournalScreen"
-              component={JournalScreen}
+              component={JournalScreen2}
               options={{ headerTitle: "Journal" }}
             />
 
