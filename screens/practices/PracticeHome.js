@@ -12,13 +12,29 @@ import { PracticeHomeScreenData } from "../../data/PracticeHomeScreenData";
 import PracticeModal from "../../components/PracticeModal";
 import { useState, useEffect } from "react";
 import Tooltip from "react-native-walkthrough-tooltip";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function PracticeHome({ navigation }) {
   const HOME_PAGE_DATA = PracticeHomeScreenData(navigation);
 
-  const [practiceTooltipVisible, setPracticeTooltipVisible] = useState(true);
+  const checkFirstVisit = async () => {
+    try {
+      const hasVisited = await AsyncStorage.getItem("hasVisitedPracticeHome");
+      console.log("hasVisited:", hasVisited);
+      if (!hasVisited) {
+        console.log("Tooltips will be shown for first time user.");
+        showToolTips();
+        await AsyncStorage.setItem("hasVisitedPracticeHome", "true");
+      }
+    } catch (error) {
+      console.error("Error checking First Visit:", error);
+    }
+  };
+
+  const [practiceTooltipVisible, setPracticeTooltipVisible] = useState(false);
   const [zenBoxTooltipVisible, setZenBoxTooltipVisible] = useState(false);
   const [quoteToolTipVisible, setQuoteToolTipVisible] = useState(false);
+
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
 
   const closeBottomSheet = () => {
@@ -37,7 +53,7 @@ export default function PracticeHome({ navigation }) {
 
   const showRandomModal = () => {
     const randomNumber = Math.random(); // Generate a random number between 0 and 1
-    console.log(randomNumber);
+    console.log("value of RNG for modal:", randomNumber);
 
     // If the generated random number is less than 0.3 (30% chance), show the modal
     if (randomNumber < 0.3) {
@@ -48,6 +64,7 @@ export default function PracticeHome({ navigation }) {
 
   // UseEffect hook to show the modal randomly when the component mounts (i.e., user enters the home screen)
   useEffect(() => {
+    checkFirstVisit();
     showRandomModal();
 
     // Cleanup function to clear any timers when the component unmounts
