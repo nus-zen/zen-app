@@ -1,18 +1,25 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { ZenBandHelpCard } from "../../components/ZenBandHelpCard";
 
-  export default function ZenBandDetailScreen({ navigation }) {
+export default function ZenBandDetailScreen({ navigation }) {
   const [points, setPoints] = useState(0);
   const [isHelpVisible, setIsHelpVisible] = useState(false);
 
   // Function to navigate to PracticeHome
   const goToBottomTabsOverview = () => {
-    navigation.navigate('BottomTabsOverview');
+    navigation.navigate("BottomTabsOverview");
   };
 
   useEffect(() => {
@@ -70,7 +77,8 @@ import { ZenBandHelpCard } from "../../components/ZenBandHelpCard";
           university days {"\n"}
           {"\n"}• Quick Access to Aromatherapy to unwind during study sessions{" "}
           {"\n"}
-          {"\n"}• Customizable Scents for a personalized aromatherapy experience
+          {"\n"}• Customizable Scents for a personalized aromatherapy experience{" "}
+          {"\n"}
         </Text>
         <Image
           source={require("../../assets//zenband/stylish-design.jpg")}
@@ -103,7 +111,7 @@ import { ZenBandHelpCard } from "../../components/ZenBandHelpCard";
         <Text style={styles.featuresText}>
           • Adjustable size for a comfortable fit {"\n"}
           {"\n"}• Fidget-friendly twist cap for stress relief {"\n"}
-          {"\n"}• Twist the cap to open the smell hole for aromatherapy
+          {"\n"}• Twist the cap to open the smell hole for aromatherapy{"\n"}
         </Text>
         <Image
           source={require("../../assets//zenband/mechanics.jpg")}
@@ -123,24 +131,26 @@ import { ZenBandHelpCard } from "../../components/ZenBandHelpCard";
           focused and calm while wearing it." - Sarah {"\n"}
           {"\n"}
           "As a college student, the ZenBand helped me manage stress and feel
-          more relaxed during busy days." - Alex
+          more relaxed during busy days." - Alex{"\n"}
         </Text>
         <Image
           source={require("../../assets//zenband/testimonial1.jpg")}
           style={{ width: "100%", height: 300, resizeMode: "center" }}
         />
-        <TouchableOpacity style={styles.amazingButton} onPress={goToBottomTabsOverview}>
-        <Text style={styles.amazingButtonText}>That's Amazing!</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.amazingButton}
+          onPress={goToBottomTabsOverview}
+        >
+          <Text style={styles.amazingButtonText}>That's Amazing!</Text>
+        </TouchableOpacity>
       </View>
-        <ZenBandHelpCard
-          isVisible={isHelpVisible}
-          onClose={() => setIsHelpVisible(false)}
-        />
+      <ZenBandHelpCard
+        isVisible={isHelpVisible}
+        onClose={() => setIsHelpVisible(false)}
+      />
     </ScrollView>
   );
-};
-
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -193,10 +203,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   amazingButtonText: {
-      color: "white",
-      fontSize: 16,
-      fontWeight: "bold",
-      textAlign: "center",
-    },
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 });
-

@@ -1,7 +1,14 @@
 import React from "react";
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const steps = [
   "Begin with a layer of white pebbles for drainage, a stylish start for your plant paradise.",
@@ -28,7 +35,7 @@ const TerrariumDetailScreen = () => {
 
   // Function to navigate to PracticeHome
   const goToBottomTabsOverview = () => {
-    navigation.navigate('BottomTabsOverview');
+    navigation.navigate("BottomTabsOverview");
   };
 
   return (
@@ -59,12 +66,14 @@ const TerrariumDetailScreen = () => {
           style={styles.materialsImage}
         />
         <Text style={styles.materialsText}>
-          • Plastic container{"\n"}•White Pebbles {"\n"}•Blue Pebbles {"\n"}•
-          Potting soil{"\n"}• Air plants{"\n"}• Decorative elements
-          (optional)
+          • Plastic container{"\n"}• White Pebbles {"\n"}• Blue Pebbles {"\n"}•
+          Potting soil{"\n"}• Air plants{"\n"}• Decorative elements (optional)
         </Text>
       </View>
-      <TouchableOpacity style={styles.amazingButton} onPress={goToBottomTabsOverview}>
+      <TouchableOpacity
+        style={styles.amazingButton}
+        onPress={goToBottomTabsOverview}
+      >
         <Text style={styles.amazingButtonText}>That's Amazing!</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -104,7 +113,6 @@ const styles = StyleSheet.create({
   stepText: {
     flex: 1,
     fontSize: 16,
-    textAlign: "justify",
   },
   materialsContainer: {
     alignItems: "center",
@@ -130,11 +138,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   amazingButtonText: {
-      color: "white",
-      fontSize: 16,
-      fontWeight: "bold",
-      textAlign: "center",
-    },
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 });
 
 export default TerrariumDetailScreen;

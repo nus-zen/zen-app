@@ -49,8 +49,7 @@ export default function MeditationDetailScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: "#F5F5F5",
+    margin: 16,
   },
   title: {
     fontSize: 24,
