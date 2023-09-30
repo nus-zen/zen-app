@@ -80,6 +80,8 @@ const styles = StyleSheet.create({
     bottom: 16,
     left: 16,
     right: 16,
+    borderColor: "black",
+    borderWidth: 1,
   },
   crochetIcon: {
     width: 100,

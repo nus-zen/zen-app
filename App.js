@@ -44,7 +44,7 @@ const App = () => {
           }}
         >
           <Stack.Navigator>
-            <Stack.Screen
+            {/* <Stack.Screen
               name="WelcomeScreen"
               component={WelcomeScreen}
               options={{ headerShown: false }}
@@ -73,7 +73,7 @@ const App = () => {
               name="DailyStreaksScreen"
               component={DailyStreaksScreen}
               options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
               name="BottomTabsOverview"
               component={BtmTabsOverview}
