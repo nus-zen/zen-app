@@ -1,20 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Text, SafeAreaView, TouchableOpacity, Linking } from 'react-native';
-import * as Font from 'expo-font';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
+import * as Font from "expo-font";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function CreateAccountScreen({ navigation }) {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
-        'Inter-Bold': require("../../assets/fonts/inter-font/Inter-Bold.ttf"),
+        "Inter-Bold": require("../../assets/fonts/inter-font/Inter-Bold.ttf"),
       });
 
       setFontLoaded(true);
@@ -30,15 +39,25 @@ export default function CreateAccountScreen({ navigation }) {
 
   const handleCreateAccount = () => {
     if (!isValidEmail(email) || password !== confirmPassword) {
-      setEmailError(!isValidEmail(email) ? 'Please enter a valid email' : '');
-      setPasswordError(password !== confirmPassword ? 'Passwords do not match' : '');
+      setEmailError(!isValidEmail(email) ? "Please enter a valid email" : "");
+      setPasswordError(
+        password !== confirmPassword ? "Passwords do not match" : ""
+      );
       return;
     }
 
-    console.log('Full Name:', fullName);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
+    console.log("Full Name:", fullName);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    console.log("Confirm Password:", confirmPassword);
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log("User registered:", userCredential.user);
+      })
+      .catch((error) => {
+        console.error("Registration error:", error);
+      });
   };
 
   return (
@@ -67,7 +86,9 @@ export default function CreateAccountScreen({ navigation }) {
               autoCapitalize="none"
               placeholderTextColor="white"
             />
-            {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+            {emailError ? (
+              <Text style={styles.errorText}>{emailError}</Text>
+            ) : null}
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Password</Text>
@@ -90,16 +111,22 @@ export default function CreateAccountScreen({ navigation }) {
               secureTextEntry
               placeholderTextColor="white"
             />
-            {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+            {passwordError ? (
+              <Text style={styles.errorText}>{passwordError}</Text>
+            ) : null}
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-              <Text
-                style={styles.loginLinkText}
-                onPress={() => navigation.navigate('LoginScreen')}
-              >Already have an account? Log in
-              </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
+            <Text
+              style={styles.loginLinkText}
+              onPress={() => navigation.navigate("LoginScreen")}
+            >
+              Already have an account? Log in
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.createAccountButton} onPress={handleCreateAccount}>
+          <TouchableOpacity
+            style={styles.createAccountButton}
+            onPress={handleCreateAccount}
+          >
             <Text style={styles.createAccountButtonText}>Create Account</Text>
           </TouchableOpacity>
           <View style={styles.buttonSeparator} />
@@ -112,15 +139,15 @@ export default function CreateAccountScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: 40,
     marginTop: 40,
   },
   title: {
     fontSize: 28,
     marginBottom: 16,
-    textAlign: 'center',
-    fontFamily: 'Inter-Bold'
+    textAlign: "center",
+    fontFamily: "Inter-Bold",
   },
   inputContainer: {
     marginBottom: 16,
@@ -128,43 +155,43 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 8,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   input: {
     height: 50,
-    borderColor: '#589310',
+    borderColor: "#589310",
     borderWidth: 1,
     paddingHorizontal: 60,
     borderRadius: 50,
-    backgroundColor: '#589310',
-    color: 'white',
+    backgroundColor: "#589310",
+    color: "white",
   },
   errorText: {
-    color: 'red',
+    color: "red",
     fontSize: 14,
     marginTop: 4,
   },
   createAccountButton: {
-    backgroundColor: '#589310',
+    backgroundColor: "#589310",
     borderRadius: 50,
     paddingVertical: 12,
     paddingHorizontal: 24,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     marginTop: 16,
   },
   createAccountButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
   },
   buttonSeparator: {
     height: 16,
   },
   loginLinkText: {
-    color: 'green',
-    textDecorationLine: 'underline',
+    color: "green",
+    textDecorationLine: "underline",
     marginLeft: 5,
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

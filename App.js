@@ -26,10 +26,34 @@ import ZenBandDetailScreen from "./screens/practices/ZenBandDetailScreen";
 import MeditationTopTabScreen from "./screens/practices/MeditationTopTabScreen";
 import LeagueHomepageScreen from "./screens/rewards/LeagueHomepageScreen";
 import OnboardingScreen from "./screens/onboarding/OnboardingScreen";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { useEffect } from "react";
 
 const Stack = createStackNavigator();
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDaWjLqO7duoHVTkpv23t9Esun4CIMeNOk",
+  authDomain: "zenapp-df212.firebaseapp.com",
+  databaseURL:
+    "https://zenapp-df212-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "zenapp-df212",
+  storageBucket: "zenapp-df212.appspot.com",
+  messagingSenderId: "464749753128",
+  appId: "1:464749753128:web:a0ac094c8e4ad248b8961d",
+  measurementId: "G-CK73YHENCX",
+};
+
+const Firebase = initializeApp(firebaseConfig);
+
 const App = () => {
+  // useEffect(() => {
+  //   // Initialize Firebase
+  //   initializeApp(firebaseConfig);
+  // }, []);
+
   return (
     <SafeAreaProvider>
       <>
