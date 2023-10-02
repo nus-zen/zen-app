@@ -22,7 +22,7 @@ export default function MoodCheckInScreen({ navigation}) {
 
     loadFonts();
   }, []);
-
+// ordering by timestamp is questionable for data privacy reasons
   const handleMoodSelection = async (selectedMood) => {
     try {
       // Store the selected mood in AsyncStorage
