@@ -29,47 +29,11 @@ import OnboardingScreen from "./screens/onboarding/OnboardingScreen";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { useEffect } from "react";
-import {
-  getAuth,
-  onAuthStateChanged,
-  initializeAuth,
-  getReactNativePersistence,
-} from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
+import { auth } from "./utils/FirebaseConfig";
 const Stack = createStackNavigator();
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDaWjLqO7duoHVTkpv23t9Esun4CIMeNOk",
-  authDomain: "zenapp-df212.firebaseapp.com",
-  databaseURL:
-    "https://zenapp-df212-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "zenapp-df212",
-  storageBucket: "zenapp-df212.appspot.com",
-  messagingSenderId: "464749753128",
-  appId: "1:464749753128:web:a0ac094c8e4ad248b8961d",
-  measurementId: "G-CK73YHENCX",
-};
-
-const Firebase = initializeApp(firebaseConfig);
-
-const auth = initializeAuth(Firebase, {
-  persistence: getReactNativePersistence(AsyncStorage),
-});
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("user:", user);
-    // User is logged in
-    // You can navigate to the main app or do other tasks
-  } else {
-    // User is not logged in
-    // Navigate to login or other initial screens
-  }
-});
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -78,6 +42,7 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log("user persisted authentication:", user.email);
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
