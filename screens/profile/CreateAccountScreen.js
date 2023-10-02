@@ -54,6 +54,7 @@ export default function CreateAccountScreen({ navigation }) {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log("User registered:", userCredential.user);
+        navigation.navigate("LoginScreen");
       })
       .catch((error) => {
         console.error("Registration error:", error);

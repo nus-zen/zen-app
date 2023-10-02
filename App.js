@@ -29,7 +29,15 @@ import OnboardingScreen from "./screens/onboarding/OnboardingScreen";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { useEffect } from "react";
+import {
+  getAuth,
+  onAuthStateChanged,
+  initializeAuth,
+  getReactNativePersistence,
+} from "firebase/auth";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
 const Stack = createStackNavigator();
 
 // Your web app's Firebase configuration
@@ -48,11 +56,42 @@ const firebaseConfig = {
 
 const Firebase = initializeApp(firebaseConfig);
 
+const auth = initializeAuth(Firebase, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("user:", user);
+    // User is logged in
+    // You can navigate to the main app or do other tasks
+  } else {
+    // User is not logged in
+    // Navigate to login or other initial screens
+  }
+});
+
 const App = () => {
-  // useEffect(() => {
-  //   // Initialize Firebase
-  //   initializeApp(firebaseConfig);
-  // }, []);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setIsAuthCheckComplete(true);
+    });
+
+    // Cleanup the listener on unmount
+    return () => unsubscribe();
+  }, []);
+
+  if (!isAuthCheckComplete) {
+    return null; // or a loading spinner
+  }
 
   return (
     <SafeAreaProvider>
@@ -68,31 +107,44 @@ const App = () => {
           }}
         >
           <Stack.Navigator>
-            <Stack.Screen
-              name="WelcomeScreen"
-              component={WelcomeScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="OnboardingScreen"
-              component={OnboardingScreen}
-              options={{ title: "Welcome to ZenApp!" }}
-            />
-            <Stack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CreateAccountScreen"
-              component={CreateAccountScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="MoodCheckInScreen"
-              component={MoodCheckInScreen}
-              options={{ headerShown: false }}
-            />
+            {isAuthenticated ? (
+              // If authenticated, add MoodCheckInScreen to the stack
+              <Stack.Screen
+                name="MoodCheckInScreen"
+                component={MoodCheckInScreen}
+                options={{ headerShown: false }}
+              />
+            ) : (
+              // Else, show Welcome, Login, etc. screens
+              <>
+                <Stack.Screen
+                  name="WelcomeScreen"
+                  component={WelcomeScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="OnboardingScreen"
+                  component={OnboardingScreen}
+                  options={{ title: "Welcome to ZenApp!" }}
+                />
+                <Stack.Screen
+                  name="LoginScreen"
+                  component={LoginScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CreateAccountScreen"
+                  component={CreateAccountScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="MoodCheckInScreen"
+                  component={MoodCheckInScreen}
+                  options={{ headerShown: false }}
+                />
+              </>
+            )}
+
             <Stack.Screen
               name="DailyStreaksScreen"
               component={DailyStreaksScreen}
