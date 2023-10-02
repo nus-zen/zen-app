@@ -54,6 +54,7 @@ export default function LoginScreen({ navigation }) {
       .then(() => {
         // Successful login
         checkMoodCheckIn();
+        // navigation.navigate("MoodCheckInScreen");
       })
       .catch((error) => {
         // Handle errors
