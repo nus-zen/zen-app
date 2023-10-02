@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity, Linking, Image, } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
-import { firestore, storeUserInformation } from "../../components/firebase/firestore_email_password";
+import { firestore, storeUserInformation } from "../../components/firebase/firestore";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
