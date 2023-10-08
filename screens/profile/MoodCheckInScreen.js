@@ -4,6 +4,7 @@ import * as Font from "expo-font";
 import Icon from "react-native-vector-icons/FontAwesome"; 
 import MoodCalendar from "../../components/MoodCalendar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {updateSelectedMood, firestore } from "../../components/firebase/firestore";
 
 export default function MoodCheckInScreen({ navigation}) {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -21,24 +22,35 @@ export default function MoodCheckInScreen({ navigation}) {
 
     loadFonts();
   }, []);
-
+// ordering by timestamp is questionable for data privacy reasons
   const handleMoodSelection = async (selectedMood) => {
     try {
       // Store the selected mood in AsyncStorage
       await AsyncStorage.setItem("selectedMood", selectedMood);
-      
-      // Print a message when storing is successful
-      console.log("Mood stored:", selectedMood);
-      
-      // Navigate to the DailyStreaksScreen
-      navigation.navigate("DailyStreaksScreen");
-      
-      console.log("MoodCheckIn Button is pressed");
+  
+      // Query the most recently updated or created user document
+      const userDocumentsQuery = firestore.collection('users').orderBy('timestamp', 'desc').limit(1);
+      const userDocumentsSnapshot = await userDocumentsQuery.get();
+  
+      if (!userDocumentsSnapshot.empty) {
+        // Get the first document in the result (most recent)
+        const userDocument = userDocumentsSnapshot.docs[0];
+        const userDocumentName = userDocument.id;
+  
+        // Update the selected mood in Firestore
+        await updateSelectedMood(userDocumentName, selectedMood);
+  
+        // Navigate to the DailyStreaksScreen
+        navigation.navigate("DailyStreaksScreen");
+  
+        console.log("MoodCheckIn Button is pressed");
+      } else {
+        console.log('No user documents found in the "users" collection');
+      }
     } catch (error) {
       console.error("Error storing mood:", error);
     }
   };
-  
 
   useEffect(() => {
     const getCurrentDate = () => {
