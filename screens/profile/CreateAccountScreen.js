@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Text, SafeAreaView, TouchableOpacity, Linking } from 'react-native';
 import * as Font from 'expo-font';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CreateAccountScreen({ navigation }) {
   const [fullName, setFullName] = useState('');
@@ -39,6 +40,8 @@ export default function CreateAccountScreen({ navigation }) {
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Confirm Password:', confirmPassword);
+
+    navigation.navigate('LoginScreen');
   };
 
   return (
