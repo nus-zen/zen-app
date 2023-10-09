@@ -26,10 +26,38 @@ import ZenBandDetailScreen from "./screens/practices/ZenBandDetailScreen";
 import MeditationTopTabScreen from "./screens/practices/MeditationTopTabScreen";
 import LeagueHomepageScreen from "./screens/rewards/LeagueHomepageScreen";
 import OnboardingScreen from "./screens/onboarding/OnboardingScreen";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 
+import { useState } from "react";
+import { auth } from "./utils/FirebaseConfig";
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("user persisted authentication:", user.email);
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setIsAuthCheckComplete(true);
+    });
+
+    // Cleanup the listener on unmount
+    return () => unsubscribe();
+  }, []);
+
+  if (!isAuthCheckComplete) {
+    return null; // or a loading spinner
+  }
+
   return (
     <SafeAreaProvider>
       <>
@@ -44,31 +72,44 @@ const App = () => {
           }}
         >
           <Stack.Navigator>
-            <Stack.Screen
-              name="WelcomeScreen"
-              component={WelcomeScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="OnboardingScreen"
-              component={OnboardingScreen}
-              options={{ title: "Welcome to ZenApp!" }}
-            />
-            <Stack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CreateAccountScreen"
-              component={CreateAccountScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="MoodCheckInScreen"
-              component={MoodCheckInScreen}
-              options={{ headerShown: false }}
-            />
+            {isAuthenticated ? (
+              // If authenticated, add MoodCheckInScreen to the stack
+              <Stack.Screen
+                name="MoodCheckInScreen"
+                component={MoodCheckInScreen}
+                options={{ headerShown: false }}
+              />
+            ) : (
+              // Else, show Welcome, Login, etc. screens
+              <>
+                <Stack.Screen
+                  name="WelcomeScreen"
+                  component={WelcomeScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="OnboardingScreen"
+                  component={OnboardingScreen}
+                  options={{ title: "Welcome to ZenApp!" }}
+                />
+                <Stack.Screen
+                  name="LoginScreen"
+                  component={LoginScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CreateAccountScreen"
+                  component={CreateAccountScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="MoodCheckInScreen"
+                  component={MoodCheckInScreen}
+                  options={{ headerShown: false }}
+                />
+              </>
+            )}
+
             <Stack.Screen
               name="DailyStreaksScreen"
               component={DailyStreaksScreen}
