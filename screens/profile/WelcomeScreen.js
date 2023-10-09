@@ -37,7 +37,7 @@ export default function WelcomeScreen({ navigation }) {
 
   useEffect(() => {
     loadFonts();
-    handleClearAsyncStorage();
+    //handleClearAsyncStorage();
   }, []);
 
   const handlePress = () => {
