@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  Linking,
-  Image,
-} from "react-native";
+import { View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity, Linking, Image, } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { firestore, storeUserInformation } from "../../components/firebase/firestore";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
@@ -35,70 +25,49 @@ export default function LoginScreen({ navigation }) {
   const isValidEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
+    //return true;
   };
 
   const handleLogin = async () => {
     if (!isValidEmail(email)) {
-      setEmailError("Please enter a valid email");
+      setEmailError('Please enter a valid email');
       return;
     }
-    if (!password) {
-      setPasswordError("Please enter a password");
-      return;
-    }
-    console.log("Email:", email);
-    console.log("Password:", password);
-
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        // Successful login
-        checkMoodCheckIn();
-        // navigation.navigate("MoodCheckInScreen");
-      })
-      .catch((error) => {
-        // Handle errors
-        if (
-          error.code === "auth/user-not-found" ||
-          error.code === "auth/wrong-password"
-        ) {
-          setEmailError("Invalid email or password");
-        } else {
-          setEmailError(error.message);
-        }
-      });
-  };
-
-  const checkMoodCheckIn = async () => {
-    const lastShownTimestamp = await AsyncStorage.getItem("lastShownTimestamp");
-    console.log("Last Shown Timestamp:", lastShownTimestamp);
-
-    if (!lastShownTimestamp) {
-      // First time, show MoodCheckInScreen
-      console.log("First time user. Showing MoodCheckInScreen.");
-      navigation.navigate("MoodCheckInScreen");
-      AsyncStorage.setItem(
-        "lastShownTimestamp",
-        new Date().getTime().toString()
-      );
-    } else {
-      // Check if it has been more than 24 hours since the last shown time
-      const currentTime = new Date().getTime();
-      const timeDifference = currentTime - parseInt(lastShownTimestamp, 10);
-      const millisecondsInADay = 24 * 60 * 60 * 1000;
-
-      if (timeDifference >= millisecondsInADay) {
-        console.log("More than 24 hours. Showing MoodCheckInScreen.");
-        navigation.navigate("MoodCheckInScreen");
-        AsyncStorage.setItem("lastShownTimestamp", currentTime.toString());
+  
+    try {
+      // Save user information to Firestore
+      await storeUserInformation(email, password);
+  
+      // Check user's last activity and navigate accordingly
+      const lastShownTimestamp = await AsyncStorage.getItem('lastShownTimestamp');
+      console.log('Last Shown Timestamp:', lastShownTimestamp);
+  
+      if (!lastShownTimestamp) {
+        // First time, show MoodCheckInScreen
+        console.log('First time user. Showing MoodCheckInScreen.');
+        navigation.navigate('MoodCheckInScreen');
+        AsyncStorage.setItem('lastShownTimestamp', new Date().getTime().toString());
       } else {
-        // Less than 24 hours, show BottomTabsOverview
-        console.log("Less than 24 hours. Showing BottomTabsOverview.");
-        navigation.navigate("BottomTabsOverview");
-        // navigation.navigate("MoodCheckInScreen");
+        // Check if it has been more than 24 hours since the last shown time
+        const currentTime = new Date().getTime();
+        const timeDifference = currentTime - parseInt(lastShownTimestamp, 10);
+        const millisecondsInADay = 24 * 60 * 60 * 1000;
+  
+        if (timeDifference >= millisecondsInADay) {
+          console.log('More than 24 hours. Showing MoodCheckInScreen.');
+          navigation.navigate('MoodCheckInScreen');
+          AsyncStorage.setItem('lastShownTimestamp', currentTime.toString());
+        } else {
+          // Less than 24 hours, show BottomTabsOverview
+          console.log('Less than 24 hours. Showing BottomTabsOverview.');
+          navigation.navigate('BottomTabsOverview');
+        }
       }
+    } catch (error) {
+      console.error('Error handling login:', error);
     }
   };
+  
 
   const handleSignUp = () => {
     navigation.navigate("CreateAccountScreen");
@@ -154,9 +123,6 @@ export default function LoginScreen({ navigation }) {
                 secureTextEntry
                 placeholderTextColor="white"
               />
-              {passwordError ? (
-                <Text style={styles.errorText}>{passwordError}</Text>
-              ) : null}
             </View>
             <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
               <Text style={styles.loginText}>Login</Text>
