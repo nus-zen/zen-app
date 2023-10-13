@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
+import auth from "@react-native-firebase/auth";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -41,8 +42,28 @@ export default function LoginScreen({ navigation }) {
       setEmailError("Please enter a valid email");
       return;
     }
-    console.log("Email:", email);
-    console.log("Password:", password);
+
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
+
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("User successfully logged in:", user);
+        navigation.navigate("MoodCheckInScreen");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("Error Code:", errorCode);
+        console.log("Error Message:", errorMessage);
+        // Show error message to user
+        alert(errorMessage);
+      });
 
     const checkMoodCheckIn = async () => {
       const lastShownTimestamp =
@@ -52,7 +73,7 @@ export default function LoginScreen({ navigation }) {
       if (!lastShownTimestamp) {
         // First time, show MoodCheckInScreen
         console.log("First time user. Showing MoodCheckInScreen.");
-        navigation.navigate("MoodCheckInScreen");
+        //navigation.navigate("MoodCheckInScreen");
         AsyncStorage.setItem(
           "lastShownTimestamp",
           new Date().getTime().toString()
@@ -65,12 +86,12 @@ export default function LoginScreen({ navigation }) {
 
         if (timeDifference >= millisecondsInADay) {
           console.log("More than 24 hours. Showing MoodCheckInScreen.");
-          navigation.navigate("MoodCheckInScreen");
+          //navigation.navigate("MoodCheckInScreen");
           AsyncStorage.setItem("lastShownTimestamp", currentTime.toString());
         } else {
           // Less than 24 hours, show BottomTabsOverview
           console.log("Less than 24 hours. Showing BottomTabsOverview.");
-          navigation.navigate("BottomTabsOverview");
+          //navigation.navigate("BottomTabsOverview");
           // navigation.navigate("MoodCheckInScreen");
         }
       }

@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:464749753128:android:004800df7eb4c11fb8961d",
         "android_client_info": {
-          "package_name": "com.nus.zen.ZenAPP"
+          "package_name": "com.nus_zen.ZenAPP"
         }
       },
       "oauth_client": [
