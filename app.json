@@ -8,8 +8,8 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/zenapp-splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "green"
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -25,10 +25,10 @@
       "permissions": ["CAMERA_ROLL", "CAMERA"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/zenapp-icon-1.png",
-        "backgroundColor": "green"
+        "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.nus.zen.ZenAPP"
+      "package": "com.nus_zen.ZenAPP"
     },
     "web": {
       "favicon": "./assets/zenapp-icon-1.png"
