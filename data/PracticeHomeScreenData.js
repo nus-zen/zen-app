@@ -1,10 +1,18 @@
+import analytics from "@react-native-firebase/analytics";
+
 export const PracticeHomeScreenData = (navigation) => [
   {
     uri: "https://media.istockphoto.com/id/1140322066/vector/man-meditating-in-nature-and-leaves-concept-illustration-for-yoga-meditation-relax.jpg?s=612x612&w=0&k=20&c=p8mdgXLR1O-ROYVjGWdPe56gTGr2srICaC9cdbe4-tM=",
     subtitle:
       "Journey Within: Find Inner Harmony and Renewal Through Meditation.",
     title: "Meditation",
-    onPress: () => {
+    onPress: async () => {
+      await analytics().logSelectContent({
+        content_type: "practice",
+        item_id: "meditation",
+      });
+      console.log("practice: meditation analytics logged");
+
       navigation.navigate("MeditationsList");
     },
   },
@@ -13,7 +21,13 @@ export const PracticeHomeScreenData = (navigation) => [
     subtitle:
       "Discover Your Inner World: Embrace Self-Awareness and Find Serenity Through Journaling.",
     title: "Journal",
-    onPress: () => {
+    onPress: async () => {
+      await analytics().logSelectContent({
+        content_type: "practice",
+        item_id: "journal",
+      });
+
+      console.log("practice: journal analytics logged");
       navigation.navigate("JournalScreen");
     },
   },
@@ -22,7 +36,12 @@ export const PracticeHomeScreenData = (navigation) => [
     subtitle:
       "Stitch Away Stress: Find Calm and Creativity through Crocheting.",
     title: "ZenTree",
-    onPress: () => {
+    onPress: async () => {
+      await analytics().logSelectContent({
+        content_type: "practice",
+        item_id: "crochet",
+      });
+      console.log("practice: crochet analytics logged");
       navigation.navigate("CrochetDetailsScreen");
     },
   },
@@ -30,7 +49,14 @@ export const PracticeHomeScreenData = (navigation) => [
     uri: "https://static.vecteezy.com/system/resources/previews/019/465/921/non_2x/illustration-cute-terrarium-in-a-glass-jar-isolated-on-white-background-vector.jpg",
     subtitle: "Nurture Your Peace: Build a Terrarium and Cultivate Serenity.",
     title: "ZenTerrarium",
-    onPress: () => {
+    onPress: async () => {
+      await analytics().logSelectContent({
+        content_type: "practice",
+        item_id: "terrarium",
+      });
+
+      console.log("practice: terrarium analytics logged");
+
       navigation.navigate("TerrariumDetailScreen");
     },
   },
@@ -39,7 +65,13 @@ export const PracticeHomeScreenData = (navigation) => [
     subtitle:
       "Unleash the Power of Scent: Experience Tranquility with ZenBand Aromatherapy.",
     title: "ZenBand",
-    onPress: () => {
+    onPress: async () => {
+      await analytics().logSelectContent({
+        content_type: "practice",
+        item_id: "zenband",
+      });
+
+      console.log("practice: zenband analytics logged");
       navigation.navigate("ZenBandDetailScreen");
     },
   },

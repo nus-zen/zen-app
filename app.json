@@ -11,9 +11,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
@@ -24,10 +22,7 @@
       "bundleIdentifier": "zen-app"
     },
     "android": {
-      "permissions": [
-        "CAMERA_ROLL",
-        "CAMERA"
-      ],
+      "permissions": ["CAMERA_ROLL", "CAMERA"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/zenapp-icon-1.png",
         "backgroundColor": "#ffffff"
@@ -39,7 +34,7 @@
       "favicon": "./assets/zenapp-icon-1.png"
     },
     "plugins": [
-      "@react-native-firebase/auth",
+      "@react-native-firebase/crashlytics",
       "@react-native-firebase/app",
       "@react-native-firebase/perf",
       [

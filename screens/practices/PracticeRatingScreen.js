@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import {
   BackHandler,
@@ -11,6 +11,9 @@ import ThumbsRating from "../../components/ThumbsRating";
 
 export default function PracticeRatingScreen() {
   const navigation = useNavigation();
+  const route = useRoute();
+  // extract title from route
+  const { title } = route.params;
 
   const handleFinishRating = () => {
     navigation.navigate("BottomTabsOverview");
@@ -35,14 +38,10 @@ export default function PracticeRatingScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Title */}
       <Text style={styles.title}>You have completed the practice!</Text>
 
-      {/* <TouchableOpacity style={styles.button} onPress={handleFinishRating}>
-        <Text style={styles.buttonText}>Great effort!</Text>
-      </TouchableOpacity> */}
       <Text style={styles.buttonText}>Was that practice effective?</Text>
-      <ThumbsRating />
+      <ThumbsRating title={title} />
     </View>
   );
 }
