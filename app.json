@@ -11,7 +11,9 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
@@ -22,7 +24,10 @@
       "bundleIdentifier": "zen-app"
     },
     "android": {
-      "permissions": ["CAMERA_ROLL", "CAMERA"],
+      "permissions": [
+        "CAMERA_ROLL",
+        "CAMERA"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/zenapp-icon-1.png",
         "backgroundColor": "#ffffff"
@@ -56,6 +61,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/4a64d745-8253-4516-a322-97ca92185a77"
-    }
+    },
+    "owner": "zenteam"
   }
 }
