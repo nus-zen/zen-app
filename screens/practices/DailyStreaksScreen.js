@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import analytics from "@react-native-firebase/analytics";
 
 export default function DailyStreaksLoginScreen({ navigation }) {
   const [streak, setStreak] = useState(0);
@@ -36,7 +44,7 @@ export default function DailyStreaksLoginScreen({ navigation }) {
     if (newStreak >= 1) {
       addPoints(50);
     }
-  }; 
+  };
 
   const resetStreak = async () => {
     setStreak(0);
@@ -50,14 +58,14 @@ export default function DailyStreaksLoginScreen({ navigation }) {
   const handleLogin = async () => {
     const lastLoginDate = await AsyncStorage.getItem("lastLoginDate");
     const currentTime = new Date().getTime();
-  
+
     if (!lastLoginDate) {
       // User's first login or app's first use, directly increment streak
       incrementStreak();
     } else {
       const timeDifference = currentTime - parseInt(lastLoginDate, 10);
       const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000;
-  
+
       if (timeDifference >= twentyFourHoursInMilliseconds) {
         // More than 24 hours since last login, reset streak
         resetStreak();
@@ -66,10 +74,9 @@ export default function DailyStreaksLoginScreen({ navigation }) {
         incrementStreak();
       }
     }
-  
+
     await AsyncStorage.setItem("lastLoginDate", currentTime.toString());
   };
-  
 
   const handleNavigateToBottomTabs = () => {
     navigation.navigate("BottomTabsOverview");
@@ -78,29 +85,54 @@ export default function DailyStreaksLoginScreen({ navigation }) {
   const addPoints = async (amount) => {
     const newPoints = points + amount;
     setPoints(newPoints);
+    await analytics().logEarnVirtualCurrency({
+      virtual_currency_name: "points",
+      value: amount,
+    });
+
+    console.log("points analytics logged:", amount, "points");
 
     await AsyncStorage.setItem("userPoints", newPoints.toString());
   };
 
-
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image source={require("../../assets/flame.png")} style={styles.TextImage} />
+        <Image
+          source={require("../../assets/flame.png")}
+          style={styles.TextImage}
+        />
         <Text style={styles.streakHeaderText}>{` ${streak}   `}</Text>
-        <Image source={require("../../assets/money.png")} style={styles.TextImage} />
-        <Text style={styles.pointsText}>{` ${points}`}</Text>           
+        <Image
+          source={require("../../assets/money.png")}
+          style={styles.TextImage}
+        />
+        <Text style={styles.pointsText}>{` ${points}`}</Text>
       </View>
       <View style={styles.content}>
-        <Image source={require("../../assets/flame.png")} style={styles.flameImage} />
+        <Image
+          source={require("../../assets/flame.png")}
+          style={styles.flameImage}
+        />
         <View style={styles.rectangleContainer}>
           <View style={styles.daysContainer}>
             {daysOfWeek.map((day, index) => (
               <View key={index} style={styles.dayContainer}>
-                <View style={[styles.circle, streak === 1 && dayOfWeekName === day ? styles.redCircle : (streak === 0 ? styles.grayCircle : null)]}>
+                <View
+                  style={[
+                    styles.circle,
+                    streak === 1 && dayOfWeekName === day
+                      ? styles.redCircle
+                      : streak === 0
+                      ? styles.grayCircle
+                      : null,
+                  ]}
+                >
                   {streak === 1 && dayOfWeekName === day ? (
-                    <Image source={require("../../assets/redcheckcircle.png")} style={styles.checkIcon} />
+                    <Image
+                      source={require("../../assets/redcheckcircle.png")}
+                      style={styles.checkIcon}
+                    />
                   ) : null}
                 </View>
 
@@ -111,12 +143,15 @@ export default function DailyStreaksLoginScreen({ navigation }) {
         </View>
       </View>
       <Text style={styles.subtitle}>
-        {streak >= 1 
+        {streak >= 1
           ? `Wow, you are making great progress! Adding ${points} points!`
           : `You can try harder next time. Removing ${points} points now`}
       </Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.continueButton} onPress={handleNavigateToBottomTabs}>
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={handleNavigateToBottomTabs}
+        >
           <Text style={styles.continueButtonText}>Continue</Text>
         </TouchableOpacity>
       </View>
@@ -182,7 +217,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     backgroundColor: "transparent",
-  
   },
   daysContainer: {
     flexDirection: "row",

@@ -26,10 +26,34 @@ import ZenBandDetailScreen from "./screens/practices/ZenBandDetailScreen";
 import MeditationTopTabScreen from "./screens/practices/MeditationTopTabScreen";
 import LeagueHomepageScreen from "./screens/rewards/LeagueHomepageScreen";
 import OnboardingScreen from "./screens/onboarding/OnboardingScreen";
+import React, { useEffect, useState } from "react";
+import auth from "@react-native-firebase/auth";
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) {
+    return null; // Render nothing while waiting for initialization
+  }
+
+  // console log whether user is authenticated or not. if user is truthy, they are authenticated
+  console.log("user:", user);
+
   return (
     <SafeAreaProvider>
       <>
@@ -43,7 +67,9 @@ const App = () => {
             headerTintColor: "white",
           }}
         >
-          <Stack.Navigator>
+          <Stack.Navigator
+            initialRouteName={user ? "MoodCheckInScreen" : "WelcomeScreen"}
+          >
             <Stack.Screen
               name="WelcomeScreen"
               component={WelcomeScreen}

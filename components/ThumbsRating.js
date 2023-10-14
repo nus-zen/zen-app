@@ -2,15 +2,22 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { FontAwesome } from "@expo/vector-icons"; // You can use other icon libraries if preferred
 import { useNavigation } from "@react-navigation/native";
+import analytics from "@react-native-firebase/analytics";
 
-const ThumbsRating = () => {
+const ThumbsRating = ({ title }) => {
   const [rating, setRating] = useState(null);
   const navigation = useNavigation();
 
-  const handleRating = (selectedRating) => {
-    // Handle the rating selection here, e.g., send it to a server or update state
-    //Alert.alert("you have rated " + selectedRating);
+  const handleRating = async (selectedRating) => {
     setRating(selectedRating);
+
+    // log analytics event
+    await analytics().logEvent("rate_practice", {
+      title: title,
+      rating: selectedRating,
+    });
+
+    console.log("analytics event logged:", { title, selectedRating });
     navigation.navigate("BottomTabsOverview");
   };
 

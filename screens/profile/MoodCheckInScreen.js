@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, View, Text, ImageBackground, StyleSheet, TouchableOpacity, } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import * as Font from "expo-font";
-import Icon from "react-native-vector-icons/FontAwesome"; 
+import Icon from "react-native-vector-icons/FontAwesome";
 import MoodCalendar from "../../components/MoodCalendar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import analytics from "@react-native-firebase/analytics";
 
-export default function MoodCheckInScreen({ navigation}) {
+export default function MoodCheckInScreen({ navigation }) {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [mood, setMood] = useState("");
   const [currentDate, setCurrentDate] = useState("");
@@ -24,21 +32,28 @@ export default function MoodCheckInScreen({ navigation}) {
 
   const handleMoodSelection = async (selectedMood) => {
     try {
+      console.log("selectedMood:", selectedMood);
       // Store the selected mood in AsyncStorage
       await AsyncStorage.setItem("selectedMood", selectedMood);
-      
-      // Print a message when storing is successful
-      console.log("Mood stored:", selectedMood);
-      
+
+      // set analytics collection to enabled for this app
+      await analytics().setAnalyticsCollectionEnabled(true);
+      console.log("Analytics collection enabled");
+
+      // Log the selected mood using Firebase Analytics
+      await analytics().logSelectContent({
+        content_type: "mood selection",
+        item_id: selectedMood,
+      });
+
       // Navigate to the DailyStreaksScreen
       navigation.navigate("DailyStreaksScreen");
-      
+
       console.log("MoodCheckIn Button is pressed");
     } catch (error) {
       console.error("Error storing mood:", error);
     }
   };
-  
 
   useEffect(() => {
     const getCurrentDate = () => {
