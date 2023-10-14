@@ -17,7 +17,6 @@ import {
   saveShowFavOnly,
 } from "../../utils/AsyncStorageUtils";
 import analytics from "@react-native-firebase/analytics";
-import { logViewItem } from "./../../node_modules/@react-native-firebase/analytics/lib/modular/index";
 
 export default function MeditationsList({ navigation }) {
   const [showFavOnly, setShowFavOnly] = useState(false);
