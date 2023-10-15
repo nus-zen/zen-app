@@ -53,28 +53,7 @@ export default function LoginScreen({ navigation }) {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        // log loginEvent with current time, date, and day
-        const userid = userCredential.user.email;
-        const time = moment().format("h:mm:ss a");
-        const date = moment().format("MMMM Do YYYY");
-        const day = moment().format("dddd");
-        analytics().logEvent("loginEvent", {
-          id: userid,
-          time: time,
-          date: date,
-          day: day,
-        });
-        console.log(
-          "user:",
-          userid,
-          "logged in at",
-          time,
-          "on",
-          date,
-          "day",
-          day
-        );
-        console.log("analytics: loginEvent logged from LoginScreen.js");
+        // Signed in
         navigation.navigate("MoodCheckInScreen");
       })
       .catch((error) => {

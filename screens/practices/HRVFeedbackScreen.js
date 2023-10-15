@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet, SafeAreaView, Image, ImageBackground, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  ImageBackground,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import HeartRateVariabilityChart from '../../components/HeartRateVariabilityChart';
+import HeartRateVariabilityChart from "../../components/HeartRateVariabilityChart";
+import auth from "@react-native-firebase/auth";
+import moment from "moment";
+import analytics from "@react-native-firebase/analytics";
 
 export default function HRVFeedbackScreen({ route }) {
   const [beforeBPM, setBeforeBPM] = useState(null);
@@ -13,13 +25,32 @@ export default function HRVFeedbackScreen({ route }) {
     // Simulate fetching HRV data from an API or device
     // For this example, generating random values between 50 and 100
     const randomBeforeBPM = Math.floor(Math.random() * (100 - 50 + 1)) + 50;
-    const randomAfterBPM = Math.floor(Math.random() * (100 - 50 + 1)) + 50;
+    const randomAfterBPM = Math.floor(Math.random() * (100 - 50 + 1)) + 30;
     setBeforeBPM(randomBeforeBPM);
     setAfterBPM(randomAfterBPM);
   }, []);
 
-  const chartWidth = Dimensions.get('window').width;
+  const chartWidth = Dimensions.get("window").width;
   const chartHeight = 200;
+
+  useEffect(() => {
+    // log MeditationEndEvent with userid, meditation title, time, date, and day
+    const userid = auth().currentUser.email;
+    const time = moment().format("h:mm:ss a");
+    const date = moment().format("MMMM Do YYYY");
+    const day = moment().format("dddd");
+    analytics().logEvent("meditationEndEvent", {
+      id: userid,
+      title: title,
+      time: time,
+      date: date,
+      day: day,
+    });
+    console.log("user:", userid, "ended", title, "at", time);
+    console.log(
+      "analytics: meditationEndEvent logged from HRVFeedbackScreen.js"
+    );
+  }, []); // Empty dependency array ensures this code runs only once
 
   return (
     <>
@@ -42,11 +73,15 @@ export default function HRVFeedbackScreen({ route }) {
         <View style={styles.bpmComponentsContainer}>
           {/* Before BPM Card */}
           <View style={[styles.hrCard, { backgroundColor: "#F4F4F4" }]}>
-            <Text style={[styles.hrComponentText, { color: "#58930D" }]}>BEFORE</Text>
+            <Text style={[styles.hrComponentText, { color: "#58930D" }]}>
+              BEFORE
+            </Text>
             <Text style={[styles.bpmValue, { color: "black" }]}>
               {beforeBPM !== null ? `${beforeBPM}` : "Loading..."}
             </Text>
-            <Text style={[styles.hr2ComponentText, { color: "#58930D" }]}>bpm</Text>
+            <Text style={[styles.hr2ComponentText, { color: "#58930D" }]}>
+              bpm
+            </Text>
           </View>
 
           {/* Add spacing between cards */}
@@ -54,21 +89,30 @@ export default function HRVFeedbackScreen({ route }) {
 
           {/* After HRV Card */}
           <View style={[styles.hrCard, { backgroundColor: "#F4F4F4" }]}>
-            <Text style={[styles.hrComponentText, { color: "#58930D" }]}>AFTER</Text>
+            <Text style={[styles.hrComponentText, { color: "#58930D" }]}>
+              AFTER
+            </Text>
             <Text style={[styles.bpmValue, { color: "black" }]}>
               {afterBPM !== null ? `${afterBPM}` : "Loading..."}
             </Text>
-            <Text style={[styles.hr2ComponentText, { color: "#58930D" }]}>bpm</Text>
+            <Text style={[styles.hr2ComponentText, { color: "#58930D" }]}>
+              bpm
+            </Text>
           </View>
         </View>
 
         {/* Include the HeartRateVariabilityChart component */}
-        <HeartRateVariabilityChart chartWidth={chartWidth} chartHeight={chartHeight} />
+        <HeartRateVariabilityChart
+          chartWidth={chartWidth}
+          chartHeight={chartHeight}
+        />
 
         <View style={styles.buttonContainer}>
           <Button
             title="Next"
-            onPress={() => navigation.navigate("PracticeRatingScreen", { title: title })}
+            onPress={() =>
+              navigation.navigate("PracticeRatingScreen", { title: title })
+            }
           />
         </View>
       </SafeAreaView>
@@ -138,7 +182,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 20,
-    width: Dimensions.get('window').width - 50,
+    width: Dimensions.get("window").width - 50,
     backgroundColor: "green", // Change this to the desired green color
     borderRadius: 20,
   },

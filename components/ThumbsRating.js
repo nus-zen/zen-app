@@ -16,8 +16,8 @@ const ThumbsRating = ({ title }) => {
       title: title,
       rating: selectedRating,
     });
-
-    console.log("analytics event logged:", { title, selectedRating });
+    console.log("user rated practice:", title, "with rating:", selectedRating);
+    console.log("analytics: rate_practice logged from ThumbsRating.js");
     navigation.navigate("BottomTabsOverview");
   };
 
