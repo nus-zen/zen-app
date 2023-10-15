@@ -48,8 +48,6 @@ export default function MoodCheckInScreen({ navigation }) {
 
       // Navigate to the DailyStreaksScreen
       navigation.navigate("DailyStreaksScreen");
-
-      console.log("MoodCheckIn Button is pressed");
     } catch (error) {
       console.error("Error storing mood:", error);
     }

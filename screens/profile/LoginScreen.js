@@ -12,6 +12,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
 import auth from "@react-native-firebase/auth";
+import moment from "moment";
+import analytics from "@react-native-firebase/analytics";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -51,9 +53,28 @@ export default function LoginScreen({ navigation }) {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log("User successfully logged in:", user);
+        // log loginEvent with current time, date, and day
+        const userid = userCredential.user.email;
+        const time = moment().format("h:mm:ss a");
+        const date = moment().format("MMMM Do YYYY");
+        const day = moment().format("dddd");
+        analytics().logEvent("loginEvent", {
+          id: userid,
+          time: time,
+          date: date,
+          day: day,
+        });
+        console.log(
+          "user:",
+          userid,
+          "logged in at",
+          time,
+          "on",
+          date,
+          "day",
+          day
+        );
+        console.log("analytics: loginEvent logged from LoginScreen.js");
         navigation.navigate("MoodCheckInScreen");
       })
       .catch((error) => {
