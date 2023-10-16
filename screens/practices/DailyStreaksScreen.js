@@ -9,8 +9,15 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import analytics from "@react-native-firebase/analytics";
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
 
 export default function DailyStreaksLoginScreen({ navigation }) {
+  // get user document from firestore using the user's email
+  const currUserDoc = firestore()
+    .collection("users")
+    .doc(auth().currentUser.email);
+
   const [streak, setStreak] = useState(0);
   const [points, setPoints] = useState(0);
 
