@@ -39,6 +39,14 @@ const ThumbsRating = ({ title }) => {
       "from thumb rating practice"
     );
 
+    // analytics log virtual currency earned
+    await analytics().logEarnVirtualCurrency({
+      virtual_currency_name: "points",
+      value: AMOUNT_TO_ADD,
+    });
+    console.log(
+      "analytics: logEarnVirtualCurrency logged from ThumbsRating.js"
+    );
     // After 3 seconds, hide the popup and navigate
     setTimeout(() => {
       setShowPopup(false);

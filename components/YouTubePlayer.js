@@ -39,6 +39,15 @@ export default function YouTubePlayer({ videoId, title }) {
       title
     );
 
+    // analytics log virtual currency earned
+    await analytics().logEarnVirtualCurrency({
+      virtual_currency_name: "points",
+      value: amount,
+    });
+    console.log(
+      "analytics: logEarnVirtualCurrency logged from YouTubePlayer.js"
+    );
+
     //unless crocheting
     if (videoId !== "QdMwJyatGMI") {
       navigation.navigate("HRVFeedbackScreen", {

@@ -10,21 +10,21 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import JournalEntryForm from "../../components/JournalEntryForm";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
+import analytics from "@react-native-firebase/analytics";
+import { PointsPopup } from "../../components/PointsPopup";
 
 export default function JournalScreen() {
   const [entries, setEntries] = useState([]);
-  const [points, setPoints] = useState(0);
+  const [showPopup, setShowPopup] = useState(false);
   const [isAddingEntry, setIsAddingEntry] = useState(false); // State to control the modal
 
+  const AMOUNT_TO_ADD = 10;
+
   useEffect(() => {
-    loadPoints();
     loadEntries();
   }, []);
-
-  const loadPoints = async () => {
-    const storedPoints = await AsyncStorage.getItem("userPoints");
-    setPoints(storedPoints ? parseInt(storedPoints) : 0);
-  };
 
   const loadEntries = async () => {
     const storedEntries = await AsyncStorage.getItem("journalEntries");
@@ -34,7 +34,10 @@ export default function JournalScreen() {
   };
 
   const saveEntriesToStorage = async (updatedEntries) => {
-    await AsyncStorage.setItem("journalEntries", JSON.stringify(updatedEntries));
+    await AsyncStorage.setItem(
+      "journalEntries",
+      JSON.stringify(updatedEntries)
+    );
   };
 
   const handleSaveEntry = async (title, text) => {
@@ -51,11 +54,53 @@ export default function JournalScreen() {
     // Save entries to AsyncStorage
     await saveEntriesToStorage(updatedEntries);
 
-    const updatedPoints = points + 100;
-    setPoints(updatedPoints);
-    await AsyncStorage.setItem("userPoints", updatedPoints.toString());
+    // add points to firestore document
+    await addPointsToFirestore(AMOUNT_TO_ADD);
 
     setIsAddingEntry(false); // Close the modal
+
+    // Show the popup
+    setShowPopup(true);
+
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 3000);
+
+    // log analytics event
+    await analytics().logEvent("journalEntry", {
+      title: title,
+      text: text,
+    });
+
+    console.log("analytics: journalEntry logged from JournalScreen.js");
+  };
+
+  const addPointsToFirestore = async (amount) => {
+    // add points to firestore document
+    const currUserDoc = firestore()
+      .collection("users")
+      .doc(auth().currentUser.email);
+
+    await currUserDoc.update({
+      points: firestore.FieldValue.increment(amount),
+    });
+    console.log(
+      "Points Added to firestore:",
+      amount,
+      "for",
+      auth().currentUser.email,
+      "from journal entry"
+    );
+
+    // analytics log virtual currency earned
+    await analytics().logEarnVirtualCurrency({
+      virtual_currency_name: "points",
+      value: amount,
+    });
+    console.log(
+      "analytics: logEarnVirtualCurrency logged from JournalScreen.js"
+    );
   };
 
   const handleEditEntry = (id) => {
@@ -74,10 +119,8 @@ export default function JournalScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Mood Journal</Text>
-        <View style={styles.scoreContainer}>
-          <Text style={styles.scoreText}>Points: {points}</Text>
-        </View>
       </View>
+
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => setIsAddingEntry(true)}
@@ -111,6 +154,15 @@ export default function JournalScreen() {
           </View>
         ))}
       </ScrollView>
+      {showPopup && (
+        <View style={styles.popupContainer}>
+          <PointsPopup
+            pointsEarned={AMOUNT_TO_ADD}
+            isVisible={showPopup}
+            onClose={() => setShowPopup(false)}
+          />
+        </View>
+      )}
       {/* Render the JournalEntryForm as a modal */}
       <Modal
         visible={isAddingEntry}
@@ -198,5 +250,15 @@ const styles = StyleSheet.create({
   addButton: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  popupContainer: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)", // Optional semi-transparent background
   },
 });
