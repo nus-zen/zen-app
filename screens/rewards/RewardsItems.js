@@ -8,10 +8,8 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const RewardsItems = () => {
-  const [STpoints, setSTPoints] = useState(0);
+const RewardsItems = ({ checkoutHandler }) => {
   const [vouchers, setVouchers] = useState([
     { id: 1, name: "$2 KOI Voucher", coins: 50, count: 0 },
     { id: 2, name: "$3 Awfully Chocolate Voucher", coins: 70, count: 0 },
@@ -20,30 +18,6 @@ const RewardsItems = () => {
     { id: 5, name: "$4 Cat & The Fiddle Voucher", coins: 80, count: 0 },
     { id: 6, name: "$6 Birds of Paradise Voucher", coins: 90, count: 0 },
   ]);
-
-  useEffect(() => {
-    loadPoints();
-  }, []);
-
-  const loadPoints = async () => {
-    const storedSTPoints = await AsyncStorage.getItem("userPoints");
-    setSTPoints(storedSTPoints ? parseInt(storedSTPoints) : 0);
-    console.log(`Total points: ${storedSTPoints}`);
-  };
-
-  const deductPoints = async (coins, index) => {
-    if (STpoints >= coins) {
-      const updatedVouchers = [...vouchers];
-      updatedVouchers[index].count += 1;
-      setVouchers(updatedVouchers);
-      const remainingPoints = STpoints - coins;
-      setSTPoints(remainingPoints);
-      await AsyncStorage.setItem("userPoints", remainingPoints.toString());
-      console.log(`Deducted ${coins} Coins. Remaining: ${remainingPoints}`);
-    } else {
-      console.log("Not enough coins!");
-    }
-  };
 
   const incrementQuantity = (index) => {
     const updatedVouchers = [...vouchers];
@@ -63,29 +37,6 @@ const RewardsItems = () => {
     (acc, item) => acc + item.coins * item.count,
     0
   );
-
-  const handlePurchase = async () => {
-    const totalSelectedCost = vouchers.reduce(
-      (acc, item) => acc + item.coins * item.count,
-      0
-    );
-
-    if (totalSelectedCost > STpoints || STpoints == 0) {
-      console.log("Not enough coins for checkout!");
-      // Optionally, you can display a message or handle this situation in your app.
-    } else {
-      // Deduct coins and update points in AsyncStorage
-      const remainingPoints = STpoints - totalSelectedCost;
-      setSTPoints(remainingPoints);
-      await AsyncStorage.setItem("userPoints", remainingPoints.toString());
-
-      // Reset the counts for selected vouchers
-      const updatedVouchers = vouchers.map((item) => ({ ...item, count: 0 }));
-      setVouchers(updatedVouchers);
-
-      console.log("Checkout successful!");
-    }
-  };
 
   const renderVoucher = ({ item, index }) => (
     <View style={styles.voucherCard}>
@@ -117,18 +68,6 @@ const RewardsItems = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.pointsContainer}>
-          <View style={styles.centered}>
-            <Image
-              source={require("../../assets/money.png")}
-              style={styles.textImage}
-            />
-            <Text style={styles.pointsText}>{STpoints}</Text>
-            <Text style={styles.totalCoinsText}>Total Coins</Text>
-          </View>
-        </View>
-      </View>
       <FlatList
         data={vouchers}
         renderItem={renderVoucher}
@@ -139,8 +78,8 @@ const RewardsItems = () => {
         <Text style={styles.totalCostText}>Total Cost: {totalCost} Coins</Text>
         <TouchableOpacity
           title="Checkout"
-          onPress={handlePurchase}
-          style={styles.checkoutButton} // Apply the new style here
+          onPress={() => checkoutHandler(vouchers, totalCost)}
+          style={styles.checkoutButton}
         >
           <Text style={styles.checkoutButtonText}>Checkout</Text>
         </TouchableOpacity>

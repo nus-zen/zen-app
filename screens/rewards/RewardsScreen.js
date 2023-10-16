@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import analytics from "@react-native-firebase/analytics";
+import RewardsItems from "./RewardsItems";
 
 export default function RewardsScreen({ navigation }) {
   const rewards = REWARDS_DATA;
@@ -44,10 +45,66 @@ export default function RewardsScreen({ navigation }) {
     console.log(`streak loaded: ${streak} from RewardsScreen.js`);
   };
 
-  function rewardsPressHandler(rewards) {
-    return () => {
-      navigation.navigate("RewardsItems", rewards);
-    };
+  async function checkoutHandler(vouchers, totalcost) {
+    // if user does not have enough points, show error message
+    if (points < totalcost) {
+      Alert.alert("Not enough points to checkout.");
+      return;
+    }
+
+    // retrieve voucher array from firestore
+    const user = await currUserDoc.get();
+    const currUserVouchers = user.data().vouchers;
+
+    // if user has enough points, deduct points from user
+    await currUserDoc.update({ points: points - totalcost });
+
+    // get list of vouchers to be checked out
+    const vouchersToCheckout = [];
+    for (const voucher of vouchers) {
+      if (voucher.count > 0) {
+        for (let i = 0; i < voucher.count; i++) {
+          vouchersToCheckout.push(voucher.name);
+          currUserVouchers.push(voucher.name);
+        }
+
+        // analytics for virtual currency spent
+        analytics().logSpendVirtualCurrency({
+          item_name: voucher.name,
+          virtual_currency_name: "points",
+          value: voucher.coins,
+        });
+      }
+    }
+    console.log("analytics: spendVirtualCurrency logged from RewardsScreen");
+
+    console.log("currUserVouchers:", currUserVouchers);
+
+    // add vouchers to user's firebase document
+    await currUserDoc
+      .update({
+        vouchers: currUserVouchers,
+      })
+      .then(() => {
+        console.log(
+          "vouchers added to firestore:",
+          vouchersToCheckout,
+          "for",
+          auth().currentUser.email
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    //analytics for checkout
+    analytics().logEvent("checkoutEvent", {
+      user: auth().currentUser.email,
+      vouchers: vouchersToCheckout,
+      pointsSpent: totalcost,
+    });
+
+    console.log("analytics: checkoutEvent logged from RewardsScreen.js");
   }
 
   return (
@@ -65,7 +122,7 @@ export default function RewardsScreen({ navigation }) {
           <Text style={styles.totalCoinsText}> Days Streak</Text>
         </View>
       </View>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      {/* <ScrollView contentContainerStyle={styles.scrollContent}>
         {rewards.map((rewards, index) => (
           <View key={index} style={styles.cardContainer}>
             <RewardsCard
@@ -76,7 +133,8 @@ export default function RewardsScreen({ navigation }) {
             />
           </View>
         ))}
-      </ScrollView>
+      </ScrollView> */}
+      <RewardsItems checkoutHandler={checkoutHandler} />
     </View>
   );
 }

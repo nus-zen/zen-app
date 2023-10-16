@@ -62,6 +62,7 @@ export default function CreateAccountScreen({ navigation }) {
           points: 0,
           streak: 1,
           lastCheckInDate: today,
+          vouchers: [],
         });
         console.log(
           "User document created in firestore from CreateAccountScreen.js"
