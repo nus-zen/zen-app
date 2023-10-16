@@ -78,8 +78,6 @@ export default function RewardsScreen({ navigation }) {
     }
     console.log("analytics: spendVirtualCurrency logged from RewardsScreen");
 
-    console.log("currUserVouchers:", currUserVouchers);
-
     // add vouchers to user's firebase document
     await currUserDoc
       .update({
@@ -122,18 +120,7 @@ export default function RewardsScreen({ navigation }) {
           <Text style={styles.totalCoinsText}> Days Streak</Text>
         </View>
       </View>
-      {/* <ScrollView contentContainerStyle={styles.scrollContent}>
-        {rewards.map((rewards, index) => (
-          <View key={index} style={styles.cardContainer}>
-            <RewardsCard
-              title={rewards.title}
-              subtitle={rewards.subtitle}
-              imageSource={{ uri: rewards.imageSource }}
-              onPress={rewardsPressHandler(rewards)}
-            />
-          </View>
-        ))}
-      </ScrollView> */}
+
       <RewardsItems checkoutHandler={checkoutHandler} />
     </View>
   );
@@ -168,7 +155,6 @@ const styles = StyleSheet.create({
   totalCoinsText: {
     fontSize: 18,
     color: "black",
-    marginTop: 8,
   },
   TextImage: {
     width: 40,

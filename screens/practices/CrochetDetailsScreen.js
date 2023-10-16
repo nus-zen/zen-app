@@ -119,8 +119,8 @@ const CrochetDetailsScreen = () => {
         allowsEditing: true,
         quality: 1,
       });
-      if (!result.cancelled) {
-        const imageSource = { uri: result.uri };
+      if (!result.canceled) {
+        const imageSource = { uri: result.assets[0].uri };
         addProgressImage(imageSource);
         //setProgressImages((prevImages) => [...prevImages, imageSource]);
 

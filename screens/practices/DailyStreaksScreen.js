@@ -37,6 +37,7 @@ export default function DailyStreaksLoginScreen({ navigation }) {
     // get streak and lastCheckInDate from firestore
     const doc = await currUserDoc.get();
     const currentStreak = doc.data().streak;
+    //console.log("currentStreak", currentStreak);
     const lastCheckInDate = doc.data().lastCheckInDate;
     //console.log("lastCheckInDate", lastCheckInDate);
 

@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
+import * as Font from "expo-font";
+import React, { useEffect, useState } from "react";
 import {
-  View,
+  Image,
+  Linking,
+  SafeAreaView,
+  StyleSheet,
   Text,
   TextInput,
-  StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
-  Linking,
-  Image,
+  View,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Font from "expo-font";
-import auth from "@react-native-firebase/auth";
-import moment from "moment";
-import analytics from "@react-native-firebase/analytics";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -52,6 +51,25 @@ export default function LoginScreen({ navigation }) {
 
     auth()
       .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        // check if user has firestore document, if not, create one
+        const userDoc = firestore().collection("users").doc(email);
+        userDoc.get().then((doc) => {
+          if (!doc.exists) {
+            console.log(
+              "user does not exist, creating document in LoginScreen.js"
+            );
+            userDoc.set({
+              fullName: "",
+              email: email,
+              points: 0,
+              streak: 1,
+              lastCheckInDate: new Date(),
+              vouchers: [],
+            });
+          }
+        });
+      })
       .then((userCredential) => {
         // Signed in
         navigation.navigate("MoodCheckInScreen");
