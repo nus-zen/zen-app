@@ -34,11 +34,6 @@ export default function RewardsScreen({ navigation }) {
     return () => unsubscribe();
   }, []);
 
-  // currUserDoc.get().then((doc) => {
-  //   loadPoints(doc.data().points);
-  //   loadStreak(doc.data().streak);
-  // });
-
   const loadPoints = async (points) => {
     setPoints(points);
     console.log(`points loaded: ${points} from RewardsScreen.js`);
@@ -67,7 +62,7 @@ export default function RewardsScreen({ navigation }) {
 
           <Text style={styles.totalCoinsText}>Total Coins</Text>
           <Text style={styles.pointsText}>{streak}</Text>
-          <Text style={styles.totalCoinsText}>streak</Text>
+          <Text style={styles.totalCoinsText}> Days Streak</Text>
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.scrollContent}>
