@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Text, Animated, TouchableOpacity } from "react-native";
 
 export const PointsPopup = ({ pointsEarned, isVisible, onClose }) => {
-  const fadeAnim = useRef(new Animated.Value(0.9)).current; // Initial value for opacity
+  const fadeAnim = useRef(new Animated.Value(0.5)).current; // Initial value for opacity
 
   useEffect(() => {
     Animated.timing(fadeAnim, {

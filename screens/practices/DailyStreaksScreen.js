@@ -243,7 +243,7 @@ export default function DailyStreaksLoginScreen({ navigation }) {
           ? `You are on a ${streak} day streak! You've earned ${amount} points for today's check in.`
           : streak > 1
           ? `You are on a ${streak} day streak! Keep it up!`
-          : `Go on a streak to earn points!`}
+          : `Go on a streak to earn points and additional rewards!`}
       </Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -362,5 +362,6 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
     marginTop: -100,
+    paddingHorizontal: 20,
   },
 });

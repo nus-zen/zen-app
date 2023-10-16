@@ -14,12 +14,16 @@ import HeartRateVariabilityChart from "../../components/HeartRateVariabilityChar
 import auth from "@react-native-firebase/auth";
 import moment from "moment";
 import analytics from "@react-native-firebase/analytics";
+import { PointsPopup } from "../../components/PointsPopup";
 
 export default function HRVFeedbackScreen({ route }) {
   const [beforeBPM, setBeforeBPM] = useState(null);
   const [afterBPM, setAfterBPM] = useState(null);
-  const { title } = route.params;
+  const { title, pointsToEarn } = route.params;
   const navigation = useNavigation();
+
+  // Local state for controlling the visibility of the popup
+  const [popupVisible, setPopupVisible] = useState(!!pointsToEarn); // Set to true if pointsToEarn is not null and false otherwise
 
   useEffect(() => {
     // Simulate fetching HRV data from an API or device
@@ -32,6 +36,19 @@ export default function HRVFeedbackScreen({ route }) {
 
   const chartWidth = Dimensions.get("window").width;
   const chartHeight = 200;
+  //console.log("pointsToEarn:", pointsToEarn);
+
+  // Auto-close the popup after 3 seconds if there are points to earn
+  useEffect(() => {
+    if (pointsToEarn && popupVisible) {
+      // Ensure that popup is currently visible
+      const timer = setTimeout(() => {
+        setPopupVisible(false);
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup on component unmount
+    }
+  }, [pointsToEarn, popupVisible]);
 
   useEffect(() => {
     // log MeditationEndEvent with userid, meditation title, time, date, and day
@@ -64,7 +81,6 @@ export default function HRVFeedbackScreen({ route }) {
           </View>
         </ImageBackground>
       </View>
-
       <SafeAreaView style={styles.container}>
         <View style={styles.bpmHeaderContainer}>
           <Text style={styles.bpmHeaderText}>Heart Rate</Text>
@@ -107,6 +123,13 @@ export default function HRVFeedbackScreen({ route }) {
           chartHeight={chartHeight}
         />
 
+        {!!pointsToEarn && popupVisible && (
+          <PointsPopup
+            pointsEarned={pointsToEarn}
+            isVisible={popupVisible}
+            onClose={() => setPopupVisible(false)}
+          />
+        )}
         <View style={styles.buttonContainer}>
           <Button
             title="Next"

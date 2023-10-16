@@ -3,60 +3,52 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
+import analytics from "@react-native-firebase/analytics";
 
 export default function YouTubePlayer({ videoId, title }) {
   const navigation = useNavigation();
 
   const [isPlaying, setIsPlaying] = useState(false);
-
-  const [startTime, setStartTime] = useState(0);
-  const [totalTimePlayed, setTotalTimePlayed] = useState(0);
   const [points, setPoints] = useState(0);
 
-  useEffect(() => {
-    loadPoints();
-  }, []);
-
-  useEffect(() => {
-    if (isPlaying) {
-      const interval = setInterval(() => {
-        const currentTime = Date.now() - startTime;
-        setTotalTimePlayed(currentTime);
-      }, 1000); // Update every 1 second
-
-      return () => clearInterval(interval); // Clean up the interval when unmounting
-    }
-  }, [isPlaying, startTime]);
-
-  const loadPoints = async () => {
-    const storedPoints = await AsyncStorage.getItem("userPoints");
-    setPoints(storedPoints ? parseInt(storedPoints) : 0);
-    console.log("Total Points Stored:", storedPoints);
-  };
-
   const IncreasePoints = (totalTimePlayed) => {
-    const PointsToBeAdded = Math.floor(totalTimePlayed / 6000);
-    return PointsToBeAdded;
+    const PointsToBeAdded = totalTimePlayed * 0.05; // 0.05 points per second of video watched
+    return Math.round(PointsToBeAdded);
   };
 
-  const handleVideoEnd = async () => {
+  const handleVideoEnd = async (totalTimePlayed) => {
     setIsPlaying(false);
     const amount = IncreasePoints(totalTimePlayed);
 
-    // Update points and store in AsyncStorage
-    const updatedPoints = points + amount;
-    setPoints(updatedPoints);
-    await AsyncStorage.setItem("userPoints", updatedPoints.toString());
+    // add points to firestore document
+    const currUserDoc = firestore()
+      .collection("users")
+      .doc(auth().currentUser.email);
 
-    console.log("Total Time Played:", totalTimePlayed);
-    console.log("Amount:", amount);
-    console.log("Updated Points:", updatedPoints);
+    await currUserDoc.update({
+      points: firestore.FieldValue.increment(amount),
+    });
+    console.log(
+      "Points Added to firestore:",
+      amount,
+      "for",
+      auth().currentUser.email,
+      "from meditation video:",
+      title
+    );
+
     //unless crocheting
     if (videoId !== "QdMwJyatGMI") {
-      navigation.navigate("HRVFeedbackScreen", { title: title });
+      navigation.navigate("HRVFeedbackScreen", {
+        title: title,
+        pointsToEarn: amount,
+      });
     }
   };
 
+  let startTime = 0;
   return (
     <View style={styles.container}>
       {/* YouTube video component */}
@@ -68,13 +60,22 @@ export default function YouTubePlayer({ videoId, title }) {
           play={isPlaying}
           onChangeState={(state) => {
             if (state === "ended") {
-              handleVideoEnd();
+              // get current time
+              const currentTime = Date.now();
+              console.log("Current Time:", currentTime);
+              // calculate total time played in seconds
+              const totalTimePlayed = Math.floor(
+                (currentTime - startTime) / 1000
+              );
+              console.log("Total Time Played:", totalTimePlayed, "seconds");
+
+              handleVideoEnd(totalTimePlayed);
             } else if (state === "playing") {
-              setStartTime(Date.now());
-              console.log("Video Playing");
-            } else if (state === "paused") {
-              const currentTime = Date.now() - startTime;
-              setTotalTimePlayed(totalTimePlayed + currentTime);
+              // update startTime if startTime is not set
+              if (startTime === 0) {
+                startTime = Date.now();
+                console.log("Start Time:", startTime);
+              }
             }
           }}
         />
