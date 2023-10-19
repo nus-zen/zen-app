@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
     "githubPullRequests.ignoredPullRequestBranches": [
         "main"
     ]
-=======
-    "java.configuration.updateBuildConfiguration": "interactive"
->>>>>>> 403ef8f6 (Im a giraffe)
 }
