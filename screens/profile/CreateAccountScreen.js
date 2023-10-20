@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import * as Font from "expo-font";
 import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 
 export default function CreateAccountScreen({ navigation }) {
   const [fullName, setFullName] = useState("");
@@ -37,7 +38,7 @@ export default function CreateAccountScreen({ navigation }) {
     return emailPattern.test(email);
   };
 
-  const handleCreateAccount = () => {
+  const handleCreateAccount = async () => {
     if (!isValidEmail(email) || password !== confirmPassword) {
       setEmailError(!isValidEmail(email) ? "Please enter a valid email" : "");
       setPasswordError(
@@ -46,11 +47,27 @@ export default function CreateAccountScreen({ navigation }) {
       return;
     }
 
-    auth()
+    await auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("User successfully created:", user);
+
+        //get todays date for checkin
+        const today = new Date();
+        // create user document in firestore
+        firestore().collection("users").doc(email).set({
+          fullName: fullName,
+          email: email,
+          points: 0,
+          streak: 1,
+          lastCheckInDate: today,
+          vouchers: [],
+        });
+        console.log(
+          "User document created in firestore from CreateAccountScreen.js"
+        );
+
         navigation.navigate("MoodCheckInScreen");
       })
       .catch((error) => {

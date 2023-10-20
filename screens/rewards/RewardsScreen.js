@@ -1,57 +1,127 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
 import RewardsCard from "../../components/RewardsCard";
 import { REWARDS_DATA } from "../../data/RewardsData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
+import analytics from "@react-native-firebase/analytics";
+import RewardsItems from "./RewardsItems";
 
 export default function RewardsScreen({ navigation }) {
   const rewards = REWARDS_DATA;
   const [points, setPoints] = useState(0);
   const [streak, setStreak] = useState(0);
 
+  // retrieve points and streak from firestore
+  const currUserDoc = firestore()
+    .collection("users")
+    .doc(auth().currentUser.email);
+
+  // set up firestore listener to update points and streak in real time
   useEffect(() => {
-    loadStreak();
-    loadPoints();
+    const unsubscribe = currUserDoc.onSnapshot((doc) => {
+      loadPoints(doc.data().points);
+      loadStreak(doc.data().streak);
+    });
+    return () => unsubscribe();
   }, []);
 
-  const loadPoints = async () => {
-    const storedPoints = await AsyncStorage.getItem("userPoints");
-    setPoints(storedPoints ? parseInt(storedPoints) : 0);
-    console.log(`Total points: ${storedPoints}`);
-  };
-  const loadStreak = async () => {
-    const storedStreak = await AsyncStorage.getItem("dailyStreak");
-    setStreak(storedStreak ? parseInt(storedStreak) : 0);
-    console.log(`Total streak: ${storedStreak}`);
+  const loadPoints = async (points) => {
+    setPoints(points);
+    console.log(`points loaded: ${points} from RewardsScreen.js`);
   };
 
-  function rewardsPressHandler(rewards) {
-    return () => {
-      navigation.navigate("RewardsItems", rewards);
-    };
+  const loadStreak = async (streak) => {
+    setStreak(streak);
+    console.log(`streak loaded: ${streak} from RewardsScreen.js`);
+  };
+
+  async function checkoutHandler(vouchers, totalcost) {
+    // if user does not have enough points, show error message
+    if (points < totalcost) {
+      Alert.alert("Not enough points to checkout.");
+      return;
+    }
+
+    // retrieve voucher array from firestore
+    const user = await currUserDoc.get();
+    const currUserVouchers = user.data().vouchers;
+
+    // if user has enough points, deduct points from user
+    await currUserDoc.update({ points: points - totalcost });
+
+    // get list of vouchers to be checked out
+    const vouchersToCheckout = [];
+    for (const voucher of vouchers) {
+      if (voucher.count > 0) {
+        for (let i = 0; i < voucher.count; i++) {
+          vouchersToCheckout.push(voucher.name);
+          currUserVouchers.push(voucher.name);
+        }
+
+        // analytics for virtual currency spent
+        analytics().logSpendVirtualCurrency({
+          item_name: voucher.name,
+          virtual_currency_name: "points",
+          value: voucher.coins,
+        });
+      }
+    }
+    console.log("analytics: spendVirtualCurrency logged from RewardsScreen");
+
+    // add vouchers to user's firebase document
+    await currUserDoc
+      .update({
+        vouchers: currUserVouchers,
+      })
+      .then(() => {
+        console.log(
+          "vouchers added to firestore:",
+          vouchersToCheckout,
+          "for",
+          auth().currentUser.email
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    //analytics for checkout
+    analytics().logEvent("checkoutEvent", {
+      user: auth().currentUser.email,
+      vouchers: vouchersToCheckout,
+      pointsSpent: totalcost,
+    });
+
+    console.log("analytics: checkoutEvent logged from RewardsScreen.js");
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-          <View style={styles.centered}>
-            <Image source={require("../../assets/money.png")} style={styles.TextImage} />
-            <Text style={styles.pointsText}>{points}</Text>
-            <Text style={styles.totalCoinsText}>Total Coins</Text>
-          </View>
+        <View style={styles.centered}>
+          <Image
+            source={require("../../assets/money.png")}
+            style={styles.TextImage}
+          />
+          <Text style={styles.pointsText}>{points}</Text>
+
+          <Text style={styles.totalCoinsText}>Total Coins</Text>
+          <Text style={styles.pointsText}>{streak}</Text>
+          <Text style={styles.totalCoinsText}> Days Streak</Text>
+        </View>
       </View>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {rewards.map((rewards, index) => (
-          <View key={index} style={styles.cardContainer}>
-            <RewardsCard
-              title={rewards.title}
-              subtitle={rewards.subtitle}
-              imageSource={{ uri: rewards.imageSource }}
-              onPress={rewardsPressHandler(rewards)}
-            />
-          </View>
-        ))}
-      </ScrollView>
+
+      <RewardsItems checkoutHandler={checkoutHandler} />
     </View>
   );
 }
@@ -85,7 +155,6 @@ const styles = StyleSheet.create({
   totalCoinsText: {
     fontSize: 18,
     color: "black",
-    marginTop: 8,
   },
   TextImage: {
     width: 40,

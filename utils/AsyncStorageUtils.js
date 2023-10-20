@@ -73,7 +73,7 @@ export const loadProgressImages = async () => {
 export const saveProgressImages = async (images) => {
   try {
     await AsyncStorage.setItem("progressImages", JSON.stringify(images));
-    console.log("Progress Images saved:", images);
+    console.log("Progress Images saved in AsyncStorage");
   } catch (error) {
     console.error("Error saving progress images:", error);
   }

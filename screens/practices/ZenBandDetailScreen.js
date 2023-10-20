@@ -14,34 +14,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { ZenBandHelpCard } from "../../components/ZenBandHelpCard";
 
 export default function ZenBandDetailScreen({ navigation }) {
-  const [points, setPoints] = useState(0);
   const [isHelpVisible, setIsHelpVisible] = useState(false);
 
   // Function to navigate to PracticeHome
   const goToBottomTabsOverview = () => {
-    navigation.navigate("BottomTabsOverview");
-  };
-
-  useEffect(() => {
-    loadPoints();
-  }, []);
-
-  const loadPoints = async () => {
-    const storedPoints = await AsyncStorage.getItem("userPoints");
-    setPoints(storedPoints ? parseInt(storedPoints) : 0);
-    console.log("Total Points Stored:", storedPoints);
-  };
-
-  const addPoints = async (amount) => {
-    const updatedPoints = points + amount;
-    setPoints(updatedPoints);
-    await AsyncStorage.setItem("userPoints", updatedPoints.toString());
-    console.log("Points Added:", amount);
-    console.log("Updated Points:", updatedPoints);
-  };
-
-  const handleTabButtonPress = () => {
-    addPoints(30);
     navigation.navigate("BottomTabsOverview");
   };
 

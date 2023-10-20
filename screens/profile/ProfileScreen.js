@@ -17,6 +17,9 @@ import StatisticsComponent from "../../components/ProfileScreenBestActivitiesSta
 import ScrollableContent from "../../components/ActivitiesCompletedScrollableContent";
 import ActivityLog from "../../components/ActivityLog";
 import auth from "@react-native-firebase/auth";
+import moment from "moment";
+import analytics from "@react-native-firebase/analytics";
+
 // import NotificationsButton from "../../components/NotificationsButton"; implement when firebase is activated
 //import ReminderButton from "../../components/ReminderButton"; implement when firebase is activated
 
@@ -26,6 +29,29 @@ export default function ProfileScreen({ navigation, route }) {
   }
 
   const handleLogout = () => {
+    // log logoutEvent with current time, date, and day
+    const userid = auth().currentUser.email;
+    const time = moment().format("h:mm:ss a");
+    const date = moment().format("MMMM Do YYYY");
+    const day = moment().format("dddd");
+    analytics().logEvent("logoutEvent", {
+      id: userid,
+      time: time,
+      date: date,
+      day: day,
+    });
+    console.log(
+      "user:",
+      auth().currentUser.email,
+      "logged out at",
+      time,
+      "on",
+      date,
+      "day",
+      day
+    );
+    console.log("analytics: logoutEvent logged from ProfileScreen.js");
+
     auth()
       .signOut()
       .then(() => console.log("User signed out!"))

@@ -8,12 +8,32 @@ import {
   SafeAreaView,
 } from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
+import analytics from "@react-native-firebase/analytics";
+import auth from "@react-native-firebase/auth";
+import moment from "moment";
 
 export default function MeditationDetailScreen({ navigation, route }) {
   const { title, imageSource, description, duration, rationale, videoId } =
     route.params;
 
   const startMeditation = () => {
+    // log meditationStartEvent with userid, meditation title, time, date, and day
+    const userid = auth().currentUser.email;
+    const time = moment().format("h:mm:ss a");
+    const date = moment().format("MMMM Do YYYY");
+    const day = moment().format("dddd");
+    analytics().logEvent("meditationStartEvent", {
+      id: userid,
+      title: title,
+      time: time,
+      date: date,
+      day: day,
+    });
+    console.log("user:", userid, "started", title, "at", time);
+    console.log(
+      "analytics: meditationStartEvent logged from MeditationDetailScreen.js"
+    );
+
     // Start the meditation logic
     navigation.navigate("PracticeMediaScreen", {
       videoId: videoId,

@@ -68,7 +68,8 @@ export default function MeditationsList({ navigation }) {
         item_list_name: meditation.title,
         item_list_id: meditation.title,
       });
-      console.log("chosen meditation analytics logged");
+      console.log("user clicked on meditation:", meditation.title);
+      console.log("analytics: select item logged from MeditationsList.js");
 
       navigation.navigate("MeditationDetailScreen", meditation);
     };
