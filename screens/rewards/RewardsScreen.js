@@ -3,57 +3,61 @@ import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, Dimensions } f
 import RewardsCard from "../../components/RewardsCard";
 import { REWARDS_DATA } from "../../data/RewardsData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function RewardsScreen({ navigation }) {
   const rewards = REWARDS_DATA;
   const [points, setPoints] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [selectedCard, setSelectedCard] = useState(null); // To store the selected card selectedCard
 
-  useEffect(() => {
+  useFocusEffect(() => {
     loadStreak();
     loadPoints();
-  }, []);
+  });
 
   const loadPoints = async () => {
     const storedPoints = await AsyncStorage.getItem("userPoints");
     setPoints(storedPoints ? parseInt(storedPoints) : 0);
     console.log(`Total points: ${storedPoints}`);
-  };
+  }
+  
   const loadStreak = async () => {
     const storedStreak = await AsyncStorage.getItem("dailyStreak");
     setStreak(storedStreak ? parseInt(storedStreak) : 0);
     console.log(`Total streak: ${storedStreak}`);
-  };
-
-  function rewardsPressHandler(rewards) {
-    return () => {
-      navigation.navigate("RewardsItems", rewards);
-    };
   }
+
+  const rewardsPressHandler = (selectedCard) => {
+    setSelectedCard(selectedCard); // Set the selected card selectedCard
+    console.log(`Selected card selectedCard: ${selectedCard}`);
+    navigation.navigate("RewardsItems", { selectedCard });
+  }
+  
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-          <View style={styles.centered}>
-            <Image source={require("../../assets/money.png")} style={styles.TextImage} />
-            <Text style={styles.pointsText}>{points}</Text>
-            <Text style={styles.totalCoinsText}>Total Coins</Text>
-          </View>
+        <View style={styles.centered}>
+          <Image source={require("../../assets/money.png")} style={styles.TextImage} />
+          <Text style={styles.pointsText}>{points}</Text>
+          <Text style={styles.totalCoinsText}>Total Coins</Text>
+        </View>
       </View>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {rewards.map((rewards, index) => (
-          <View key={index} style={styles.cardContainer}>
+        {rewards.map((reward, selectedCard) => (
+          <View key={selectedCard} style={styles.cardContainer}>
             <RewardsCard
-              title={rewards.title}
-              subtitle={rewards.subtitle}
-              imageSource={{ uri: rewards.imageSource }}
-              onPress={rewardsPressHandler(rewards)}
+              title={reward.title}
+              subtitle={reward.subtitle}
+              imageSource={{ uri: reward.imageSource }}
+              onPress={() => rewardsPressHandler(selectedCard)} // Pass the card selectedCard
             />
           </View>
         ))}
       </ScrollView>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
