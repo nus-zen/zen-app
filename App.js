@@ -26,10 +26,60 @@ import ZenBandDetailScreen from "./screens/practices/ZenBandDetailScreen";
 import MeditationTopTabScreen from "./screens/practices/MeditationTopTabScreen";
 import LeagueHomepageScreen from "./screens/rewards/LeagueHomepageScreen";
 import OnboardingScreen from "./screens/onboarding/OnboardingScreen";
+import React, { useEffect, useState } from "react";
+import auth from "@react-native-firebase/auth";
+import moment from "moment";
+import analytics from "@react-native-firebase/analytics";
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  // Set an initializing state whilst Firebase connects
+
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+
+    if (user) {
+      // log loginEvent with current time, date, and day
+      const userid = user.email;
+      const time = moment().format("h:mm:ss a");
+      const date = moment().format("MMMM Do YYYY");
+      const day = moment().format("dddd");
+      analytics().logEvent("loginEvent", {
+        id: userid,
+        time: time,
+        date: date,
+        day: day,
+      });
+
+      console.log(
+        "user:",
+        user.email,
+        "logged in at",
+        time,
+        "on",
+        date,
+        "day",
+        day
+      );
+      console.log("analytics: loginEvent logged from App.js");
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) {
+    return null; // Render nothing while waiting for initialization
+  }
+
   return (
     <SafeAreaProvider>
       <>
@@ -43,7 +93,9 @@ const App = () => {
             headerTintColor: "white",
           }}
         >
-          <Stack.Navigator>
+          <Stack.Navigator
+            initialRouteName={user ? "DailyStreaksScreen" : "WelcomeScreen"}
+          >
             <Stack.Screen
               name="WelcomeScreen"
               component={WelcomeScreen}

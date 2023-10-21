@@ -16,6 +16,7 @@ import {
   getShowFavOnly,
   saveShowFavOnly,
 } from "../../utils/AsyncStorageUtils";
+import analytics from "@react-native-firebase/analytics";
 
 export default function MeditationsList({ navigation }) {
   const [showFavOnly, setShowFavOnly] = useState(false);
@@ -60,7 +61,16 @@ export default function MeditationsList({ navigation }) {
   }
 
   function meditationPressHandler(meditation) {
-    return () => {
+    return async () => {
+      // log selected meditation using Firebase Analytics
+      await analytics().logSelectItem({
+        content_type: "meditation",
+        item_list_name: meditation.title,
+        item_list_id: meditation.title,
+      });
+      console.log("user clicked on meditation:", meditation.title);
+      console.log("analytics: select item logged from MeditationsList.js");
+
       navigation.navigate("MeditationDetailScreen", meditation);
     };
   }

@@ -1,25 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { View, ScrollView, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native';
-import { LineChart } from 'react-native-chart-kit';
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
+import { LineChart } from "react-native-chart-kit";
 
-import ActivitiesCompletedChart from './ActivitiesCompletedChart.js';
-import InAppDurationChart from './InAppDurationChart';
-import HeartRateVariabilityChart from './HeartRateVariabilityChart';
+import ActivitiesCompletedChart from "./ActivitiesCompletedChart.js";
+import InAppDurationChart from "./InAppDurationChart";
+import HeartRateVariabilityChart from "./HeartRateVariabilityChart";
 
 export default function ScrollableContent() {
-  const [chartWidth, setChartWidth] = useState(Dimensions.get('window').width - 40);
+  const [chartWidth, setChartWidth] = useState(
+    Dimensions.get("window").width - 40
+  );
   const [chartHeight, setChartHeight] = useState(200);
   const [currentPage, setCurrentPage] = useState(0); // Current page index
 
   useEffect(() => {
     const updateDimensions = () => {
-      setChartWidth(Dimensions.get('window').width - 40);
+      setChartWidth(Dimensions.get("window").width - 40);
     };
 
-    Dimensions.addEventListener('change', updateDimensions);
+    const subscription = Dimensions.addEventListener(
+      "change",
+      updateDimensions
+    );
 
     return () => {
-      Dimensions.removeEventListener('change', updateDimensions);
+      subscription.remove();
     };
   }, []);
 
@@ -36,16 +48,15 @@ export default function ScrollableContent() {
       indicators.push(
         <TouchableOpacity
           key={i}
-          style={[styles.pageIndicator, i === currentPage ? styles.currentPageIndicator : null]}
+          style={[
+            styles.pageIndicator,
+            i === currentPage ? styles.currentPageIndicator : null,
+          ]}
         />
       );
     }
 
-    return (
-      <View style={styles.pageIndicatorContainer}>
-        {indicators}
-      </View>
-    );
+    return <View style={styles.pageIndicatorContainer}>{indicators}</View>;
   };
 
   return (
@@ -61,9 +72,15 @@ export default function ScrollableContent() {
         scrollEventThrottle={16}
       >
         {/* Render chart components */}
-        <ActivitiesCompletedChart chartWidth={chartWidth} chartHeight={chartHeight} />
+        <ActivitiesCompletedChart
+          chartWidth={chartWidth}
+          chartHeight={chartHeight}
+        />
         <InAppDurationChart chartWidth={chartWidth} chartHeight={chartHeight} />
-        <HeartRateVariabilityChart chartWidth={chartWidth} chartHeight={chartHeight} />
+        <HeartRateVariabilityChart
+          chartWidth={chartWidth}
+          chartHeight={chartHeight}
+        />
       </ScrollView>
 
       {/* Page indicator */}
@@ -81,9 +98,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   pageIndicatorContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 10,
   },
   pageIndicator: {
@@ -91,9 +108,9 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     marginHorizontal: 4,
-    backgroundColor: 'gray', 
+    backgroundColor: "gray",
   },
   currentPageIndicator: {
-    backgroundColor: 'black', 
+    backgroundColor: "black",
   },
 });

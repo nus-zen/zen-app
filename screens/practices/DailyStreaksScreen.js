@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image, SafeAreaView } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+} from "react-native";
+import analytics from "@react-native-firebase/analytics";
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
+import moment from "moment";
 
 export default function DailyStreaksLoginScreen({ navigation }) {
+  // get user document from firestore
+  const currUserDoc = firestore()
+    .collection("users")
+    .doc(auth().currentUser.email);
+
   const [streak, setStreak] = useState(0);
   const [points, setPoints] = useState(0);
+  const [amount, setAmount] = useState(0);
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -13,63 +29,93 @@ export default function DailyStreaksLoginScreen({ navigation }) {
   const dayOfWeekName = daysOfWeek[dayOfWeekIndex];
 
   useEffect(() => {
-    handleLogin();
     loadStreak();
     loadPoints();
   }, []);
 
   const loadStreak = async () => {
-    const storedStreak = await AsyncStorage.getItem("dailyStreak");
-    setStreak(storedStreak ? parseInt(storedStreak) : 1);
+    // get streak and lastCheckInDate from firestore
+    const doc = await currUserDoc.get();
+    const currentStreak = doc.data().streak;
+    //console.log("currentStreak", currentStreak);
+    const lastCheckInDate = doc.data().lastCheckInDate;
+    //console.log("lastCheckInDate", lastCheckInDate);
+
+    const lastCheckInMoment = moment.unix(lastCheckInDate.seconds);
+    //console.log("lastCheckInMoment", lastCheckInMoment);
+
+    let newStreak = currentStreak;
+
+    // Get the start of today and the start of the lastCheckInDate
+    const startOfToday = moment().startOf("day");
+    const startOfLastCheckIn = lastCheckInMoment.startOf("day");
+
+    // Calculate the difference in days
+    const daysDifference = startOfToday.diff(startOfLastCheckIn, "days");
+
+    // console.log("startOfToday", startOfToday);
+    // console.log("startOfLastCheckIn", startOfLastCheckIn);
+    // console.log("daysDifference", daysDifference);
+
+    // if lastCheckInDate is more than 1 day ago, reset streak to 1. e.g. 15 oct (lastcheckin) and 17 oct (today)
+    if (daysDifference > 1) {
+      newStreak = 1;
+      console.log(
+        "streak reset to 1 as last login was",
+        daysDifference,
+        "days ago. From DailyStreaksScreen.js"
+      );
+    }
+
+    // if lastCheckInDate is exactly 1 day ago, increment streak by 1
+    else if (daysDifference === 1) {
+      newStreak = currentStreak + 1;
+      console.log(
+        "streak incremented by 1 from",
+        currentStreak,
+        "to",
+        newStreak,
+        "from DailyStreaksScreen.js"
+      );
+
+      // set amount to add to points
+      const amountToAdd = 5 * newStreak;
+      setAmount(amountToAdd);
+      // add points
+      addPoints(amountToAdd);
+
+      console.log(
+        "amount added to points: 5 * streak:",
+        amountToAdd,
+        "from DailyStreaksScreen.js"
+      );
+    }
+
+    // update if streak is different from current streak
+    if (newStreak !== currentStreak) {
+      // update streak in firestore
+      await currUserDoc.update({ streak: newStreak });
+      console.log(
+        "streak updated in firestore:",
+        newStreak,
+        "from DailyStreaksScreen.js"
+      );
+    }
+
+    // update streak in state
+    setStreak(newStreak);
+
+    // update lastCheckInDate in firestore
+    await currUserDoc.update({ lastCheckInDate: currentDate });
   };
 
   const loadPoints = async () => {
-    const storedPoints = await AsyncStorage.getItem("userPoints");
-    setPoints(storedPoints ? parseInt(storedPoints) : 0);
+    // get points from firestore
+    const points = await currUserDoc.get().then((doc) => {
+      return doc.data().points;
+    });
+    setPoints(points);
   };
-
-  const incrementStreak = async () => {
-    const newStreak = streak + 1;
-    setStreak(newStreak);
-    await AsyncStorage.setItem("dailyStreak", newStreak.toString());
-
-    if (newStreak >= 1) {
-      addPoints(50);
-    }
-  }; 
-
-  const resetStreak = async () => {
-    setStreak(0);
-    await AsyncStorage.setItem("dailyStreak", "0");
-
-    if (streak === 0) {
-      addPoints(-50);
-    }
-  };
-
-  const handleLogin = async () => {
-    const lastLoginDate = await AsyncStorage.getItem("lastLoginDate");
-    const currentTime = new Date().getTime();
-  
-    if (!lastLoginDate) {
-      // User's first login or app's first use, directly increment streak
-      incrementStreak();
-    } else {
-      const timeDifference = currentTime - parseInt(lastLoginDate, 10);
-      const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000;
-  
-      if (timeDifference >= twentyFourHoursInMilliseconds) {
-        // More than 24 hours since last login, reset streak
-        resetStreak();
-      } else {
-        // Less than 24 hours since last login, increment streak
-        incrementStreak();
-      }
-    }
-  
-    await AsyncStorage.setItem("lastLoginDate", currentTime.toString());
-  };
-  
 
   const handleNavigateToBottomTabs = () => {
     navigation.navigate("BottomTabsOverview");
@@ -77,30 +123,69 @@ export default function DailyStreaksLoginScreen({ navigation }) {
 
   const addPoints = async (amount) => {
     const newPoints = points + amount;
+
+    // update points in firestore
+    await currUserDoc.update({ points: newPoints });
+    console.log(
+      "points updated in firestore:",
+      newPoints,
+      "from DailyStreaksScreen.js"
+    );
+
+    // update points in state
     setPoints(newPoints);
 
-    await AsyncStorage.setItem("userPoints", newPoints.toString());
+    // log analytics event
+    await analytics().logEarnVirtualCurrency({
+      virtual_currency_name: "points",
+      value: amount,
+    });
+
+    console.log(
+      "points analytics logged:",
+      amount,
+      "points from DailyStreaksScreen.js"
+    );
   };
-
-
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image source={require("../../assets/flame.png")} style={styles.TextImage} />
+        <Image
+          source={require("../../assets/flame.png")}
+          style={styles.TextImage}
+        />
         <Text style={styles.streakHeaderText}>{` ${streak}   `}</Text>
-        <Image source={require("../../assets/money.png")} style={styles.TextImage} />
-        <Text style={styles.pointsText}>{` ${points}`}</Text>           
+        <Image
+          source={require("../../assets/money.png")}
+          style={styles.TextImage}
+        />
+        <Text style={styles.pointsText}>{` ${points}`}</Text>
       </View>
       <View style={styles.content}>
-        <Image source={require("../../assets/flame.png")} style={styles.flameImage} />
-        <View style={styles.rectangleContainer}>
+        <Image
+          source={require("../../assets/flame.png")}
+          style={styles.flameImage}
+        />
+        {/* <View style={styles.rectangleContainer}>
           <View style={styles.daysContainer}>
             {daysOfWeek.map((day, index) => (
               <View key={index} style={styles.dayContainer}>
-                <View style={[styles.circle, streak === 1 && dayOfWeekName === day ? styles.redCircle : (streak === 0 ? styles.grayCircle : null)]}>
+                <View
+                  style={[
+                    styles.circle,
+                    streak === 1 && dayOfWeekName === day
+                      ? styles.redCircle
+                      : streak === 0
+                      ? styles.grayCircle
+                      : null,
+                  ]}
+                >
                   {streak === 1 && dayOfWeekName === day ? (
-                    <Image source={require("../../assets/redcheckcircle.png")} style={styles.checkIcon} />
+                    <Image
+                      source={require("../../assets/redcheckcircle.png")}
+                      style={styles.checkIcon}
+                    />
                   ) : null}
                 </View>
 
@@ -108,15 +193,63 @@ export default function DailyStreaksLoginScreen({ navigation }) {
               </View>
             ))}
           </View>
+        </View> */}
+        <View style={styles.rectangleContainer}>
+          <View style={styles.daysContainer}>
+            {daysOfWeek.map((day, index) => {
+              let isStreakDay = false;
+              // console.log("dayofweekindex", dayOfWeekIndex);
+              // console.log("index", index);
+
+              // Check if the day is part of the streak
+              if (index === dayOfWeekIndex && streak > 0) {
+                isStreakDay = true;
+              } else if (
+                index < dayOfWeekIndex &&
+                streak > dayOfWeekIndex - index
+              ) {
+                isStreakDay = true;
+              } else if (
+                index > dayOfWeekIndex &&
+                streak > 7 - index + dayOfWeekIndex
+              ) {
+                isStreakDay = true;
+              }
+
+              return (
+                <View key={index} style={styles.dayContainer}>
+                  <View
+                    style={[
+                      styles.circle,
+                      isStreakDay ? styles.redCircle : styles.grayCircle,
+                    ]}
+                  >
+                    {isStreakDay && (
+                      <Image
+                        source={require("../../assets/redcheckcircle.png")}
+                        style={styles.checkIcon}
+                      />
+                    )}
+                  </View>
+                  <Text style={styles.dayLabel}>{day}</Text>
+                </View>
+              );
+            })}
+          </View>
         </View>
       </View>
       <Text style={styles.subtitle}>
-        {streak >= 1 
-          ? `Wow, you are making great progress! Adding ${points} points!`
-          : `You can try harder next time. Removing ${points} points now`}
+        {streak > 1 && amount > 0 // if streak already added points for today, don't add again
+          ? `You are on a ${streak} day streak! You've earned ${amount} points for today's check in.`
+          : streak > 1
+          ? `You are on a ${streak} day streak! Keep it up!`
+          : `Go on a streak to earn points and additional rewards!`}
       </Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.continueButton} onPress={handleNavigateToBottomTabs}>
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={handleNavigateToBottomTabs}
+        >
           <Text style={styles.continueButtonText}>Continue</Text>
         </TouchableOpacity>
       </View>
@@ -182,7 +315,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     backgroundColor: "transparent",
-  
   },
   daysContainer: {
     flexDirection: "row",
@@ -230,5 +362,6 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
     marginTop: -100,
+    paddingHorizontal: 20,
   },
 });

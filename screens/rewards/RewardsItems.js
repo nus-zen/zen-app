@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Dimensions } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Dimensions, } from "react-native";
 
 const RewardsItems = ({ route }) => {
   const { selectedCard } = route.params || {}; 
   const [STpoints, setSTPoints] = useState(0);
   const [vouchers, setVouchers] = useState([]);
-
   
   useEffect(() => {
     console.log(`Selected card index: ${selectedCard}`);
@@ -69,7 +66,6 @@ const RewardsItems = ({ route }) => {
       }
     };
 
-
   const loadPoints = async () => {
     const storedSTPoints = await AsyncStorage.getItem("userPoints");
     setSTPoints(storedSTPoints ? parseInt(storedSTPoints) : 0);
@@ -106,9 +102,18 @@ const RewardsItems = ({ route }) => {
     }
   };
 
+
+  const totalCost = vouchers.reduce(
+    (acc, item) => acc + item.coins * item.count,
+    0
+  );
+
   const renderVoucher = ({ item, index }) => (
     <View style={styles.voucherCard}>
-      <Image source={require("../../assets/diet.png")} style={styles.voucherImage} />
+      <Image
+        source={require("../../assets/diet.png")}
+        style={styles.voucherImage}
+      />
       <View style={styles.voucherInfo}>
         <Text style={styles.voucherName}>{item.name}</Text>
         <Text style={styles.voucherCoins}>{item.coins} Coins</Text>
@@ -289,4 +294,6 @@ const styles = StyleSheet.create({
   },
 });
 
+
 export default RewardsItems;
+
