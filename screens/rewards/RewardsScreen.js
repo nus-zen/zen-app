@@ -8,43 +8,14 @@ import {
   SafeAreaView,
   Dimensions,
 } from "react-native";
-import RewardsCard from "../../components/RewardsCard";
-import { REWARDS_DATA } from "../../data/RewardsData";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from '@react-navigation/native';
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import analytics from "@react-native-firebase/analytics";
 import RewardsItems from "./RewardsItems";
 
-
 export default function RewardsScreen({ navigation }) {
-  const rewards = REWARDS_DATA;
   const [points, setPoints] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [selectedCard, setSelectedCard] = useState(null); // To store the selected card selectedCard
-
-  useFocusEffect(() => {
-    loadStreak();
-    loadPoints();
-  });
-
-  const loadPoints = async () => {
-    const storedPoints = await AsyncStorage.getItem("userPoints");
-    setPoints(storedPoints ? parseInt(storedPoints) : 0);
-    console.log(`Total points: ${storedPoints}`);
-  }
-  
-  const loadStreak = async () => {
-    const storedStreak = await AsyncStorage.getItem("dailyStreak");
-    setStreak(storedStreak ? parseInt(storedStreak) : 0);
-    console.log(`Total streak: ${storedStreak}`);
-  }
-
-  const rewardsPressHandler = (selectedCard) => {
-    setSelectedCard(selectedCard); // Set the selected card selectedCard
-    console.log(`Selected card selectedCard: ${selectedCard}`);
-    navigation.navigate("RewardsItems", { selectedCard });
 
   // retrieve points and streak from firestore
   const currUserDoc = firestore()
@@ -128,9 +99,7 @@ export default function RewardsScreen({ navigation }) {
     });
 
     console.log("analytics: checkoutEvent logged from RewardsScreen.js");
-
   }
-  
 
   return (
     <View style={styles.container}>
@@ -141,27 +110,16 @@ export default function RewardsScreen({ navigation }) {
             style={styles.TextImage}
           />
           <Text style={styles.pointsText}>{points}</Text>
+
           <Text style={styles.totalCoinsText}>Total Coins</Text>
-           <Text style={styles.pointsText}>{streak}</Text>
+          <Text style={styles.pointsText}>{streak}</Text>
           <Text style={styles.totalCoinsText}> Days Streak</Text>
         </View>
       </View>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {rewards.map((reward, selectedCard) => (
-          <View key={selectedCard} style={styles.cardContainer}>
-            <RewardsCard
-              title={reward.title}
-              subtitle={reward.subtitle}
-              imageSource={{ uri: reward.imageSource }}
-              onPress={() => rewardsPressHandler(selectedCard)} // Pass the card selectedCard
-            />
-          </View>
-        ))}
-      </ScrollView>
 
       <RewardsItems checkoutHandler={checkoutHandler} />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
