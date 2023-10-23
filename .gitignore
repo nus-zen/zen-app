@@ -22,3 +22,6 @@ web
 .expo
 
 /dist
+
+.vscode
+android
