@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, } from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
 import { useNavigation } from "@react-navigation/native";
 
@@ -48,7 +41,7 @@ const TerrariumDetailScreen = () => {
 
       {/* Instructions */}
       <View style={styles.instructionsContainer}>
-        <Text style={styles.sectionTitle}>Instructions</Text>
+        <Text style={styles.sectionTitle}>ZenTerrarium Making Instructions</Text>
         {steps.map((step, index) => (
           <View key={index} style={styles.stepContainer}>
             <Image source={stepImages[index]} style={styles.stepImage} />
@@ -70,6 +63,19 @@ const TerrariumDetailScreen = () => {
           Potting soil{"\n"}• Air plants{"\n"}• Decorative elements (optional)
         </Text>
       </View>
+
+    {/* Plant Care Instructions */}
+    <View style={styles.plantCareContainer}>
+      <Text style={styles.sectionTitle}>Plant Care Instructions</Text>
+      <Text style={styles.plantCareText}>
+        • Place your terrarium in a location with indirect sunlight.{"\n"}
+        • Water your air plants sparingly, about once a week, by misting them.{"\n"}
+        • Keep an eye on the moisture level of the potting soil, and water if it dries out.{"\n"}
+        • Prune any dead or yellowing leaves from your air plants.{"\n"}
+        • Enjoy the beauty of your mini garden!
+      </Text>
+    </View>
+
       <TouchableOpacity
         style={styles.amazingButton}
         onPress={goToBottomTabsOverview}
@@ -128,6 +134,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginTop: 16,
     textAlign: "justify",
+  },
+  plantCareContainer: {
+    padding: 16,
+  },
+  plantCareText: {
+    fontSize: 16,
+    marginBottom: 8,
+    marginTop: 16,
+    textAlign: "justify",
+    paddingHorizontal: 16,
   },
   amazingButton: {
     backgroundColor: GlobalColors.primary300,
