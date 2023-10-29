@@ -184,6 +184,19 @@ const CrochetDetailsScreen = () => {
       <View style={styles.middleSection}>
         <YouTubePlayer videoId={"QdMwJyatGMI"} title={""} />
       </View>
+      <Tooltip
+        isVisible={uploadToolTipVisible}
+        content={
+          <Text>
+            Below, upload your crochets once a day and earn 50 points!
+          </Text>
+        }
+        placement="top"
+        showChildInTooltip={false}
+        onClose={() => setUploadToolTipVisible(false)}
+      >
+        <Text></Text>
+      </Tooltip>
 
       <View style={styles.middleSection}>
         <Text style={styles.sectionTitle}>How to Crochet</Text>
@@ -195,7 +208,7 @@ const CrochetDetailsScreen = () => {
           the hook.{"\n"}
           5. Yarn over again and pull through both loops on the hook.
         </Text>
-    
+
         <Text style={styles.sectionTitle}>How to Pepakura</Text>
         <Text style={styles.instructions}>
           1. Cut along solid lines. {"\n"}
@@ -217,21 +230,13 @@ const CrochetDetailsScreen = () => {
 
       <View style={styles.bottomSection}>
         <Text style={styles.sectionTitle}>Track Your Progress</Text>
-        <Tooltip
-          isVisible={uploadToolTipVisible}
-          content={
-            <Text>Upload your crochets once a day and earn 50 points!</Text>
-          }
-          placement="top"
-          onClose={() => setUploadToolTipVisible(false)}
+
+        <TouchableOpacity
+          style={styles.addImageButton}
+          onPress={handleAddImage}
         >
-          <TouchableOpacity
-            style={styles.addImageButton}
-            onPress={handleAddImage}
-          >
-            <Text style={styles.buttonText}>Add Image</Text>
-          </TouchableOpacity>
-        </Tooltip>
+          <Text style={styles.buttonText}>Add Image</Text>
+        </TouchableOpacity>
 
         {/* Buttons for changing the number of columns in the grid */}
         {/* <View
