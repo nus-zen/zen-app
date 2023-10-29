@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, } from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
 import { useNavigation } from "@react-navigation/native";
-import { loadProgressImages, saveProgressImages, } from "../../utils/AsyncStorageUtils";
+import { loadProgressImagesForTerrarium, saveProgressImagesForTerrarium, } from "../../utils/AsyncStorageUtils";
 import firestore from "@react-native-firebase/firestore";
 import analytics from "@react-native-firebase/analytics";
 import auth from "@react-native-firebase/auth";
@@ -13,7 +13,8 @@ import ImageModal from "../../components/ImageModal";
 const TerrariumDetailScreen = () => {
   const navigation = useNavigation(); // Initialize the navigation object
   const [progressImages, setProgressImages] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
+  // const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedTerraImage, setSelectedTerraImage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const POINTS_TO_ADD = 30;
   const [isImageModalVisible, setImageModalVisible] = useState(false); 
@@ -52,14 +53,14 @@ const TerrariumDetailScreen = () => {
   };
 
   const loadProgressImagesFromStorage = async () => {
-    const storedImages = await loadProgressImages();
-    setProgressImages(storedImages);
+    const storedImagesForTerrarium = await loadProgressImagesForTerrarium();
+    setProgressImages(storedImagesForTerrarium);
   };
 
   const addProgressImage = async (imageUri) => {
     const updatedImages = [...progressImages, imageUri];
     setProgressImages(updatedImages);
-    await saveProgressImages(updatedImages); // Save theupdated progress images
+    await saveProgressImagesForTerrarium(updatedImages); // Save theupdated progress images
     console.log("Progress Image Added");
 
     // Show the popup
@@ -114,22 +115,28 @@ const TerrariumDetailScreen = () => {
       });
   
       if (!result.cancelled) {
-        const imageSource = { uri: result.uri };
+        const terraImageSource = { uri: result.uri };
+
+        // Set the selected terra image to the new state variable
+        setSelectedTerraImage(terraImageSource);
+
         // Add the selected image to your progress images
-        const updatedImages = [...progressImages, imageSource];
+        const updatedImages = [...progressImages, terraImageSource];
         setProgressImages(updatedImages);
-        await saveProgressImages(updatedImages);
-  
-        // Award points here when an image is added
+        await saveProgressImagesForTerrarium(updatedImages);
+
+        // Award points when an image is added
         addPoints(POINTS_TO_ADD);
+
+        setShowPopup(true);
       }
     } catch (error) {
-      console.log("Error selecting image:", error);
+      console.log("Error selecting terra image:", error);
     }
   };
-
+  //   const [selectedTerraImage, setSelectedTerraImage] = useState(null);
   const handleImagePress = (imageUri) => {
-    setSelectedImage(imageUri);
+    setSelectedTerraImage(imageUri);
     setImageModalVisible(true);
   };
   return (
@@ -181,7 +188,7 @@ const TerrariumDetailScreen = () => {
         style={styles.amazingButton}
         onPress={handleAddImage}
       >
-        <Text style={styles.amazingButtonText}>That's Amazing!</Text>
+        <Text style={styles.amazingButtonText}>Upload image</Text>
       </TouchableOpacity>
             {/* Points Popup */}
             {showPopup && (
@@ -202,10 +209,10 @@ const TerrariumDetailScreen = () => {
           ))}
         </ScrollView>
       <ImageModal
-        visible={isImageModalVisible}
-        imageUri={selectedImage}
-        onClose={() => setImageModalVisible(false)} // Close the modal
-      />
+      visible={isImageModalVisible}
+      imageUri={selectedTerraImage ? selectedTerraImage.uri : null}
+      onClose={() => setImageModalVisible(false)} // Close the modal
+    />
     </ScrollView>
   );
 };
