@@ -53,7 +53,10 @@ export default function ZenBandDetailScreen({ navigation }) {
           {"\n"}• Customizable Scents for a personalized aromatherapy experience{" "}
           {"\n"}
         </Text>
-
+        <Image
+          source={require("../../assets/zenband/band.png")}
+          style={styles.featureImage}
+        />
         <Image
           source={require("../../assets/zenband/extruded_view.png")}
           style={styles.featureImage}
@@ -64,7 +67,7 @@ export default function ZenBandDetailScreen({ navigation }) {
         />
       </View>
       <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Types of Scent</Text>
+      <Text style={styles.sectionTitle}>Type of Scents</Text>
         <AromaScrollView />
       </View>
       {/* Benefits */}
