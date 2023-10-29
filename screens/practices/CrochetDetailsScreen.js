@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, Dimensions, FlatList,} from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  FlatList,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { GlobalColors } from "../../themes/GlobalColors";
 import ImageModal from "../../components/ImageModal";
-import { loadProgressImages, saveProgressImages, } from "../../utils/AsyncStorageUtils";
+import {
+  loadProgressImages,
+  saveProgressImages,
+} from "../../utils/AsyncStorageUtils";
 import YouTubePlayer from "../../components/YouTubePlayer";
 import firestore from "@react-native-firebase/firestore";
 import analytics from "@react-native-firebase/analytics";
 import auth from "@react-native-firebase/auth";
 import { PointsPopup } from "../../components/PointsPopup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Tooltip from "react-native-walkthrough-tooltip";
 
 const CrochetDetailsScreen = () => {
   const [progressImages, setProgressImages] = useState([]);
@@ -17,7 +31,25 @@ const CrochetDetailsScreen = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [numColumns, setNumColumns] = useState(3); // Start with 3 column for image grid
 
-  const POINTS_TO_ADD = 30;
+  const [crochetToolTipVisible, setCrochetToolTipVisible] = useState(false);
+  const [uploadToolTipVisible, setUploadToolTipVisible] = useState(false);
+
+  const checkFirstVisit = async () => {
+    try {
+      const hasVisited = await AsyncStorage.getItem("hasVisitedCrochet");
+      if (!hasVisited) {
+        console.log(
+          "Tooltips for CrochetDetailsScreen.js will be shown for first time user."
+        );
+        setCrochetToolTipVisible(true);
+        await AsyncStorage.setItem("hasVisitedCrochet", "true");
+      }
+    } catch (error) {
+      console.error("Error checking First Visit:", error);
+    }
+  };
+
+  const POINTS_TO_ADD = 50;
   const imageWidth = Dimensions.get("window").width / numColumns;
 
   // get user document from firestore
@@ -27,6 +59,7 @@ const CrochetDetailsScreen = () => {
 
   useEffect(() => {
     loadProgressImagesFromStorage();
+    checkFirstVisit();
   }, []);
 
   const loadProgressImagesFromStorage = async () => {
@@ -139,8 +172,19 @@ const CrochetDetailsScreen = () => {
           onClose={() => setShowPopup(false)}
         />
       )}
+
       <View style={styles.topSection}>
-        <Text style={styles.title}>Crocheting</Text>
+        <Tooltip
+          isVisible={crochetToolTipVisible}
+          content={<Text>Learn about ZenTree and crocheting here!</Text>}
+          allowChildInteraction={false}
+          onClose={() => {
+            setCrochetToolTipVisible(false);
+            setUploadToolTipVisible(true);
+          }}
+        >
+          <Text style={styles.title}>Crocheting</Text>
+        </Tooltip>
         <Text style={styles.description}>
           Crocheting is a versatile craft that uses a hook and yarn to create
           various items such as blankets, scarves, and hats. It provides a
@@ -172,12 +216,21 @@ const CrochetDetailsScreen = () => {
 
       <View style={styles.bottomSection}>
         <Text style={styles.sectionTitle}>Track Your Progress</Text>
-        <TouchableOpacity
-          style={styles.addImageButton}
-          onPress={handleAddImage}
+        <Tooltip
+          isVisible={uploadToolTipVisible}
+          content={
+            <Text>Upload your crochets once a day and earn 50 points!</Text>
+          }
+          placement="top"
+          onClose={() => setUploadToolTipVisible(false)}
         >
-          <Text style={styles.buttonText}>Add Image</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.addImageButton}
+            onPress={handleAddImage}
+          >
+            <Text style={styles.buttonText}>Add Image</Text>
+          </TouchableOpacity>
+        </Tooltip>
 
         {/* Buttons for changing the number of columns in the grid */}
         {/* <View

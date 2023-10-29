@@ -14,16 +14,36 @@ import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 import analytics from "@react-native-firebase/analytics";
 import { PointsPopup } from "../../components/PointsPopup";
+import Tooltip from "react-native-walkthrough-tooltip";
 
 export default function JournalScreen() {
   const [entries, setEntries] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [isAddingEntry, setIsAddingEntry] = useState(false); // State to control the modal
 
-  const AMOUNT_TO_ADD = 10;
+  const [journalToolTipVisible, setJournalToolTipVisible] = useState(false);
+
+  const checkFirstVisit = async () => {
+    // check if user has visited this screen before
+    try {
+      const hasVisited = await AsyncStorage.getItem("hasVisitedJournal");
+      if (!hasVisited) {
+        console.log(
+          "Tooltips for JournalScreen.js will be shown for first time user."
+        );
+        setJournalToolTipVisible(true);
+        await AsyncStorage.setItem("hasVisitedJournal", "true");
+      }
+    } catch (error) {
+      console.error("Error checking First Visit:", error);
+    }
+  };
+
+  const AMOUNT_TO_ADD = 30;
 
   useEffect(() => {
     loadEntries();
+    checkFirstVisit();
   }, []);
 
   const loadEntries = async () => {
@@ -120,17 +140,30 @@ export default function JournalScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Mood Journal</Text>
       </View>
-
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => setIsAddingEntry(true)}
+      <Tooltip
+        isVisible={journalToolTipVisible}
+        content={
+          <Text>
+            Journal on your thoughts and feelings about certain events from the
+            day. Earn 30 points for each journal entry.
+          </Text>
+        }
+        allowChildInteraction={false}
+        onClose={() => {
+          setJournalToolTipVisible(false);
+        }}
       >
-        <View style={styles.entry}>
-          <Text style={styles.entryTitle}>New Entry</Text>
-          <Text style={styles.entryText}>Click to add a new note</Text>
-          <Text style={styles.entryDate}></Text>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => setIsAddingEntry(true)}
+        >
+          <View style={styles.entry}>
+            <Text style={styles.entryTitle}>New Entry</Text>
+            <Text style={styles.entryText}>Click to add a new note</Text>
+            <Text style={styles.entryDate}></Text>
+          </View>
+        </TouchableOpacity>
+      </Tooltip>
       <ScrollView>
         {entries.map((item) => (
           <View key={item.id} style={styles.entry}>

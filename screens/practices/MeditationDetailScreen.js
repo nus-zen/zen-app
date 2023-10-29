@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,10 +11,36 @@ import { GlobalColors } from "../../themes/GlobalColors";
 import analytics from "@react-native-firebase/analytics";
 import auth from "@react-native-firebase/auth";
 import moment from "moment";
+import Tooltip from "react-native-walkthrough-tooltip";
+import { useEffect } from "react";
 
 export default function MeditationDetailScreen({ navigation, route }) {
   const { title, imageSource, description, duration, rationale, videoId } =
     route.params;
+
+  const [showToolTips, setShowToolTips] = useState(true);
+
+  const checkFirstVisit = async () => {
+    try {
+      const hasVisited = await AsyncStorage.getItem(
+        "hasVisitedMeditationDetail"
+      );
+      if (!hasVisited) {
+        console.log(
+          "Tooltips for MeditationDetailScreen.js will be shown for first time user."
+        );
+        setShowToolTips(true);
+        await AsyncStorage.setItem("hasVisitedMeditationDetail", "true");
+      }
+    } catch (error) {
+      console.error("Error checking First Visit:", error);
+    }
+  };
+
+  // check if user has visited this screen before for tooltips
+  useEffect(() => {
+    checkFirstVisit();
+  }, []);
 
   const startMeditation = () => {
     // log meditationStartEvent with userid, meditation title, time, date, and day
@@ -23,11 +49,11 @@ export default function MeditationDetailScreen({ navigation, route }) {
     const date = moment().format("MMMM Do YYYY");
     const day = moment().format("dddd");
     analytics().logEvent("meditationStartEvent", {
-      id: userid,
-      title: title,
-      time: time,
-      date: date,
-      day: day,
+      user_id_meditation: userid,
+      meditation_title: title,
+      meditation_time: time,
+      meditation_date: date,
+      meditation_day: day,
     });
     console.log("user:", userid, "started", title, "at", time);
     console.log(
@@ -44,12 +70,25 @@ export default function MeditationDetailScreen({ navigation, route }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{title}</Text>
+
       <Image source={{ uri: imageSource }} style={styles.image} />
-      <Button
-        title="Start Meditation"
-        onPress={startMeditation}
-        color={GlobalColors.primary300}
-      />
+      <Tooltip
+        isVisible={showToolTips}
+        content={
+          <Text>
+            Earn points by watching and doing the meditation practice! You earn
+            3 points per minute watched.
+          </Text>
+        }
+        onClose={() => setShowToolTips(false)}
+        allowChildInteraction={false}
+      >
+        <Button
+          title="Start Meditation"
+          onPress={startMeditation}
+          color={GlobalColors.primary300}
+        />
+      </Tooltip>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Description</Text>
         <Text style={styles.sectionText}>{description}</Text>
