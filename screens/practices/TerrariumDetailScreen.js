@@ -16,7 +16,7 @@ const TerrariumDetailScreen = () => {
   // const [selectedImage, setSelectedImage] = useState(null);
   const [selectedTerraImage, setSelectedTerraImage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-  const POINTS_TO_ADD = 30;
+  const POINTS_TO_ADD = 50;
   const [isImageModalVisible, setImageModalVisible] = useState(false); 
 
   const steps = [

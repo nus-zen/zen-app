@@ -17,7 +17,7 @@ const CrochetDetailsScreen = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [numColumns, setNumColumns] = useState(3); // Start with 3 column for image grid
 
-  const POINTS_TO_ADD = 30;
+  const POINTS_TO_ADD = 50;
   const imageWidth = Dimensions.get("window").width / numColumns;
 
   // get user document from firestore
