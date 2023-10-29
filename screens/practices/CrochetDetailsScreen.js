@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Dimensions,
-  FlatList,
-} from "react-native";
+import {Image, ScrollView,StyleSheet, Text, TouchableOpacity, View, Dimensions, FlatList,Alert, } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { GlobalColors } from "../../themes/GlobalColors";
 import ImageModal from "../../components/ImageModal";
-import {
-  loadProgressImages,
-  saveProgressImages,
-} from "../../utils/AsyncStorageUtils";
+import { loadProgressImages, saveProgressImages, } from "../../utils/AsyncStorageUtils";
 import YouTubePlayer from "../../components/YouTubePlayer";
 import firestore from "@react-native-firebase/firestore";
 import analytics from "@react-native-firebase/analytics";
@@ -23,6 +11,7 @@ import auth from "@react-native-firebase/auth";
 import { PointsPopup } from "../../components/PointsPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Tooltip from "react-native-walkthrough-tooltip";
+import {  } from "react-native";
 
 const CrochetDetailsScreen = () => {
   const [progressImages, setProgressImages] = useState([]);
@@ -208,6 +197,7 @@ const CrochetDetailsScreen = () => {
       >
         <Text></Text>
       </Tooltip>
+
       <View style={styles.middleSection}>
         <Text style={styles.sectionTitle}>How to Crochet</Text>
         <Text style={styles.instructions}>
@@ -218,8 +208,6 @@ const CrochetDetailsScreen = () => {
           the hook.{"\n"}
           5. Yarn over again and pull through both loops on the hook.
         </Text>
-        {/* fast way to leave space */}
-        {/* <Text style={styles.sectionTitle}></Text>  */}
 
         <Text style={styles.sectionTitle}>How to Pepakura</Text>
         <Text style={styles.instructions}>
@@ -234,12 +222,11 @@ const CrochetDetailsScreen = () => {
 
         <Text style={styles.sectionTitle}>Instructions for ZenTree</Text>
         <Text style={styles.instructions}>
-          1, Once every day, crochet a leaf using yarn that is of a colour that
-          corresponds to your most prevalent mood of that day. {"\n"}
-          2. Attach the leaves onto the pepakura trunk with the excess yarn or
-          using tape or glue.
-        </Text>
-      </View>
+        1, Once every day, crochet a leaf using yarn that is of a colour that corresponds to your most prevalent mood of that day. {"\n"}
+        2. Attach the leaves onto the pepakura trunk with the excess yarn or using tape or glue.
+        </Text> 
+
+      </View> 
 
       <View style={styles.bottomSection}>
         <Text style={styles.sectionTitle}>Track Your Progress</Text>
@@ -313,7 +300,7 @@ const CrochetDetailsScreen = () => {
       </View>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   progressImage: {
@@ -336,6 +323,13 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: "justify",
     paddingHorizontal: 16,
+  },
+  PepaKuraimage: {
+    width: 300,
+    height:300,
+    resizeMode: "contain",
+    marginRight: 8,
+    alignSelf: "center",
   },
   middleSection: {
     marginBottom: 20,

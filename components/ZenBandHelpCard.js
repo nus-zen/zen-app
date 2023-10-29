@@ -48,7 +48,7 @@ export function ZenBandHelpCard({ isVisible, onClose }) {
     {
       title: "How to Refill ZenBand",
       steps: [
-        "4. Put the new sponge, ZenBand lid and ZenBand ring back onto the ZenBand",
+        "4. Put the new sponge, ZenBand lid and ZenBand ring back onto the ZenBand.",
       ],
       image: require("./../assets/zenband/refillStep4.png"), // Add the image source
     },
@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
   instructionText: {
     fontSize: 16,
     marginTop: 5,
+    textAlign: "justify",
   },
   buttonContainer: {
     flexDirection: "row",
