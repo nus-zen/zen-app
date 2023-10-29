@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, Dimensions, FlatList,} from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  FlatList,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { GlobalColors } from "../../themes/GlobalColors";
 import ImageModal from "../../components/ImageModal";
-import { loadProgressImages, saveProgressImages, } from "../../utils/AsyncStorageUtils";
+import {
+  loadProgressImages,
+  saveProgressImages,
+} from "../../utils/AsyncStorageUtils";
 import YouTubePlayer from "../../components/YouTubePlayer";
 import firestore from "@react-native-firebase/firestore";
 import analytics from "@react-native-firebase/analytics";
 import auth from "@react-native-firebase/auth";
 import { PointsPopup } from "../../components/PointsPopup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Tooltip from "react-native-walkthrough-tooltip";
 
 const CrochetDetailsScreen = () => {
   const [progressImages, setProgressImages] = useState([]);
@@ -16,6 +30,24 @@ const CrochetDetailsScreen = () => {
   const [isImageModalVisible, setImageModalVisible] = useState(false); // To control the visibility of the modal
   const [showPopup, setShowPopup] = useState(false);
   const [numColumns, setNumColumns] = useState(3); // Start with 3 column for image grid
+
+  const [crochetToolTipVisible, setCrochetToolTipVisible] = useState(false);
+  const [uploadToolTipVisible, setUploadToolTipVisible] = useState(false);
+
+  const checkFirstVisit = async () => {
+    try {
+      const hasVisited = await AsyncStorage.getItem("hasVisitedCrochet");
+      if (!hasVisited) {
+        console.log(
+          "Tooltips for CrochetDetailsScreen.js will be shown for first time user."
+        );
+        setCrochetToolTipVisible(true);
+        await AsyncStorage.setItem("hasVisitedCrochet", "true");
+      }
+    } catch (error) {
+      console.error("Error checking First Visit:", error);
+    }
+  };
 
   const POINTS_TO_ADD = 50;
   const imageWidth = Dimensions.get("window").width / numColumns;
@@ -27,6 +59,7 @@ const CrochetDetailsScreen = () => {
 
   useEffect(() => {
     loadProgressImagesFromStorage();
+    checkFirstVisit();
   }, []);
 
   const loadProgressImagesFromStorage = async () => {
@@ -139,8 +172,20 @@ const CrochetDetailsScreen = () => {
           onClose={() => setShowPopup(false)}
         />
       )}
+
       <View style={styles.topSection}>
-        <Text style={styles.title}>Crocheting</Text>
+        <Tooltip
+          isVisible={crochetToolTipVisible}
+          content={<Text>Learn about ZenTree and crocheting here!</Text>}
+          allowChildInteraction={false}
+          showChildInTooltip={false}
+          onClose={() => {
+            setCrochetToolTipVisible(false);
+            setUploadToolTipVisible(true);
+          }}
+        >
+          <Text style={styles.title}>Crocheting</Text>
+        </Tooltip>
         <Text style={styles.description}>
           Crocheting is a versatile craft that uses a hook and yarn to create
           various items such as blankets, scarves, and hats. It provides a
@@ -156,26 +201,39 @@ const CrochetDetailsScreen = () => {
           1. Hold the crochet hook in your dominant hand.{"\n"}
           2. Make a slipknot and place it on the hook.{"\n"}
           3. Insert the hook into the designated stitch or space.{"\n"}
-          4. Yarn over and pull through the stitch or space, creating a loop on the hook.{"\n"}
+          4. Yarn over and pull through the stitch or space, creating a loop on
+          the hook.{"\n"}
           5. Yarn over again and pull through both loops on the hook.
         </Text>
         <Text style={styles.sectionTitle}>How to Pepa Kura</Text>
         <Text style={styles.instructions}>
-        1. Cut along solid lines. {"\n"}
-        2. Teal lines: fold inwards, {"\n"}i.e. coloured surface folded towards each other {"\n"}
-        3. Other dotted lines: fold outwards, {"\n"}i.e. coloured surface folded away from each other{"\n"}
-        4. Paste the corresponding numbers together, {"\n"}i.e. flap 1 will be pasted to the underside (white part) of the red 1. {"\n"}
+          1. Cut along solid lines. {"\n"}
+          2. Teal lines: fold inwards, {"\n"}i.e. coloured surface folded
+          towards each other {"\n"}
+          3. Other dotted lines: fold outwards, {"\n"}i.e. coloured surface
+          folded away from each other{"\n"}
+          4. Paste the corresponding numbers together, {"\n"}i.e. flap 1 will be
+          pasted to the underside (white part) of the red 1. {"\n"}
         </Text>
       </View>
 
       <View style={styles.bottomSection}>
         <Text style={styles.sectionTitle}>Track Your Progress</Text>
-        <TouchableOpacity
-          style={styles.addImageButton}
-          onPress={handleAddImage}
+        <Tooltip
+          isVisible={uploadToolTipVisible}
+          content={
+            <Text>Upload your crochets once a day and earn 50 points!</Text>
+          }
+          placement="top"
+          onClose={() => setUploadToolTipVisible(false)}
         >
-          <Text style={styles.buttonText}>Add Image</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.addImageButton}
+            onPress={handleAddImage}
+          >
+            <Text style={styles.buttonText}>Add Image</Text>
+          </TouchableOpacity>
+        </Tooltip>
 
         {/* Buttons for changing the number of columns in the grid */}
         {/* <View

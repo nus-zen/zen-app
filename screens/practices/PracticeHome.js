@@ -17,25 +17,26 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function PracticeHome({ navigation }) {
   const HOME_PAGE_DATA = PracticeHomeScreenData(navigation);
 
-  const checkFirstVisit = async () => {
-    try {
-      const hasVisited = await AsyncStorage.getItem("hasVisitedPracticeHome");
-      console.log("hasVisited:", hasVisited);
-      if (!hasVisited) {
-        console.log("Tooltips will be shown for first time user.");
-        showToolTips();
-        await AsyncStorage.setItem("hasVisitedPracticeHome", "true");
-      }
-    } catch (error) {
-      console.error("Error checking First Visit:", error);
-    }
-  };
+  // const checkFirstVisit = async () => {
+  //   try {
+  //     const hasVisited = await AsyncStorage.getItem("hasVisitedPracticeHome");
+  //     console.log("hasVisited:", hasVisited);
+  //     if (!hasVisited) {
+  //       console.log("Tooltips for PracticeHome.js will be shown for first time user.");
+  //       showToolTips();
+  //       await AsyncStorage.setItem("hasVisitedPracticeHome", "true");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error checking First Visit:", error);
+  //   }
+  // };
 
   const [practiceTooltipVisible, setPracticeTooltipVisible] = useState(false);
   const [zenBoxTooltipVisible, setZenBoxTooltipVisible] = useState(false);
   const [quoteToolTipVisible, setQuoteToolTipVisible] = useState(false);
 
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [helpToolTipVisible, sethelpToolTipVisible] = useState(false);
 
   const closeBottomSheet = () => {
     setBottomSheetVisible(false);
@@ -43,8 +44,13 @@ export default function PracticeHome({ navigation }) {
 
   const showToolTips = () => {
     setPracticeTooltipVisible(true);
-    setZenBoxTooltipVisible(false);
-    setQuoteToolTipVisible(false);
+
+    // clear AsyncStorage for all other tooltips
+    AsyncStorage.removeItem("hasVisitedJournal");
+    AsyncStorage.removeItem("hasVisitedCrochet");
+    AsyncStorage.removeItem("hasVisitedMeditationDetail");
+    AsyncStorage.removeItem("hasVisitedMeditationsList");
+    AsyncStorage.removeItem("hasVisitedRewards");
   };
 
   const onPressLearnMore = () => {
@@ -64,7 +70,7 @@ export default function PracticeHome({ navigation }) {
 
   // UseEffect hook to show the modal randomly when the component mounts (i.e., user enters the home screen)
   useEffect(() => {
-    checkFirstVisit();
+    //checkFirstVisit();
     showRandomModal();
 
     // Cleanup function to clear any timers when the component unmounts
@@ -79,12 +85,14 @@ export default function PracticeHome({ navigation }) {
         isVisible={quoteToolTipVisible}
         content={
           <Text>
-            This is where you see motivational quotes to give you perspective!
+            This is where you see motivational quotes to give you a boost!
           </Text>
         }
+        showChildInTooltip={false}
         placement="bottom"
         onClose={() => {
           setQuoteToolTipVisible(false);
+          sethelpToolTipVisible(true);
         }}
       >
         <MotivationalQuote />
@@ -104,6 +112,7 @@ export default function PracticeHome({ navigation }) {
             setPracticeTooltipVisible(false);
             setZenBoxTooltipVisible(true);
           }}
+          allowChildInteraction={false}
         >
           <PracticeRow
             title="Practices"
@@ -119,6 +128,7 @@ export default function PracticeHome({ navigation }) {
             </Text>
           }
           placement="top"
+          allowChildInteraction={false}
           onClose={() => {
             setZenBoxTooltipVisible(false);
             setQuoteToolTipVisible(true);
@@ -133,9 +143,24 @@ export default function PracticeHome({ navigation }) {
         /> */}
       </ScrollView>
 
-      <TouchableOpacity style={styles.helpButton} onPress={showToolTips}>
-        <Text>Help</Text>
-      </TouchableOpacity>
+      <Tooltip
+        isVisible={helpToolTipVisible}
+        content={
+          <Text>
+            Click the help button and restart the app, if you want to see all
+            the tooltips again.
+          </Text>
+        }
+        placement="left"
+        onClose={() => {
+          sethelpToolTipVisible(false);
+        }}
+        allowChildInteraction={false}
+      >
+        <TouchableOpacity style={styles.helpButton} onPress={showToolTips}>
+          <Text>Help</Text>
+        </TouchableOpacity>
+      </Tooltip>
 
       <PracticeModal
         isVisible={bottomSheetVisible}

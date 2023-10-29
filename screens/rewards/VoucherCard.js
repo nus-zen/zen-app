@@ -13,40 +13,44 @@ function removeFirstOccurrence(arr, itemToRemove) {
 const VoucherCard = ({ voucherName, currUserDoc, vouchers }) => {
   const handleRedeemPress = () => {
     // Display an Alert when the "Redeem" button is pressed
-    Alert.alert("Redeem Voucher", `Redeem ${voucherName} voucher`, [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () =>
-          Alert.alert(
-            "Confirmation",
-            "This should only be done after you have successfully shown and redeemed your voucher! Are you sure?",
-            [
-              {
-                text: "Cancel",
-                style: "cancel",
-              },
-              {
-                text: "OK",
-                onPress: async () => {
-                  await currUserDoc.update({
-                    vouchers: removeFirstOccurrence(vouchers, voucherName),
-                  });
-                  analytics().logEvent("redeem_voucher", {
-                    voucher_name: voucherName,
-                  });
-                  console.log(
-                    "redeem_voucher event logged from VoucherCard.js"
-                  );
+    Alert.alert(
+      "Redeem Reward",
+      `Redeem ${voucherName}. To redeem this voucher, please contact Yitian at e0773070@u.nus.edu to make an appointment.`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () =>
+            Alert.alert(
+              "Confirmation",
+              "This should only be done after you have successfully shown and redeemed your voucher! Are you sure?",
+              [
+                {
+                  text: "Cancel",
+                  style: "cancel",
                 },
-              },
-            ]
-          ),
-      },
-    ]);
+                {
+                  text: "OK",
+                  onPress: async () => {
+                    await currUserDoc.update({
+                      vouchers: removeFirstOccurrence(vouchers, voucherName),
+                    });
+                    analytics().logEvent("redeem_voucher", {
+                      voucher_name: voucherName,
+                    });
+                    console.log(
+                      "redeem_voucher event logged from VoucherCard.js"
+                    );
+                  },
+                },
+              ]
+            ),
+        },
+      ]
+    );
   };
 
   return (

@@ -7,7 +7,7 @@ export const PointsPopup = ({ pointsEarned, isVisible, onClose }) => {
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: isVisible ? 1 : 0,
-      duration: 500,
+      duration: 200,
       useNativeDriver: true,
     }).start();
   }, [isVisible]);

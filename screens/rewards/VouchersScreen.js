@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet, Dimensions } from "react-native";
-import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
-import analytics from "@react-native-firebase/analytics";
-import RewardsItems from "./RewardsItems";
+import firestore from "@react-native-firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
 import VoucherCard from "./VoucherCard";
 
 const VouchersScreen = () => {

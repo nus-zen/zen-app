@@ -17,10 +17,32 @@ import {
   saveShowFavOnly,
 } from "../../utils/AsyncStorageUtils";
 import analytics from "@react-native-firebase/analytics";
+import Tooltip from "react-native-walkthrough-tooltip";
+import { Text } from "react-native";
 
 export default function MeditationsList({ navigation }) {
   const [showFavOnly, setShowFavOnly] = useState(false);
   const [meditations, setMeditations] = useState(MEDITATIONS_DATA);
+
+  const [listToolTipVisible, setListToolTipVisible] = useState(false);
+
+  const checkFirstVisit = async () => {
+    try {
+      const hasVisited = await AsyncStorage.getItem(
+        "hasVisitedMeditationsList"
+      );
+      console.log("tooltips: has visited meditations list?", hasVisited);
+      if (!hasVisited) {
+        console.log(
+          "Tooltips for MeditationsList.js will be shown for first time user."
+        );
+        setListToolTipVisible(true);
+        await AsyncStorage.setItem("hasVisitedMeditationsList", "true");
+      }
+    } catch (error) {
+      console.error("Error checking First Visit:", error);
+    }
+  };
 
   useEffect(() => {
     // Retrieve showFavOnly value from AsyncStorage when the component mounts
@@ -30,6 +52,7 @@ export default function MeditationsList({ navigation }) {
     };
 
     getShowFavOnlyStored();
+    checkFirstVisit();
   }, []);
 
   useEffect(() => {
@@ -111,22 +134,36 @@ export default function MeditationsList({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={meditations}
-        numColumns={2}
-        columnWrapperStyle={styles.columnWrapper}
-        renderItem={({ item: med }) => (
-          <View style={styles.cardContainer}>
-            <MeditationCard
-              title={med.title}
-              subtitle={med.subtitle}
-              imageSource={{ uri: med.imageSource }}
-              onPress={meditationPressHandler(med)}
-            />
-          </View>
-        )}
-        keyExtractor={(med) => med.videoId}
-      />
+      <Tooltip
+        isVisible={listToolTipVisible}
+        content={
+          <Text>
+            Here is where you get to choose from a list of meditation practices
+            tailored to University students like yourself!
+          </Text>
+        }
+        onClose={() => {
+          setListToolTipVisible(false);
+        }}
+        allowChildInteraction={false}
+      >
+        <FlatList
+          data={meditations}
+          numColumns={2}
+          columnWrapperStyle={styles.columnWrapper}
+          renderItem={({ item: med }) => (
+            <View style={styles.cardContainer}>
+              <MeditationCard
+                title={med.title}
+                subtitle={med.subtitle}
+                imageSource={{ uri: med.imageSource }}
+                onPress={meditationPressHandler(med)}
+              />
+            </View>
+          )}
+          keyExtractor={(med) => med.videoId}
+        />
+      </Tooltip>
     </SafeAreaView>
   );
 }
