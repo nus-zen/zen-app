@@ -7,6 +7,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
@@ -16,6 +17,42 @@ import RewardsItems from "./RewardsItems";
 export default function RewardsScreen({ navigation }) {
   const [points, setPoints] = useState(0);
   const [streak, setStreak] = useState(0);
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  // Define categories and their respective item IDs
+  const categories = [
+    {
+      id: 1,
+      name: "Vouchers",
+      imgpath: "../../assets/money.png",
+    },
+    {
+      id: 2,
+      name: "ZenTree",
+      imgpath: "../../assets/yarn-ball-icon.png",
+    },
+    {
+      id: 3,
+      name: "ZenTerrarium",
+      imgpath: "../../assets/terrarium/terra-final.jpg",
+    },
+    {
+      id: 4,
+      name: "ZenBand",
+      imgpath: "../../assets/zenband/zenband.jpg",
+    },
+  ];
+
+  // Function to handle category selection
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
+
+  // Function to go back to the category selection
+  const handleGoBack = () => {
+    setSelectedCategory(null);
+  };
 
   // retrieve points and streak from firestore
   const currUserDoc = firestore()
@@ -117,7 +154,43 @@ export default function RewardsScreen({ navigation }) {
         </View>
       </View>
 
-      <RewardsItems checkoutHandler={checkoutHandler} />
+      {/* <RewardsItems checkoutHandler={checkoutHandler} /> */}
+      {selectedCategory ? (
+        <RewardsItems
+          category={selectedCategory}
+          goBack={handleGoBack}
+          checkoutHandler={checkoutHandler}
+        />
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
+            {categories.map((category) => (
+              <TouchableOpacity
+                key={category.id}
+                style={styles.cardContainer}
+                onPress={() => handleCategorySelect(category)}
+              >
+                <Image
+                  source={
+                    category.name === "ZenTree"
+                      ? require("../../assets/yarn-ball-icon.png")
+                      : category.name === "ZenTerrarium"
+                      ? require("../../assets/terrarium/terrarium-vector.jpg")
+                      : category.name === "ZenBand"
+                      ? require("../../assets/zenband/aroma-vector.jpg")
+                      : require("../../assets/money.png")
+                  }
+                  style={styles.TextImageCategory}
+                />
+                <Text>{category.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </SafeAreaView>
+      )}
     </View>
   );
 }
@@ -155,6 +228,10 @@ const styles = StyleSheet.create({
   TextImage: {
     width: 40,
     height: 40,
+  },
+  TextImageCategory: {
+    width: 100,
+    height: 100,
   },
   header: {
     flexDirection: "row",
