@@ -1,17 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { ZenBandHelpCard } from "../../components/ZenBandHelpCard";
+import AromaScrollView from "../../components/AromaScrollView";
 
 export default function ZenBandDetailScreen({ navigation }) {
   const [isHelpVisible, setIsHelpVisible] = useState(false);
@@ -37,7 +31,10 @@ export default function ZenBandDetailScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView 
+      style={styles.container}
+      nestedScrollEnabled={true}
+    >
       {/* ZenBand Image */}
       <Image
         source={require("../../assets/zenband/zenband.jpg")}
@@ -58,15 +55,18 @@ export default function ZenBandDetailScreen({ navigation }) {
         </Text>
 
         <Image
-          source={require("../../assets//zenband/extruded_view.png")} //assets/zenband/components.png
+          source={require("../../assets/zenband/extruded_view.png")}
           style={styles.featureImage}
         />
         <Image
-          source={require("../../assets//zenband/components.png")} //assets/zenband/components.png
+          source={require("../../assets/zenband/components.png")}
           style={styles.featureImage}
         />
       </View>
-
+      <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Types of Scent</Text>
+        <AromaScrollView />
+      </View>
       {/* Benefits */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Benefits</Text>
@@ -84,12 +84,10 @@ export default function ZenBandDetailScreen({ navigation }) {
 
       {/* Usage Instructions */}
       <View style={styles.section}>
-
         <Image
-          source={require("../../assets//zenband/mechanics.png")}
+          source={require("../../assets/zenband/mechanics.png")}
           style={styles.featureImage}
         />
-
       </View>
 
       {/* Testimonials */}
@@ -103,7 +101,7 @@ export default function ZenBandDetailScreen({ navigation }) {
           more relaxed during busy days." - Alex{"\n"}
         </Text>
         <Image
-          source={require("../../assets//zenband/testimonial1.jpg")}
+          source={require("../../assets/zenband/testimonial1.jpg")}
           style={{ width: "100%", height: 300, resizeMode: "center" }}
         />
         <TouchableOpacity
@@ -113,10 +111,13 @@ export default function ZenBandDetailScreen({ navigation }) {
           <Text style={styles.amazingButtonText}>That's Amazing!</Text>
         </TouchableOpacity>
       </View>
+
       <ZenBandHelpCard
         isVisible={isHelpVisible}
         onClose={() => setIsHelpVisible(false)}
       />
+
+
     </ScrollView>
   );
 }
