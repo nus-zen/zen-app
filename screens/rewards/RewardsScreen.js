@@ -13,10 +13,31 @@ import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import analytics from "@react-native-firebase/analytics";
 import RewardsItems from "./RewardsItems";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Tooltip from "react-native-walkthrough-tooltip";
 
 export default function RewardsScreen({ navigation }) {
   const [points, setPoints] = useState(0);
   const [streak, setStreak] = useState(0);
+
+  const [showPointsTooltip, setShowPointsTooltip] = useState(false);
+  const [showVouchersTooltip, setShowVouchersTooltip] = useState(false);
+  const [ShowCategoryTooltip, setShowCategoryTooltip] = useState(false);
+
+  const checkFirstVisit = async () => {
+    try {
+      const hasVisited = await AsyncStorage.getItem("hasVisitedRewards");
+      if (!hasVisited) {
+        console.log(
+          "Tooltips for RewardsScreen.js will be shown for first time user."
+        );
+        setShowPointsTooltip(true);
+        await AsyncStorage.setItem("hasVisitedRewards", "true");
+      }
+    } catch (error) {
+      console.error("Error checking First Visit:", error);
+    }
+  };
 
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -66,6 +87,10 @@ export default function RewardsScreen({ navigation }) {
       loadStreak(doc.data().streak);
     });
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    checkFirstVisit();
   }, []);
 
   const loadPoints = async (points) => {
@@ -141,18 +166,71 @@ export default function RewardsScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.centered}>
-          <Image
-            source={require("../../assets/money.png")}
-            style={styles.TextImage}
-          />
-          <Text style={styles.pointsText}>{points}</Text>
+        <Tooltip
+          isVisible={showPointsTooltip}
+          content={
+            <Text>
+              Welcome to Rewards! Here you can check on the amount of points you
+              have, and redeem them for vouchers or more ZenBox items!
+            </Text>
+          }
+          placement="bottom"
+          onClose={() => {
+            setShowPointsTooltip(false);
+            setShowVouchersTooltip(true);
+          }}
+          showChildInTooltip={false}
+        >
+          <View style={styles.centered}>
+            <Image
+              source={require("../../assets/money.png")}
+              style={styles.TextImage}
+            />
 
-          <Text style={styles.totalCoinsText}>Total Coins</Text>
-          <Text style={styles.pointsText}>{streak}</Text>
-          <Text style={styles.totalCoinsText}> Days Streak</Text>
-        </View>
+            <Text style={styles.pointsText}>{points}</Text>
+
+            <Text style={styles.totalCoinsText}>Total Coins</Text>
+            <Text style={styles.pointsText}>{streak}</Text>
+            <Tooltip
+              isVisible={showVouchersTooltip}
+              content={
+                <View>
+                  <Text>
+                    At the top, you can select different tabs to visit the
+                    Vouchers you have redeemed, and the League page. {"\n"}
+                  </Text>
+                  <Text>
+                    To redeem your vouchers, click on the Redeem button and read
+                    the instructions!
+                  </Text>
+                </View>
+              }
+              placement="bottom"
+              showChildInTooltip={false}
+              onClose={() => {
+                setShowVouchersTooltip(false);
+                setShowCategoryTooltip(true);
+              }}
+            >
+              <Text style={styles.totalCoinsText}> Days Streak</Text>
+            </Tooltip>
+          </View>
+        </Tooltip>
       </View>
+      <Tooltip
+        isVisible={ShowCategoryTooltip}
+        content={
+          <Text>
+            At the middle, you can select different categories of Zen items that
+            you can redeem for. Try it out!
+          </Text>
+        }
+        placement="top"
+        showChildInTooltip={false}
+        onClose={() => setShowCategoryTooltip(false)}
+      >
+        <Text></Text>
+      </Tooltip>
 
       {/* <RewardsItems checkoutHandler={checkoutHandler} /> */}
       {selectedCategory ? (

@@ -31,7 +31,7 @@ export default function PracticeHome({ navigation }) {
   //   }
   // };
 
-  const [practiceTooltipVisible, setPracticeTooltipVisible] = useState(true);
+  const [practiceTooltipVisible, setPracticeTooltipVisible] = useState(false);
   const [zenBoxTooltipVisible, setZenBoxTooltipVisible] = useState(false);
   const [quoteToolTipVisible, setQuoteToolTipVisible] = useState(false);
 
@@ -44,6 +44,13 @@ export default function PracticeHome({ navigation }) {
 
   const showToolTips = () => {
     setPracticeTooltipVisible(true);
+
+    // clear AsyncStorage for all other tooltips
+    AsyncStorage.removeItem("hasVisitedJournal");
+    AsyncStorage.removeItem("hasVisitedCrochet");
+    AsyncStorage.removeItem("hasVisitedMeditationDetail");
+    AsyncStorage.removeItem("hasVisitedMeditationsList");
+    AsyncStorage.removeItem("hasVisitedRewards");
   };
 
   const onPressLearnMore = () => {
@@ -78,9 +85,10 @@ export default function PracticeHome({ navigation }) {
         isVisible={quoteToolTipVisible}
         content={
           <Text>
-            This is where you see motivational quotes to give you perspective!
+            This is where you see motivational quotes to give you a boost!
           </Text>
         }
+        showChildInTooltip={false}
         placement="bottom"
         onClose={() => {
           setQuoteToolTipVisible(false);
@@ -139,7 +147,8 @@ export default function PracticeHome({ navigation }) {
         isVisible={helpToolTipVisible}
         content={
           <Text>
-            Click the help button if you want to see all the tooltips again.
+            Click the help button and restart the app, if you want to see all
+            the tooltips again.
           </Text>
         }
         placement="left"

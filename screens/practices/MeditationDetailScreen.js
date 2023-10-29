@@ -13,6 +13,7 @@ import auth from "@react-native-firebase/auth";
 import moment from "moment";
 import Tooltip from "react-native-walkthrough-tooltip";
 import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function MeditationDetailScreen({ navigation, route }) {
   const { title, imageSource, description, duration, rationale, videoId } =

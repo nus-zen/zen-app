@@ -178,6 +178,7 @@ const CrochetDetailsScreen = () => {
           isVisible={crochetToolTipVisible}
           content={<Text>Learn about ZenTree and crocheting here!</Text>}
           allowChildInteraction={false}
+          showChildInTooltip={false}
           onClose={() => {
             setCrochetToolTipVisible(false);
             setUploadToolTipVisible(true);
