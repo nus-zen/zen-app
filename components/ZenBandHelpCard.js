@@ -13,20 +13,20 @@ export function ZenBandHelpCard({ isVisible, onClose }) {
 
   const instructions = [
     {
-      title: "How to Wear a Watch",
+      title: "How to Wear a ZenBand",
       steps: [
-        "1. Select the wrist on which you want to wear the watch. Most people wear watches on their non-dominant wrist.",
-        "2. Slide the watch band through the buckle and fasten it securely around your wrist.",
-        "3. Ensure that the watch fits comfortably but not too tightly. You should be able to slide one finger between the band and your wrist.",
+        "1. Select the wrist on which you want to wear the ZenBand. Most people wear ZenBand on their non-dominant wrist.",
+        "2. Slide the ZenBand band through the buckle and fasten it securely around your wrist.",
+        "3. Ensure that the ZenBand fits comfortably but not too tightly. You should be able to slide one finger between the band and your wrist.",
       ],
     },
     {
-      title: "How to Change the Battery of the Watch",
+      title: "How to Change the Sponge of the ZenBand",
       steps: [
-        "1. Open the back cover of the watch. Some watches have a removable back cover, while others may require a special tool to open.",
-        "2. Locate the old battery and carefully remove it using a small screwdriver or a pair of tweezers.",
-        "3. Insert a new battery of the same type and size as the old one.",
-        "4. Close the back cover of the watch securely.",
+        "1. Open the back cover of the ZenBand.",
+        "2. Locate the old sponge and carefully remove it using a pair of tweezers.",
+        "3. Insert a new sponge of your choice and size as the old one.",
+        "4. Close the back cover of the ZenBand securely.",
       ],
     },
   ];
