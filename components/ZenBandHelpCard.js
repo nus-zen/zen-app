@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Modal, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export function ZenBandHelpCard({ isVisible, onClose }) {
@@ -19,15 +19,36 @@ export function ZenBandHelpCard({ isVisible, onClose }) {
         "2. Slide the ZenBand band through the buckle and fasten it securely around your wrist.",
         "3. Ensure that the ZenBand fits comfortably but not too tightly. You should be able to slide one finger between the band and your wrist.",
       ],
+      image: require("./../assets/zenband/components.jpg"), // Add the image source ../../assets/zenband/components.jpg
+
     },
     {
-      title: "How to Change the Sponge of the ZenBand",
+      title: "How to Refill ZenBand",
       steps: [
-        "1. Open the back cover of the ZenBand.",
-        "2. Locate the old sponge and carefully remove it using a pair of tweezers.",
-        "3. Insert a new sponge of your choice and size as the old one.",
-        "4. Close the back cover of the ZenBand securely.",
+        "1. Remove the Ring and Lid the ZenBand.",
       ],
+      image: require("./../assets/zenband/refillStep1.png"), // Add the image source
+    },
+    {
+      title: "How to Refill ZenBand",
+      steps: [
+        "2. Remove the used scented sponge from the ZenBand.",
+      ],
+      image: require("./../assets/zenband/refillStep2.png"), // Add the image source
+    },
+    {
+      title: "How to Refill ZenBand",
+      steps: [
+        "3. Add two to three drops of the desired scent to a new sponge",
+      ],
+      image: require("./../assets/zenband/refillStep3.png"), // Add the image source
+    }, //C:\Users\Foo Shu Hui\OneDrive\Documents\GitHub\zen-app\assets\zenband\zenband_refil_ step1.png
+    {
+      title: "How to Refill ZenBand",
+      steps: [
+        "4. Put the new sponge, ZenBand lid and ZenBand ring back onto the ZenBand",
+      ],
+      image: require("./../assets/zenband/refillStep4.png"), // Add the image source
     },
   ];
 
@@ -57,21 +78,23 @@ export function ZenBandHelpCard({ isVisible, onClose }) {
       onRequestClose={onClose}
     >
       <View style={styles.modalContainer}>
-
         <View style={styles.cardContainer}>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>
               {instructions[currentIndex].title}
             </Text>
+            <Image
+              source={instructions[currentIndex].image}
+              style={styles.instructionImage}
+            />
             <Text style={styles.instructionText}>
               {instructions[currentIndex].steps.join("\n")}
             </Text>
             <View style={styles.circleContainer}>
-                {renderCircles()}
-            </View>             
+              {renderCircles()}
+            </View>
           </View>
         </View>
-       
         <View style={styles.buttonContainer}>
           {currentIndex < instructions.length - 1 && (
             <TouchableOpacity
@@ -118,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
   },
   cardContainer: {
-    backgroundColor: "white",
+    backgroundColor: "#ededed", 
     borderRadius: 18,
     width: "90%",
   },
@@ -131,6 +154,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
+  },
+  instructionImage: {
+    width: "100%",
+    height: 200,
   },
   instructionText: {
     fontSize: 16,
