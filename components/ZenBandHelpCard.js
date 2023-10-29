@@ -19,7 +19,9 @@ export function ZenBandHelpCard({ isVisible, onClose }) {
         "2. Slide the ZenBand band through the buckle and fasten it securely around your wrist.",
         "3. Ensure that the ZenBand fits comfortably but not too tightly. You should be able to slide one finger between the band and your wrist.",
       ],
-      image: require("./../assets/zenband/components.jpg"), // Add the image source ../../assets/zenband/components.jpg
+
+      image: require("./../assets/zenband/components.png"), // Add the image source ../../assets/zenband/components.jpg
+
 
     },
     {
