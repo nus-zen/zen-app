@@ -11,6 +11,7 @@ import {
 import * as Font from "expo-font";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CreateAccountScreen({ navigation }) {
   const [fullName, setFullName] = useState("");
@@ -59,7 +60,7 @@ export default function CreateAccountScreen({ navigation }) {
         firestore().collection("users").doc(email).set({
           fullName: fullName,
           email: email,
-          points: 0,
+          points: 200,
           streak: 1,
           lastCheckInDate: today,
           vouchers: [],
@@ -67,7 +68,12 @@ export default function CreateAccountScreen({ navigation }) {
         console.log(
           "User document created in firestore from CreateAccountScreen.js"
         );
+      })
+      .then(() => {
+        // clear asyncstorage
+        AsyncStorage.clear();
 
+        // navigate to mood check in screen
         navigation.navigate("MoodCheckInScreen");
       })
       .catch((error) => {

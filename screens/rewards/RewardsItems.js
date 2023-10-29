@@ -9,7 +9,9 @@ import {
   Dimensions,
 } from "react-native";
 
-const RewardsItems = ({ checkoutHandler }) => {
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+const RewardsItems = ({ checkoutHandler, category, goBack }) => {
   const [vouchers, setVouchers] = useState([
     {
       id: 1,
@@ -20,7 +22,7 @@ const RewardsItems = ({ checkoutHandler }) => {
         "https://www.capitaland.com/content/dam/capitaland-sites/singapore/shop/malls/plaza-singapura/tenants/koi.png.transform/cap-midres/image.png",
     },
     {
-      id: 7,
+      id: 2,
       name: "$1 Techno Edge Drinks Voucher",
       coins: 100,
       count: 0,
@@ -28,7 +30,7 @@ const RewardsItems = ({ checkoutHandler }) => {
         "https://nus.edu.sg/alumnet//images/librariesprovider2/issue-125/canteen-2",
     },
     {
-      id: 8,
+      id: 3,
       name: "$1 Techno Edge Food Voucher",
       coins: 100,
       count: 0,
@@ -36,7 +38,7 @@ const RewardsItems = ({ checkoutHandler }) => {
         "https://nus.edu.sg/alumnet//images/librariesprovider2/issue-125/canteen-2",
     },
     {
-      id: 9,
+      id: 4,
       name: "$2 Starbucks Voucher",
       coins: 200,
       count: 0,
@@ -44,7 +46,7 @@ const RewardsItems = ({ checkoutHandler }) => {
         "https://enjoyorangecounty.com/wp-content/uploads/2022/11/starbucks-secret-menu-items.jpg",
     },
     {
-      id: 10,
+      id: 5,
       name: "$2 LiHo Voucher",
       coins: 200,
       count: 0,
@@ -52,93 +54,489 @@ const RewardsItems = ({ checkoutHandler }) => {
         "https://www.shicheng.news/images/image/1701/17014637.webp?1658318444",
     },
     {
-      id: 12,
-      name: "Forest Green Yarn",
+      id: 101,
+      name: "Sakura Pink Yarn (10g)",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 102,
+      name: "Purple Yarn (10g)",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 103,
+      name: "Autumn Brown Yarn (10g)",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 104,
+      name: "Autumn Red Yarn (10g)",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 105,
+      name: "Autumn Yellow Yarn (10g)",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 106,
+      name: "Basic Lemon Yellow Yarn (10g)",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 107,
+      name: "Basic Christmas Green (10g)",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 108,
+      name: "Basic Olive Green (10g)",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 109,
+      name: "Basic Grass Green (10g)",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 110,
+      name: "Basic Black Trunk",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 111,
+      name: "Basic Beige Trunk",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 112,
+      name: "Basic Brown Trunk",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 201,
+      name: "Sanrio Figurines - Pompompurin",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 202,
+      name: "Sanrio Figurines - Hello Kitty",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 203,
+      name: "Sanrio Figurines - Kuromi",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 204,
+      name: "Sanrio Figurines - Cinnamoroll",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 205,
+      name: "Sanrio Figurines - Pochacco 1",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 206,
+      name: "Sanrio Figurines - Pochacco 2",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 207,
+      name: "Maneki Neko - Brown cat S",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 208,
+      name: "Maneki Neko - Tuxedo cat S",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 209,
+      name: "Maneki Neko - Black cat M",
+      coins: 250,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 210,
+      name: "Maneki Neko - White cat M",
+      coins: 250,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 211,
+      name: "Maneki Neko – Orange cat L",
+      coins: 300,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 212,
+      name: "Maneki Neko - Tuxedo cat L",
+      coins: 300,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 213,
+      name: "Christmas - Santa",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 214,
+      name: "Christmas – Reindeer",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 215,
+      name: "Christmas – Snowman",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 216,
+      name: "Christmas - House",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 217,
+      name: "Halloween – Pumpkin duck",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 218,
+      name: "Halloween – Duck",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 219,
+      name: "Halloween – Ghost",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 220,
+      name: "Halloween – Pumpkin with hat",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 221,
+      name: "Studio Ghibli – No Face",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 222,
+      name: "Studio Ghibli – Totoro with heart",
+      coins: 200,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 223,
+      name: "Studio Ghibli – Totoro with umbrella",
+      coins: 250,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 224,
+      name: "Studio Ghibli – Signage",
+      coins: 150,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 225,
+      name: "Basic Rabbit",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 226,
+      name: "White sand",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 227,
+      name: "Green sand",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 228,
+      name: "Pink sand",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 229,
+      name: "Purple sand",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 230,
+      name: "Basic blue sand",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 231,
+      name: "Red pebbles",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 232,
+      name: "Grey pebbles",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 233,
+      name: "Beige pebbles",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 234,
+      name: "Green pebbles",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 235,
+      name: "Black pebbles",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 236,
+      name: "Basic white pebbles",
+      coins: 100,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 301,
+      name: "Jasmine",
       coins: 50,
       count: 0,
       imguri:
-        "https://www.jimmybeanswool.com/secure-html/productImages/5000/8707Large_75af.jpg",
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
     },
     {
-      id: 13,
-      name: "Olive Green Yarn",
-      coins: 50,
-      count: 0,
-      imguri: "https://m.media-amazon.com/images/I/41JKtieRMYL._AC_.jpg",
-    },
-    {
-      id: 14,
-      name: "Grass Green Yarn",
+      id: 302,
+      name: "Ylang Ylang",
       coins: 50,
       count: 0,
       imguri:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0B83Qrk0J-AyI3J55soQIO9M9FloutzAW6w&usqp=CAU",
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
     },
     {
-      id: 15,
-      name: "Yellow Green Yarn",
+      id: 303,
+      name: "Eucalyptus",
       coins: 50,
       count: 0,
       imguri:
-        "https://www.jimmybeanswool.com/secure-html/productImages/45000/49429Large_4060.jpg",
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
     },
     {
-      id: 16,
-      name: "Crochet Hook",
-      coins: 40,
-      count: 0,
-      imguri:
-        "https://www.craftatelier.sg/cdn/shop/products/waves-single-ended-silver-crochet3.00mm_1445x.jpg?v=1676175173",
-    },
-    {
-      id: 18,
-      name: "Soil (50g)",
-      coins: 30,
-      count: 0,
-      imguri:
-        "https://down-sg.img.susercontent.com/file/f6bb43390afffff76658c6555fc54a02",
-    },
-    {
-      id: 19,
-      name: "Air Plant",
-      coins: 40,
-      count: 0,
-      imguri:
-        "https://i.etsystatic.com/10523765/r/il/9d8191/2026529534/il_570xN.2026529534_hk2t.jpg",
-    },
-    {
-      id: 20,
-      name: "Pebbles (50g)",
+      id: 304,
+      name: "Sandalwood",
       coins: 50,
       count: 0,
       imguri:
-        "https://media.karousell.com/media/photos/products/2018/05/31/white_pebbles_50g_1527775440_cfe14b65.jpg",
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
     },
     {
-      id: 21,
-      name: "Blue Sand (50g)",
+      id: 305,
+      name: "Lavender",
       coins: 50,
       count: 0,
       imguri:
-        "https://m.media-amazon.com/images/I/71-4qv25y1L._AC_UF894,1000_QL80_.jpg",
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
     },
     {
-      id: 24,
-      name: "Mini Duck for ZenTerrarium",
-      coins: 70,
+      id: 306,
+      name: "Clary Sage",
+      coins: 50,
       count: 0,
       imguri:
-        "https://media.karousell.com/media/photos/products/2023/7/2/duck_1688263759_a446c9fa_progressive.jpg",
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
     },
     {
-      id: 25,
-      name: "Mini Rabbit for ZenTerrarium",
-      coins: 70,
+      id: 307,
+      name: "Leather band",
+      coins: 300,
       count: 0,
       imguri:
-        "https://media.karousell.com/media/photos/products/2020/5/7/rabbit_1588813484_f298fc35_progressive.jpg",
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 308,
+      name: "Crochet band",
+      coins: 300,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+    },
+    {
+      id: 309,
+      name: "Milanese band",
+      coins: 300,
+      count: 0,
+      imguri:
+        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
     },
   ]);
+
+  // Filter vouchers based on category if chosen
+  useEffect(() => {
+    const getCategoryIDRange = (categoryName) => {
+      switch (categoryName) {
+        case "Vouchers":
+          return [1, 100];
+        case "ZenTree":
+          return [101, 200];
+        case "ZenTerrarium":
+          return [201, 300];
+        case "ZenBand":
+          return [301, 400];
+        default:
+          return [];
+      }
+    };
+
+    // Filter vouchers based on category if chosen
+    const [startID, endID] = getCategoryIDRange(category.name);
+
+    setVouchers((prevVouchers) =>
+      prevVouchers.filter(
+        (voucher) => voucher.id >= startID && voucher.id <= endID
+      )
+    );
+  }, [category]);
 
   const incrementQuantity = (index) => {
     const updatedVouchers = [...vouchers];
@@ -190,6 +588,9 @@ const RewardsItems = ({ checkoutHandler }) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={goBack}>
+        <Ionicons name="arrow-back" size={40} color="black" />
+      </TouchableOpacity>
       <FlatList
         data={vouchers}
         renderItem={renderVoucher}
