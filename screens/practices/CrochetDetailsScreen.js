@@ -195,6 +195,19 @@ const CrochetDetailsScreen = () => {
       <View style={styles.middleSection}>
         <YouTubePlayer videoId={"QdMwJyatGMI"} title={""} />
       </View>
+      <Tooltip
+        isVisible={uploadToolTipVisible}
+        content={
+          <Text>
+            Below, upload your crochets once a day and earn 50 points!
+          </Text>
+        }
+        placement="top"
+        showChildInTooltip={false}
+        onClose={() => setUploadToolTipVisible(false)}
+      >
+        <Text></Text>
+      </Tooltip>
       <View style={styles.middleSection}>
         <Text style={styles.sectionTitle}>How to Crochet</Text>
         <Text style={styles.instructions}>
@@ -205,7 +218,7 @@ const CrochetDetailsScreen = () => {
           the hook.{"\n"}
           5. Yarn over again and pull through both loops on the hook.
         </Text>
-{/* fast way to leave space */}
+        {/* fast way to leave space */}
         {/* <Text style={styles.sectionTitle}></Text>  */}
 
         <Text style={styles.sectionTitle}>How to Pepakura</Text>
@@ -221,28 +234,22 @@ const CrochetDetailsScreen = () => {
 
         <Text style={styles.sectionTitle}>Instructions for ZenTree</Text>
         <Text style={styles.instructions}>
-        1, Once every day, crochet a leaf using yarn that is of a colour that corresponds to your most prevalent mood of that day. {"\n"}
-        2. Attach the leaves onto the pepakura trunk with the excess yarn or using tape or glue.
+          1, Once every day, crochet a leaf using yarn that is of a colour that
+          corresponds to your most prevalent mood of that day. {"\n"}
+          2. Attach the leaves onto the pepakura trunk with the excess yarn or
+          using tape or glue.
         </Text>
       </View>
 
       <View style={styles.bottomSection}>
         <Text style={styles.sectionTitle}>Track Your Progress</Text>
-        <Tooltip
-          isVisible={uploadToolTipVisible}
-          content={
-            <Text>Upload your crochets once a day and earn 50 points!</Text>
-          }
-          placement="top"
-          onClose={() => setUploadToolTipVisible(false)}
+
+        <TouchableOpacity
+          style={styles.addImageButton}
+          onPress={handleAddImage}
         >
-          <TouchableOpacity
-            style={styles.addImageButton}
-            onPress={handleAddImage}
-          >
-            <Text style={styles.buttonText}>Add Image</Text>
-          </TouchableOpacity>
-        </Tooltip>
+          <Text style={styles.buttonText}>Add Image</Text>
+        </TouchableOpacity>
 
         {/* Buttons for changing the number of columns in the grid */}
         {/* <View
