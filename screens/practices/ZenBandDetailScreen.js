@@ -56,12 +56,13 @@ export default function ZenBandDetailScreen({ navigation }) {
           {"\n"}• Customizable Scents for a personalized aromatherapy experience{" "}
           {"\n"}
         </Text>
+
         <Image
-          source={require("../../assets//zenband/stylish-design.jpg")}
+          source={require("../../assets//zenband/extruded_view.png")} //assets/zenband/components.png
           style={styles.featureImage}
         />
         <Image
-          source={require("../../assets//zenband/components.jpg")}
+          source={require("../../assets//zenband/components.png")} //assets/zenband/components.png
           style={styles.featureImage}
         />
       </View>
@@ -83,20 +84,12 @@ export default function ZenBandDetailScreen({ navigation }) {
 
       {/* Usage Instructions */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Usage Instructions</Text>
-        <Text style={styles.featuresText}>
-          • Adjustable size for a comfortable fit {"\n"}
-          {"\n"}• Fidget-friendly twist cap for stress relief {"\n"}
-          {"\n"}• Twist the cap to open the smell hole for aromatherapy{"\n"}
-        </Text>
+
         <Image
-          source={require("../../assets//zenband/mechanics.jpg")}
+          source={require("../../assets//zenband/mechanics.png")}
           style={styles.featureImage}
         />
-        <Image
-          source={require("../../assets//zenband/fidget-design.jpg")}
-          style={styles.featureImage}
-        />
+
       </View>
 
       {/* Testimonials */}
