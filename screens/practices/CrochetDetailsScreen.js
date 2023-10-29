@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Dimensions,
-  FlatList,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, Dimensions, FlatList,} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { GlobalColors } from "../../themes/GlobalColors";
 import ImageModal from "../../components/ImageModal";
-import {
-  loadProgressImages,
-  saveProgressImages,
-} from "../../utils/AsyncStorageUtils";
+import { loadProgressImages, saveProgressImages, } from "../../utils/AsyncStorageUtils";
 import YouTubePlayer from "../../components/YouTubePlayer";
 import firestore from "@react-native-firebase/firestore";
 import analytics from "@react-native-firebase/analytics";

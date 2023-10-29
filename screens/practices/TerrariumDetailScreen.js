@@ -1,36 +1,137 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, } from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
 import { useNavigation } from "@react-navigation/native";
-
-const steps = [
-  "Begin with a layer of white pebbles for drainage, a stylish start for your plant paradise.",
-  "Create a green haven with potting soil. Your plants will love their cozy new home.",
-  "Add a dash of enchantment with blue pebbles, crafting a whimsical path.",
-  "Elevate your container's charm by introducing a quaint house or a rock to the mix.",
-  "Take it up a notch by including a rabbit figurine in your container.",
-  "Introduce a whimsical duck figurine to your garden. Your plants will love their new friend.",
-  "The time has come to introduce your air plants to their new abode. Feel free to experiment with different plant varieties.",
-];
-
-const stepImages = [
-  require("../../assets/terrarium/terra-step-1.jpg"),
-  require("../../assets/terrarium/terra-step-2.jpg"),
-  require("../../assets/terrarium/terra-step-3.jpg"),
-  require("../../assets/terrarium/terra-step-4.jpg"),
-  require("../../assets/terrarium/terra-step-5.jpg"),
-  require("../../assets/terrarium/terra-step-6.jpg"),
-  require("../../assets/terrarium/terra-step-7.jpg"),
-];
+import { loadProgressImages, saveProgressImages, } from "../../utils/AsyncStorageUtils";
+import firestore from "@react-native-firebase/firestore";
+import analytics from "@react-native-firebase/analytics";
+import auth from "@react-native-firebase/auth";
+import { PointsPopup } from "../../components/PointsPopup";
+import * as ImagePicker from "expo-image-picker";
+import ImageModal from "../../components/ImageModal";
 
 const TerrariumDetailScreen = () => {
   const navigation = useNavigation(); // Initialize the navigation object
+  const [progressImages, setProgressImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const POINTS_TO_ADD = 30;
+  const [isImageModalVisible, setImageModalVisible] = useState(false); 
+
+  const steps = [
+    "Begin with a layer of white pebbles for drainage, a stylish start for your plant paradise.",
+    "Create a green haven with potting soil. Your plants will love their cozy new home.",
+    "Add a dash of enchantment with blue pebbles, crafting a whimsical path.",
+    "Elevate your container's charm by introducing a quaint house or a rock to the mix.",
+    "Take it up a notch by including a rabbit figurine in your container.",
+    "Introduce a whimsical duck figurine to your garden. Your plants will love their new friend.",
+    "The time has come to introduce your air plants to their new abode. Feel free to experiment with different plant varieties.",
+  ];
+  
+  const stepImages = [
+    require("../../assets/terrarium/terra-step-1.jpg"),
+    require("../../assets/terrarium/terra-step-2.jpg"),
+    require("../../assets/terrarium/terra-step-3.jpg"),
+    require("../../assets/terrarium/terra-step-4.jpg"),
+    require("../../assets/terrarium/terra-step-5.jpg"),
+    require("../../assets/terrarium/terra-step-6.jpg"),
+    require("../../assets/terrarium/terra-step-7.jpg"),
+  ];
+
+  const currUserDoc = firestore()
+  .collection("users")
+  .doc(auth().currentUser.email);
+
+  useEffect(() => {
+    loadProgressImagesFromStorage();
+  }, []);
 
   // Function to navigate to PracticeHome
   const goToBottomTabsOverview = () => {
     navigation.navigate("BottomTabsOverview");
   };
 
+  const loadProgressImagesFromStorage = async () => {
+    const storedImages = await loadProgressImages();
+    setProgressImages(storedImages);
+  };
+
+  const addProgressImage = async (imageUri) => {
+    const updatedImages = [...progressImages, imageUri];
+    setProgressImages(updatedImages);
+    await saveProgressImages(updatedImages); // Save theupdated progress images
+    console.log("Progress Image Added");
+
+    // Show the popup
+    setShowPopup(true);
+
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 3000);
+  };
+
+  const addPoints = async (amount) => {
+    // update points to firestore
+    await currUserDoc.update({
+      points: firestore.FieldValue.increment(amount),
+    });
+    console.log(
+      "Points Added to firestore:",
+      amount,
+      "from",
+      auth().currentUser.email
+    );
+
+    // log analytics event
+    await analytics().logEarnVirtualCurrency({
+      virtual_currency_name: "points",
+      value: amount,
+    });
+
+    console.log(
+      "points analytics logged:",
+      amount,
+      "points from TerrariumDetailsScreen.js"
+    );
+  };
+
+  const handleAddImage = async () => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Permission Required",
+          "Please allow access to your photos to add images."
+        );
+        return;
+      }
+  
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 1,
+      });
+  
+      if (!result.cancelled) {
+        const imageSource = { uri: result.uri };
+        // Add the selected image to your progress images
+        const updatedImages = [...progressImages, imageSource];
+        setProgressImages(updatedImages);
+        await saveProgressImages(updatedImages);
+  
+        // Award points here when an image is added
+        addPoints(POINTS_TO_ADD);
+      }
+    } catch (error) {
+      console.log("Error selecting image:", error);
+    }
+  };
+
+  const handleImagePress = (imageUri) => {
+    setSelectedImage(imageUri);
+    setImageModalVisible(true);
+  };
   return (
     <ScrollView style={styles.container}>
       {/* Terrarium Image */}
@@ -78,10 +179,33 @@ const TerrariumDetailScreen = () => {
 
       <TouchableOpacity
         style={styles.amazingButton}
-        onPress={goToBottomTabsOverview}
+        onPress={handleAddImage}
       >
         <Text style={styles.amazingButtonText}>That's Amazing!</Text>
       </TouchableOpacity>
+            {/* Points Popup */}
+            {showPopup && (
+        <PointsPopup
+          pointsEarned={POINTS_TO_ADD}
+          isVisible={showPopup}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
+      <ScrollView horizontal={true} style={styles.progressImagesContainer}>
+          {progressImages.map((image, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleImagePress(image.uri)} // Open the modal on image press
+            >
+              <Image source={image} style={styles.progressImage} />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      <ImageModal
+        visible={isImageModalVisible}
+        imageUri={selectedImage}
+        onClose={() => setImageModalVisible(false)} // Close the modal
+      />
     </ScrollView>
   );
 };
@@ -158,6 +282,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  progressImagesContainer: {
+    marginVertical: 16,
+  },
+  progressImage: {
+    width: 100,
+    height: 100,
+    marginHorizontal: 8,
   },
 });
 
