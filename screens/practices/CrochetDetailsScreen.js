@@ -205,7 +205,10 @@ const CrochetDetailsScreen = () => {
           the hook.{"\n"}
           5. Yarn over again and pull through both loops on the hook.
         </Text>
-        <Text style={styles.sectionTitle}>How to Pepa Kura</Text>
+{/* fast way to leave space */}
+        {/* <Text style={styles.sectionTitle}></Text>  */}
+
+        <Text style={styles.sectionTitle}>How to Pepakura</Text>
         <Text style={styles.instructions}>
           1. Cut along solid lines. {"\n"}
           2. Teal lines: fold inwards, {"\n"}i.e. coloured surface folded
@@ -214,6 +217,12 @@ const CrochetDetailsScreen = () => {
           folded away from each other{"\n"}
           4. Paste the corresponding numbers together, {"\n"}i.e. flap 1 will be
           pasted to the underside (white part) of the red 1. {"\n"}
+        </Text>
+
+        <Text style={styles.sectionTitle}>Instructions for ZenTree</Text>
+        <Text style={styles.instructions}>
+        1, Once every day, crochet a leaf using yarn that is of a colour that corresponds to your most prevalent mood of that day. {"\n"}
+        2. Attach the leaves onto the pepakura trunk with the excess yarn or using tape or glue.
         </Text>
       </View>
 
@@ -319,6 +328,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     textAlign: "justify",
+    paddingHorizontal: 16,
   },
   middleSection: {
     marginBottom: 20,
@@ -332,6 +342,7 @@ const styles = StyleSheet.create({
   instructions: {
     marginBottom: 6,
     textAlign: "justify",
+    paddingHorizontal: 16,
   },
   bottomSection: {
     marginBottom: 20,
