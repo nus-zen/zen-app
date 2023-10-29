@@ -198,20 +198,22 @@ const CrochetDetailsScreen = () => {
       <View style={styles.middleSection}>
         <Text style={styles.sectionTitle}>How to Crochet</Text>
         <Text style={styles.instructions}>
-          1. Hold the crochet hook in your dominant hand.
-        </Text>
-        <Text style={styles.instructions}>
-          2. Make a slipknot and place it on the hook.
-        </Text>
-        <Text style={styles.instructions}>
-          3. Insert the hook into the designated stitch or space.
-        </Text>
-        <Text style={styles.instructions}>
+          1. Hold the crochet hook in your dominant hand.{"\n"}
+          2. Make a slipknot and place it on the hook.{"\n"}
+          3. Insert the hook into the designated stitch or space.{"\n"}
           4. Yarn over and pull through the stitch or space, creating a loop on
-          the hook.
-        </Text>
-        <Text style={styles.instructions}>
+          the hook.{"\n"}
           5. Yarn over again and pull through both loops on the hook.
+        </Text>
+        <Text style={styles.sectionTitle}>How to Pepa Kura</Text>
+        <Text style={styles.instructions}>
+          1. Cut along solid lines. {"\n"}
+          2. Teal lines: fold inwards, {"\n"}i.e. coloured surface folded
+          towards each other {"\n"}
+          3. Other dotted lines: fold outwards, {"\n"}i.e. coloured surface
+          folded away from each other{"\n"}
+          4. Paste the corresponding numbers together, {"\n"}i.e. flap 1 will be
+          pasted to the underside (white part) of the red 1. {"\n"}
         </Text>
       </View>
 
