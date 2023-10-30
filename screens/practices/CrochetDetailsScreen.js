@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from "react";
-import {Image, ScrollView,StyleSheet, Text, TouchableOpacity, View, Dimensions, FlatList,Alert, } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  FlatList,
+  Alert,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { GlobalColors } from "../../themes/GlobalColors";
 import ImageModal from "../../components/ImageModal";
-import { loadProgressImages, saveProgressImages, } from "../../utils/AsyncStorageUtils";
+import {
+  loadProgressImages,
+  saveProgressImages,
+} from "../../utils/AsyncStorageUtils";
 import YouTubePlayer from "../../components/YouTubePlayer";
 import firestore from "@react-native-firebase/firestore";
 import analytics from "@react-native-firebase/analytics";
@@ -11,7 +24,7 @@ import auth from "@react-native-firebase/auth";
 import { PointsPopup } from "../../components/PointsPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Tooltip from "react-native-walkthrough-tooltip";
-import {  } from "react-native";
+import {} from "react-native";
 
 const CrochetDetailsScreen = () => {
   const [progressImages, setProgressImages] = useState([]);
@@ -19,6 +32,8 @@ const CrochetDetailsScreen = () => {
   const [isImageModalVisible, setImageModalVisible] = useState(false); // To control the visibility of the modal
   const [showPopup, setShowPopup] = useState(false);
   const [numColumns, setNumColumns] = useState(3); // Start with 3 column for image grid
+  const [lastTimeCrochetImageAdded, setLastTimeCrochetImageAdded] =
+    useState(null);
 
   const [crochetToolTipVisible, setCrochetToolTipVisible] = useState(false);
   const [uploadToolTipVisible, setUploadToolTipVisible] = useState(false);
@@ -51,6 +66,19 @@ const CrochetDetailsScreen = () => {
     checkFirstVisit();
   }, []);
 
+  const loadLastTimeCrochetImageAdded = async () => {
+    const lastTimeImageAdded = await AsyncStorage.getItem(
+      "lastTimeCrochetImageAdded"
+    ); // Get the last time an image was added
+    setLastTimeCrochetImageAdded(lastTimeImageAdded);
+  };
+
+  const saveLastTimeCrochetImageAdded = async () => {
+    const today = new Date();
+    await AsyncStorage.setItem("lastTimeCrochetImageAdded", today.toString());
+    setLastTimeCrochetImageAdded(today.toString());
+  };
+
   const loadProgressImagesFromStorage = async () => {
     const storedImages = await loadProgressImages();
     setProgressImages(storedImages);
@@ -60,15 +88,6 @@ const CrochetDetailsScreen = () => {
     const updatedImages = [...progressImages, imageUri];
     setProgressImages(updatedImages);
     await saveProgressImages(updatedImages); // Save theupdated progress images
-    console.log("Progress Image Added");
-
-    // Show the popup
-    setShowPopup(true);
-
-    // Hide the popup after 3 seconds
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 3000);
   };
 
   // const deleteProgressImage = (imageUri) => {
@@ -134,8 +153,29 @@ const CrochetDetailsScreen = () => {
         addProgressImage(imageSource);
         //setProgressImages((prevImages) => [...prevImages, imageSource]);
 
-        // Add points here when an image is added
-        addPoints(POINTS_TO_ADD);
+        // if first time adding image, or today is a new day, add points
+        if (
+          !lastTimeCrochetImageAdded ||
+          new Date(lastTimeCrochetImageAdded).getDate() !== new Date().getDate()
+        ) {
+          addPoints(POINTS_TO_ADD);
+          // Show the popup
+          setShowPopup(true);
+
+          // Hide the popup after 3 seconds
+          setTimeout(() => {
+            setShowPopup(false);
+          }, 2000);
+          await saveLastTimeCrochetImageAdded();
+        } else {
+          console.log(
+            "Points already awarded today for Crochet, no points awarded."
+          );
+          Alert.alert(
+            "Points Already Awarded Today",
+            "Keep up the good work! You've already earned points for adding an ZenTree Progress image today."
+          );
+        }
       }
     } catch (error) {
       // Handle any errors that occur during image selection
@@ -222,11 +262,12 @@ const CrochetDetailsScreen = () => {
 
         <Text style={styles.sectionTitle}>Instructions for ZenTree</Text>
         <Text style={styles.instructions}>
-        1, Once every day, crochet a leaf using yarn that is of a colour that corresponds to your most prevalent mood of that day. {"\n"}
-        2. Attach the leaves onto the pepakura trunk with the excess yarn or using tape or glue.
-        </Text> 
-
-      </View> 
+          1, Once every day, crochet a leaf using yarn that is of a colour that
+          corresponds to your most prevalent mood of that day. {"\n"}
+          2. Attach the leaves onto the pepakura trunk with the excess yarn or
+          using tape or glue.
+        </Text>
+      </View>
 
       <View style={styles.bottomSection}>
         <Text style={styles.sectionTitle}>Track Your Progress</Text>
@@ -300,7 +341,7 @@ const CrochetDetailsScreen = () => {
       </View>
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   progressImage: {
@@ -326,7 +367,7 @@ const styles = StyleSheet.create({
   },
   PepaKuraimage: {
     width: 300,
-    height:300,
+    height: 300,
     resizeMode: "contain",
     marginRight: 8,
     alignSelf: "center",
