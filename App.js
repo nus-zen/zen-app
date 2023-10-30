@@ -94,7 +94,7 @@ const App = () => {
           }}
         >
           <Stack.Navigator
-            initialRouteName={user ? "DailyStreaksScreen" : "WelcomeScreen"}
+            initialRouteName={user ? "MoodCheckInScreen" : "WelcomeScreen"}
           >
             <Stack.Screen
               name="WelcomeScreen"

@@ -67,7 +67,7 @@ export default function ProfileScreen({ navigation, route }) {
           <View style={styles.uploadButtonContainer}>
             <UploadImage />
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.settingsButton}
             onPress={navigateToAccounts}
           >
@@ -75,7 +75,7 @@ export default function ProfileScreen({ navigation, route }) {
               source={require("../../assets/Settings.png")}
               style={styles.settingsIcon}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutButtonText}>Log Out</Text>
