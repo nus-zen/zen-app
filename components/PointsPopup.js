@@ -46,6 +46,7 @@ const styles = {
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    zIndex: 9999, // set a high value for zIndex to make the popup appear above any component
   },
   pointsText: {
     fontSize: 24,

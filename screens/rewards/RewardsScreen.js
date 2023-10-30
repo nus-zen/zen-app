@@ -46,22 +46,18 @@ export default function RewardsScreen({ navigation }) {
     {
       id: 1,
       name: "Vouchers",
-      imgpath: "../../assets/money.png",
     },
     {
       id: 2,
       name: "ZenTree",
-      imgpath: "../../assets/yarn-ball-icon.png",
     },
     {
       id: 3,
       name: "ZenTerrarium",
-      imgpath: "../../assets/terrarium/terra-final.jpg",
     },
     {
       id: 4,
       name: "ZenBand",
-      imgpath: "../../assets/zenband/zenband.jpg",
     },
   ];
 

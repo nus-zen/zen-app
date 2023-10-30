@@ -60,7 +60,7 @@ export default function CreateAccountScreen({ navigation }) {
         firestore().collection("users").doc(email).set({
           fullName: fullName,
           email: email,
-          points: 200,
+          points: 100,
           streak: 1,
           lastCheckInDate: today,
           vouchers: [],

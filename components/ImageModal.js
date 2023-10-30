@@ -41,12 +41,15 @@ const styles = StyleSheet.create({
   deleteButton: {
     backgroundColor: "red",
     padding: 10,
-    borderRadius: 5,
-    flex: 1,
+    borderRadius: 50,
+    height: 50,
+    width: 100,
+    justifyContent: "center",
   },
   buttonText: {
     color: "white",
     fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

@@ -1,23 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { GlobalColors } from "../../themes/GlobalColors";
 import { useNavigation } from "@react-navigation/native";
-import { loadProgressImagesForTerrarium, saveProgressImagesForTerrarium, } from "../../utils/AsyncStorageUtils";
+import {
+  loadProgressImagesForTerrarium,
+  saveProgressImagesForTerrarium,
+} from "../../utils/AsyncStorageUtils";
 import firestore from "@react-native-firebase/firestore";
 import analytics from "@react-native-firebase/analytics";
 import auth from "@react-native-firebase/auth";
 import { PointsPopup } from "../../components/PointsPopup";
 import * as ImagePicker from "expo-image-picker";
 import ImageModal from "../../components/ImageModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TerrariumDetailScreen = () => {
   const navigation = useNavigation(); // Initialize the navigation object
-  const [progressImages, setProgressImages] = useState([]);
-  // const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedTerraImage, setSelectedTerraImage] = useState(null);
+  const [terrariumImages, setTerrariumImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null); // To track the selected image
+  const [isImageModalVisible, setImageModalVisible] = useState(false); // To control the visibility of the modal
   const [showPopup, setShowPopup] = useState(false);
+  const [lastTimeTerImageAdded, setLastTerTimeImageAdded] = useState(null); // To track the last time an image was added
   const POINTS_TO_ADD = 50;
-  const [isImageModalVisible, setImageModalVisible] = useState(false); 
 
   const steps = [
     "Begin with a layer of white pebbles for drainage, a stylish start for your plant paradise.",
@@ -28,7 +40,7 @@ const TerrariumDetailScreen = () => {
     "Introduce a whimsical duck figurine to your garden. Your plants will love their new friend.",
     "The time has come to introduce your air plants to their new abode. Feel free to experiment with different plant varieties.",
   ];
-  
+
   const stepImages = [
     require("../../assets/terrarium/terra-step-1.jpg"),
     require("../../assets/terrarium/terra-step-2.jpg"),
@@ -40,36 +52,34 @@ const TerrariumDetailScreen = () => {
   ];
 
   const currUserDoc = firestore()
-  .collection("users")
-  .doc(auth().currentUser.email);
+    .collection("users")
+    .doc(auth().currentUser.email);
 
   useEffect(() => {
-    loadProgressImagesFromStorage();
+    loadTerrariumImagesFromStorage();
+    loadLastTerTimeImageAdded();
   }, []);
 
-  // Function to navigate to PracticeHome
-  const goToBottomTabsOverview = () => {
-    navigation.navigate("BottomTabsOverview");
+  const loadLastTerTimeImageAdded = async () => {
+    const lastTimeImageAdded = await AsyncStorage.getItem("lastTimeImageAdded");
+    setLastTerTimeImageAdded(lastTimeImageAdded);
   };
 
-  const loadProgressImagesFromStorage = async () => {
+  const saveLastTerTimeImageAdded = async () => {
+    const today = new Date();
+    await AsyncStorage.setItem("lastTimeImageAdded", today.toString());
+    setLastTerTimeImageAdded(today.toString());
+  };
+
+  const loadTerrariumImagesFromStorage = async () => {
     const storedImagesForTerrarium = await loadProgressImagesForTerrarium();
-    setProgressImages(storedImagesForTerrarium);
+    setTerrariumImages(storedImagesForTerrarium);
   };
 
-  const addProgressImage = async (imageUri) => {
-    const updatedImages = [...progressImages, imageUri];
-    setProgressImages(updatedImages);
-    await saveProgressImagesForTerrarium(updatedImages); // Save theupdated progress images
-    console.log("Progress Image Added");
-
-    // Show the popup
-    setShowPopup(true);
-
-    // Hide the popup after 3 seconds
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 3000);
+  const addTerrariumImage = async (imageUri) => {
+    const updatedImages = [...terrariumImages, imageUri];
+    setTerrariumImages(updatedImages);
+    await saveProgressImagesForTerrarium(updatedImages); // Save the updated progress images to AsyncStorage
   };
 
   const addPoints = async (amount) => {
@@ -99,7 +109,8 @@ const TerrariumDetailScreen = () => {
 
   const handleAddImage = async () => {
     try {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
         Alert.alert(
           "Permission Required",
@@ -107,28 +118,46 @@ const TerrariumDetailScreen = () => {
         );
         return;
       }
-  
+
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         quality: 1,
       });
-  
-      if (!result.cancelled) {
-        const terraImageSource = { uri: result.uri };
 
-        // Set the selected terra image to the new state variable
-        setSelectedTerraImage(terraImageSource);
+      if (!result.canceled) {
+        const terraImageSource = { uri: result.assets[0].uri };
 
-        // Add the selected image to your progress images
-        const updatedImages = [...progressImages, terraImageSource];
-        setProgressImages(updatedImages);
-        await saveProgressImagesForTerrarium(updatedImages);
+        addTerrariumImage(terraImageSource);
 
-        // Award points when an image is added
-        addPoints(POINTS_TO_ADD);
+        // if first time adding image, or if today is a new day, award points
+        if (
+          lastTimeTerImageAdded === null ||
+          new Date(lastTimeTerImageAdded).getDate() !== new Date().getDate()
+        ) {
+          addPoints(POINTS_TO_ADD);
+          // Show the popup
+          setShowPopup(true);
 
-        setShowPopup(true);
+          // Hide the popup after 3 seconds
+          setTimeout(() => {
+            setShowPopup(false);
+          }, 2000);
+
+          // Save the last time an image was added
+          await saveLastTerTimeImageAdded();
+        }
+
+        // else points already awarded today, so don't award points
+        else {
+          console.log(
+            "Points already awarded today for Terrarium, no points awarded."
+          );
+          Alert.alert(
+            "Points Already Awarded Today",
+            "Keep up the good work! You've already earned points for adding an ZenTerrarium Progress image today."
+          );
+        }
       }
     } catch (error) {
       console.log("Error selecting terra image:", error);
@@ -136,7 +165,7 @@ const TerrariumDetailScreen = () => {
   };
   //   const [selectedTerraImage, setSelectedTerraImage] = useState(null);
   const handleImagePress = (imageUri) => {
-    setSelectedTerraImage(imageUri);
+    setSelectedImage(imageUri);
     setImageModalVisible(true);
   };
   return (
@@ -149,7 +178,9 @@ const TerrariumDetailScreen = () => {
 
       {/* Instructions */}
       <View style={styles.instructionsContainer}>
-        <Text style={styles.sectionTitle}>ZenTerrarium Making Instructions</Text>
+        <Text style={styles.sectionTitle}>
+          ZenTerrarium Making Instructions
+        </Text>
         {steps.map((step, index) => (
           <View key={index} style={styles.stepContainer}>
             <Image source={stepImages[index]} style={styles.stepImage} />
@@ -172,47 +203,46 @@ const TerrariumDetailScreen = () => {
         </Text>
       </View>
 
-    {/* Plant Care Instructions */}
-    <View style={styles.plantCareContainer}>
-      <Text style={styles.sectionTitle}>Plant Care Instructions</Text>
-      <Text style={styles.plantCareText}>
-        • Place your terrarium in a location with indirect sunlight.{"\n"}
-        • Water your air plants sparingly, about once a week, by misting them.{"\n"}
-        • Keep an eye on the moisture level of the potting soil, and water if it dries out.{"\n"}
-        • Prune any dead or yellowing leaves from your air plants.{"\n"}
-        • Enjoy the beauty of your mini garden!
-      </Text>
-    </View>
-
-      <TouchableOpacity
-        style={styles.amazingButton}
-        onPress={handleAddImage}
-      >
-        <Text style={styles.amazingButtonText}>Upload image</Text>
+      {/* Plant Care Instructions */}
+      <View style={styles.plantCareContainer}>
+        <Text style={styles.sectionTitle}>Plant Care Instructions</Text>
+        <Text style={styles.plantCareText}>
+          • Place your terrarium in a location with indirect sunlight.{"\n"}•
+          Water your air plants sparingly, about once a week, by misting them.
+          {"\n"}• Keep an eye on the moisture level of the potting soil, and
+          water if it dries out.{"\n"}• Prune any dead or yellowing leaves from
+          your air plants.{"\n"}• Enjoy the beauty of your mini garden!
+        </Text>
+        {showPopup && (
+          <PointsPopup
+            pointsEarned={POINTS_TO_ADD}
+            isVisible={showPopup}
+            onClose={() => setShowPopup(false)}
+          />
+        )}
+      </View>
+      <TouchableOpacity style={styles.addImageButton} onPress={handleAddImage}>
+        <Text style={styles.buttonText}>Add Image</Text>
       </TouchableOpacity>
-            {/* Points Popup */}
-            {showPopup && (
-        <PointsPopup
-          pointsEarned={POINTS_TO_ADD}
-          isVisible={showPopup}
-          onClose={() => setShowPopup(false)}
-        />
-      )}
+
       <ScrollView horizontal={true} style={styles.progressImagesContainer}>
-          {progressImages.map((image, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => handleImagePress(image.uri)} // Open the modal on image press
-            >
-              <Image source={image} style={styles.progressImage} />
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+        {terrariumImages.map((image, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => handleImagePress(image.uri)} // Open the modal on image press
+          >
+            <Image source={image} style={styles.progressImage} />
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* Image Modal */}
       <ImageModal
-      visible={isImageModalVisible}
-      imageUri={selectedTerraImage ? selectedTerraImage.uri : null}
-      onClose={() => setImageModalVisible(false)} // Close the modal
-    />
+        visible={isImageModalVisible}
+        imageUri={selectedImage}
+        onClose={() => setImageModalVisible(false)} // Close the modal
+        // onDelete={handleDeleteImage}
+      />
     </ScrollView>
   );
 };
@@ -290,13 +320,30 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  addImageButton: {
+    backgroundColor: GlobalColors.primary300,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginHorizontal: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   progressImagesContainer: {
-    marginVertical: 16,
+    flexDirection: "row",
+    marginBottom: 20,
+    marginHorizontal: 10,
   },
   progressImage: {
     width: 100,
     height: 100,
-    marginHorizontal: 8,
+    marginRight: 10,
+    resizeMode: "cover",
   },
 });
 
