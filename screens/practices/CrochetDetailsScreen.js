@@ -63,6 +63,7 @@ const CrochetDetailsScreen = () => {
 
   useEffect(() => {
     loadProgressImagesFromStorage();
+    loadLastTimeCrochetImageAdded();
     checkFirstVisit();
   }, []);
 

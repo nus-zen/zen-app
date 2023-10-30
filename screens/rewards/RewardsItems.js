@@ -15,7 +15,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
   const [vouchers, setVouchers] = useState([
     {
       id: 1,
-      name: "$2 KOI Voucher",
+      name: "$2 KOI Voucher (WIP. Do not redeem!)",
       coins: 200,
       count: 0,
       imguri:
@@ -23,7 +23,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 2,
-      name: "$1 Techno Edge Drinks Voucher",
+      name: "$1 Techno Edge Drinks Voucher (WIP. Do not redeem!)",
       coins: 100,
       count: 0,
       imguri:
@@ -31,7 +31,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 3,
-      name: "$1 Techno Edge Food Voucher",
+      name: "$1 Techno Edge Food Voucher (WIP. Do not redeem!)",
       coins: 100,
       count: 0,
       imguri:
@@ -39,7 +39,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 4,
-      name: "$2 Starbucks Voucher",
+      name: "$2 Starbucks Voucher (WIP. Do not redeem!)",
       coins: 200,
       count: 0,
       imguri:
@@ -47,7 +47,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 5,
-      name: "$2 LiHo Voucher",
+      name: "$2 LiHo Voucher (WIP. Do not redeem!)",
       coins: 200,
       count: 0,
       imguri:
@@ -59,7 +59,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 100,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1w_IpAlwPJF_ITeKRi1K2qHCr0ALFOmyr",
     },
     {
       id: 102,
@@ -67,7 +67,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 100,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1fqEMwZ_cACV3q3BTiAKaO7xPr-YEJIVw",
     },
     {
       id: 103,
@@ -75,7 +75,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 100,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1PKymjsK-PVIprSgJRDDiCf4-4DIOYDPC",
     },
     {
       id: 104,
@@ -83,7 +83,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 100,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1DZ2c2639mDtQwCrFwjl6QVFCunaIywDx",
     },
     {
       id: 105,
@@ -91,43 +91,12 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 100,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1JzkRtV0bXpMcQGxT_iwUr1Ll52ZQqJNA",
     },
-    {
-      id: 106,
-      name: "Basic Lemon Yellow Yarn (10g)",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
-    {
-      id: 107,
-      name: "Basic Christmas Green (10g)",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
-    {
-      id: 108,
-      name: "Basic Olive Green (10g)",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
-    {
-      id: 109,
-      name: "Basic Grass Green (10g)",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
+
     {
       id: 110,
-      name: "Basic Black Trunk",
+      name: "Basic Black Trunk (may not be available)",
       coins: 100,
       count: 0,
       imguri:
@@ -135,7 +104,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 111,
-      name: "Basic Beige Trunk",
+      name: "Basic Beige Trunk (may not be available)",
       coins: 100,
       count: 0,
       imguri:
@@ -143,7 +112,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 112,
-      name: "Basic Brown Trunk",
+      name: "Basic Brown Trunk (may not be available)",
       coins: 100,
       count: 0,
       imguri:
@@ -155,7 +124,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1pprU8l3-Txxeg1UW_TM8ccf2ACyopJTd",
     },
     {
       id: 202,
@@ -163,7 +132,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1x1MXG6DQK3X3q5SKvlxGBQ2Zot7arFts",
     },
     {
       id: 203,
@@ -171,7 +140,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1Dy4iY92PcGpeFr36k8dzAzsLeacdpX0N",
     },
     {
       id: 204,
@@ -179,7 +148,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1Q9ewAFWSP__Iwvxvsk-zTJeJeu7zQm0d",
     },
     {
       id: 205,
@@ -187,7 +156,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1-p9hLX7KrC2wwH4bJKeWOxYrLaNizqg8",
     },
     {
       id: 206,
@@ -195,7 +164,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1-_bTm2hV4lamOeMxNdtfCyq9SMhQnVyt",
     },
     {
       id: 207,
@@ -203,7 +172,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=10oTCN-i8IZOtz8evwL01VazxlaN9Y8jD",
     },
     {
       id: 208,
@@ -211,7 +180,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1dqn3Es4NVvaq-GR5vAt4lVRXQpIvHp5R",
     },
     {
       id: 209,
@@ -219,7 +188,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 250,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1F6L8YDm1Hoam6UlYZE8NQHBnh3_3uAXS",
     },
     {
       id: 210,
@@ -227,7 +196,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 250,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1HBbJBBpBXdUXUnQrejBKrAY6vd2eBDv0",
     },
     {
       id: 211,
@@ -235,7 +204,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 300,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1ojO72gyDhlThEATnZAQT-kPskPOy-44w",
     },
     {
       id: 212,
@@ -251,7 +220,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1s1yoE7pXATFmsBrCs00ofGHVeX5YI8vG",
     },
     {
       id: 214,
@@ -259,7 +228,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1-yOoxrY8_a_YThQ7NnO_EIJuqOSg1X2-",
     },
     {
       id: 215,
@@ -267,7 +236,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1g1A0wOvJ42U4op8kPJb0cnMqscgsR9q0",
     },
     {
       id: 216,
@@ -275,7 +244,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1SEtEkcaW3JGPZlCxWyefHbYpb7rNVyQd",
     },
     {
       id: 217,
@@ -283,7 +252,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1A0gi12DQRUkzcu8LeVBGtYD8Nw2TKlaR",
     },
     {
       id: 218,
@@ -291,7 +260,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1-LHyc6wAOVPxDdwrVIwWVKovyQwPYEI0",
     },
     {
       id: 219,
@@ -299,7 +268,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1q79pTCKMYfSyf_fgytnMxcMcKDTP8EKA",
     },
     {
       id: 220,
@@ -307,7 +276,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1sWQfuqaP7tS6TUcIFyfF82Ark446Q1Y6",
     },
     {
       id: 221,
@@ -315,7 +284,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1ecpnrrnQTJ5u2e6MZxdZmFxQBSD836Ij",
     },
     {
       id: 222,
@@ -323,7 +292,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 200,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1BTdBtQLZqLPkpZLZdVMlejnSOpDDU2p5",
     },
     {
       id: 223,
@@ -331,7 +300,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 250,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1vnWah9D1OTOokYpDP0FQYLw_aO-fDs61",
     },
     {
       id: 224,
@@ -339,7 +308,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 150,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1xN9yF7kkP8-Pk24iUnVdD4ysDdH7JPS7",
     },
     {
       id: 225,
@@ -355,7 +324,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 100,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1L3MarZq-isiwcUs8RzbIgyIvcS-A2aIT",
     },
     {
       id: 227,
@@ -363,7 +332,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 100,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1MhuaTw30utMXCpKQuooZmkO_HRPtPdd6",
     },
     {
       id: 228,
@@ -371,7 +340,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 100,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1o2Xkw3QXHDpFSaA4Ets23ZwuMyMmpORz",
     },
     {
       id: 229,
@@ -387,59 +356,11 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
       coins: 100,
       count: 0,
       imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
-    {
-      id: 231,
-      name: "Red pebbles",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
-    {
-      id: 232,
-      name: "Grey pebbles",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
-    {
-      id: 233,
-      name: "Beige pebbles",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
-    {
-      id: 234,
-      name: "Green pebbles",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
-    {
-      id: 235,
-      name: "Black pebbles",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
-    },
-    {
-      id: 236,
-      name: "Basic white pebbles",
-      coins: 100,
-      count: 0,
-      imguri:
-        "https://icons.veryicon.com/png/o/application/applet-1/product-17.png",
+        "https://drive.google.com/uc?export=view&id=1swXQi-A-5IjrY2UCIBOYBgC8Fq_-ElK4",
     },
     {
       id: 301,
-      name: "Jasmine",
+      name: "Jasmine (may not be available)",
       coins: 50,
       count: 0,
       imguri:
@@ -447,7 +368,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 302,
-      name: "Ylang Ylang",
+      name: "Ylang Ylang (may not be available)",
       coins: 50,
       count: 0,
       imguri:
@@ -455,7 +376,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 303,
-      name: "Eucalyptus",
+      name: "Eucalyptus (may not be available)",
       coins: 50,
       count: 0,
       imguri:
@@ -463,7 +384,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 304,
-      name: "Sandalwood",
+      name: "Sandalwood (may not be available)",
       coins: 50,
       count: 0,
       imguri:
@@ -471,7 +392,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 305,
-      name: "Lavender",
+      name: "Lavender (may not be available)",
       coins: 50,
       count: 0,
       imguri:
@@ -479,7 +400,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 306,
-      name: "Clary Sage",
+      name: "Clary Sage (may not be available)",
       coins: 50,
       count: 0,
       imguri:
@@ -487,7 +408,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 307,
-      name: "Leather band",
+      name: "Leather band (may not be available)",
       coins: 300,
       count: 0,
       imguri:
@@ -495,7 +416,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 308,
-      name: "Crochet band",
+      name: "Crochet band (may not be available)",
       coins: 300,
       count: 0,
       imguri:
@@ -503,7 +424,7 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
     },
     {
       id: 309,
-      name: "Milanese band",
+      name: "Milanese band (may not be available)",
       coins: 300,
       count: 0,
       imguri:
@@ -559,10 +480,6 @@ const RewardsItems = ({ checkoutHandler, category, goBack }) => {
 
   const renderVoucher = ({ item, index }) => (
     <View style={styles.voucherCard}>
-      {/* <Image
-        source={require("../../assets/diet.png")}
-        style={styles.voucherImage}
-      /> */}
       <Image source={{ uri: item.imguri }} style={styles.voucherImage} />
       <View style={styles.voucherInfo}>
         <Text style={styles.voucherName}>{item.name}</Text>
